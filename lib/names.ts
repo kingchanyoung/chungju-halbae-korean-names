@@ -4,7 +4,11 @@ import verifiedHanja from './hanja_verified.json';
 export type NameStyle = 'gentle' | 'bright' | 'distinctive' | 'classic' | 'modern';
 export type NameCandidate = {
   hangul: string; romanization: string; syllables: string; impression: string;
-  reason: string; soundConnection: boolean; meaningConnection: boolean; hanja: null;
+  reason: string; soundConnection: boolean; meaningConnection: boolean;
+  hanja: {
+    pair: string;
+    characters: { character: string; reading: string; gloss: string; officialUrl: string }[];
+  } | null;
 };
 export type NameResult = {
   id: string; originalName: string; pronunciationHint: string | null;
@@ -84,7 +88,17 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
     chosen.push(entry);
     if (chosen.length === 5) break;
   }
-  return chosen.map(({ item, soundConnection, meaningConnection }, index) => ({
+  return chosen.map(({ item, soundConnection, meaningConnection }, index) => {
+    const pairing = verifiedHanja.names.find(name => name.hangul === item.hangul);
+    const characters = pairing?.characterReferences.map(reference => {
+      const character = verifiedHanja.characters.find(entry => entry.unicode === reference);
+      if (!character || character.officialFields.isinmyung !== 1 || !character.officialFields.use) return null;
+      return { character: character.character, reading: character.designatedReadings[0], gloss: character.englishGloss, officialUrl: character.sourceUrl };
+    }) ?? [];
+    const hanja = pairing && pairing.characterAndReadingCheck === 'passed' && characters.length === 2 && characters.every(Boolean)
+      ? { pair: pairing.hanja, characters: characters as NonNullable<NameCandidate['hanja']>['characters'] }
+      : null;
+    return {
     hangul: item.hangul,
     romanization: item.romanization,
     syllables: item.romanization_hyphenated,
@@ -98,8 +112,9 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
         : index === 0
           ? 'A balanced place to start your Korean name journey.'
           : 'A different ' + item.vibe_en.split(',')[0] + ' direction to compare.',
-    soundConnection, meaningConnection, hanja: null,
-  }));
+    soundConnection, meaningConnection, hanja,
+  };
+  });
 }
 export async function sha256(value: string) {
   const bytes = new TextEncoder().encode(value);

@@ -14,6 +14,13 @@ const examples = [
   ['은서', 'Eunseo', 'Warm, gentle'],
 ];
 const styles: NameStyle[] = ['gentle', 'bright', 'distinctive', 'classic', 'modern'];
+const koreanSurnames = [
+  { hangul: '김', romanization: 'Kim' },
+  { hangul: '이', romanization: 'Lee' },
+  { hangul: '박', romanization: 'Park' },
+  { hangul: '최', romanization: 'Choi' },
+  { hangul: '정', romanization: 'Jung' },
+];
 
 export default function Home() {
   const [name, setName] = useState('');
@@ -25,6 +32,9 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [surnameMode, setSurnameMode] = useState<'none' | 'own' | 'korean'>('none');
+  const [ownSurname, setOwnSurname] = useState('');
+  const [koreanSurname, setKoreanSurname] = useState(koreanSurnames[0]);
 
   const generate = useCallback(async (input: { name: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle }) => {
     setBusy(true); setError(''); setNotice('');
@@ -145,14 +155,25 @@ export default function Home() {
             <div className="hangul" lang="ko">{candidate.hangul}</div><div className="roman">{candidate.romanization} <small>{candidate.syllables}</small></div>
             <div className="card-actions"><Button type="button" variant="ghost" size="icon-sm" aria-label={'Hear ' + candidate.hangul} onClick={() => pronounce(candidate.hangul)}><Volume2 size={16}/></Button><Button type="button" variant="ghost" size="icon-sm" aria-label={'Copy ' + candidate.hangul} onClick={() => void copyName(candidate.hangul, candidate.romanization)}><Copy size={15}/></Button></div>
             <div className="card-line"/><strong>{candidate.impression}</strong><p>{candidate.reason}</p>
+            {candidate.hanja && <div className="basic-meaning"><span>ONE POSSIBLE HANJA · BASIC MEANING</span><b lang="ko">{candidate.hanja.pair}</b><small>{candidate.hanja.characters.map(character => character.character + ' ' + character.gloss).join(' · ')}</small></div>}
             <Button type="button" variant={selected === candidate.hangul ? 'default' : 'outline'} className="choose-button" onClick={() => setSelected(candidate.hangul)}>{selected === candidate.hangul ? 'Your choice ✓' : 'Choose this name'}</Button>
           </article>)
         : examples.map(([hangul, roman, mood], i) => <article className="name-card" key={hangul}><div className="card-meta"><span>{String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">✦ OUR PICK</span>}</div><div className="hangul" lang="ko">{hangul}</div><div className="roman">{roman}</div><div className="card-line"/><strong>{mood}</strong><p>A natural Korean sound with its own distinct character.</p></article>)}</div>
-      <p className="disclaimer">{result ? 'These are given names, without a Korean family name. Impressions describe the feel of a name; literal meaning depends on Hanja choice. Audio uses your browser’s Korean voice.' : 'Example names shown. Name impressions are not literal Hanja meanings.'}</p>
+      <p className="disclaimer">{result ? 'Each Hanja line shows one possible pairing, not the only meaning of its Hangul name. Individual characters and readings were checked; the full name’s legal registration was not checked. English meanings are editorial translations. Audio uses your browser’s Korean voice.' : 'Example names shown. Generate your names to see one possible checked Hanja pairing and its basic meaning for each.'}</p>
+      {result && <div className="surname-panel">
+        <div><p className="eyebrow">OPTIONAL FULL-NAME PREVIEW</p><h3>What about a family name?</h3><p>Korean names usually put the family name first. Your own surname remains yours; a Korean-style surname here is only a nickname example.</p></div>
+        <div className="surname-options" role="group" aria-label="Family name preview">
+          <Button type="button" variant={surnameMode === 'none' ? 'default' : 'outline'} onClick={() => setSurnameMode('none')}>Given name only</Button>
+          <Button type="button" variant={surnameMode === 'own' ? 'default' : 'outline'} onClick={() => setSurnameMode('own')}>Use my surname</Button>
+          <Button type="button" variant={surnameMode === 'korean' ? 'default' : 'outline'} onClick={() => setSurnameMode('korean')}>Try a Korean-style surname</Button>
+        </div>
+        {surnameMode === 'own' && <div className="surname-detail"><label htmlFor="own-surname">Your family name as you write it</label><Input id="own-surname" className="form-input" value={ownSurname} maxLength={80} onChange={event => setOwnSurname(event.target.value)} placeholder="e.g. Smith"/><p>We will not guess its Hangul spelling. If you know it, a Korean speaker can help check it.</p>{ownSurname.trim() && <strong className="full-name-preview">{ownSurname.trim()} · {selected}</strong>}</div>}
+        {surnameMode === 'korean' && <div className="surname-detail"><p>Choose one to hear the full-name rhythm:</p><div className="surname-picks">{koreanSurnames.map(surname => <Button type="button" key={surname.hangul} variant={koreanSurname.hangul === surname.hangul ? 'default' : 'outline'} onClick={() => setKoreanSurname(surname)}>{surname.hangul} <small>{surname.romanization}</small></Button>)}</div><strong className="full-name-preview" lang="ko">{koreanSurname.hangul}{selected}</strong><span className="full-name-roman">{koreanSurname.romanization} {result.candidates.find(candidate => candidate.hangul === selected)?.romanization}</span><p>This is a cultural nickname preview. It does not imply family ancestry or change your legal name.</p></div>}
+      </div>}
       {notice && <p className="notice" role="status">{notice}</p>}
       {result && <div className="result-footer"><span>Saved for seven days in this browser link.</span><Button type="button" variant="outline" onClick={() => { setResult(null); setSelected(''); history.replaceState(null, '', location.pathname); document.getElementById('find-your-name')?.scrollIntoView({ behavior: 'smooth' }); }}><RotateCcw size={15}/> Try another name</Button></div>}
     </section>
-    <section className="premium-section" id="about"><div><p className="eyebrow">WHEN YOU FIND THE ONE</p><h2>Go deeper with your chosen name.</h2><p>All five names stay free. Our planned one-time report compares your five choices and explains the selected name’s Hanja, with individual characters and readings checked against Korea’s Supreme Court list. We are preparing the paid launch.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>PLANNED ONE-TIME REPORT</small><strong>₩9,900</strong><span>No subscription · not on sale yet</span></div></section>
+    <section className="premium-section" id="about"><div><p className="eyebrow">WHEN YOU FIND THE ONE</p><h2>Go deeper with your chosen name.</h2><p>All five names and their basic Hanja meanings stay free. The planned one-time report adds a focused story for your choice, a side-by-side comparison, character sources, full-name considerations, and a printable keepsake. We are preparing the paid launch.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>PLANNED ONE-TIME REPORT</small><strong>₩9,900</strong><span>Charged in KRW · no subscription<br/>Not on sale yet</span></div></section>
     <div className="story-visual"><img src="/og.png" alt="Chungju Halbae Names card with the words: Find a Korean name that feels like you. Five names. Free to explore."/></div>
     <footer><span>© 2026 Chungju Halbae Names</span><span>Name suggestions are for personal and cultural exploration, not legal name-change documents.</span></footer>
   </main>;

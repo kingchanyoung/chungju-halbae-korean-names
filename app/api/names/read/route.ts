@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
 import { sha256 } from '@/lib/names';
 import { readResult } from '@/lib/result-store';
+import { readJsonBody, RequestTooLarge } from '@/lib/beta-guard';
 
 export async function POST(request: Request) {
   let value: unknown;
-  try { value = await request.json(); } catch { return NextResponse.json({ error: 'Invalid request.' }, { status: 400 }); }
+  try { value = await readJsonBody(request, 1024); }
+  catch (error) { return NextResponse.json({ error: error instanceof RequestTooLarge ? 'Request too large.' : 'Invalid request.' }, { status: error instanceof RequestTooLarge ? 413 : 400 }); }
   const body = value as Record<string, unknown>;
   if (!body || typeof body.id !== 'string' || typeof body.token !== 'string' || body.id.length > 80 || body.token.length > 160)
     return NextResponse.json({ error: 'Invalid result link.' }, { status: 400 });

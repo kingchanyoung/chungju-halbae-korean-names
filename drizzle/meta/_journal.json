@@ -22,6 +22,20 @@
       "when": 1790343427540,
       "tag": "0002_uneven_blindfold",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1790348732867,
+      "tag": "0003_rare_colleen_wing",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1790349122609,
+      "tag": "0004_fancy_wallop",
+      "breakpoints": true
     }
   ]
 }

@@ -74,7 +74,6 @@ function corpusImpression(name: string, youngUses: number, allUses: number, cour
   else tags.push('distinctive');
   if (/[아연은윤림유]$/.test(name)) tags.push('gentle');
   else if (/^[하나예아라소]/.test(name)) tags.push('bright');
-  else tags.push('familiar');
   return tags.join(', ');
 }
 const catalog: CatalogName[] = corpus.names.map(entry => {
@@ -144,7 +143,7 @@ function editDistance(a: string, b: string) {
 function soundFit(original: string, candidate: string, hasHint: boolean) {
   const source = soundKey(original);
   const target = soundKey(candidate);
-  if (!source || !target) return { score: 0, matched: false, detail: 'No comparable Roman-letter pronunciation was provided.' };
+  if (!source || !target) return { score: 0, matched: false, detail: 'We need an English-letter pronunciation hint to compare sounds.' };
   const similarity = 1 - editDistance(source, target) / Math.max(source.length, target.length);
   const opening = source.slice(0, 2) === target.slice(0, 2) ? 3 : source[0] === target[0] ? 1 : 0;
   const score = Math.max(0, similarity * 7 + opening);
@@ -153,8 +152,8 @@ function soundFit(original: string, candidate: string, hasHint: boolean) {
     score: matched ? score : Math.min(score, 1),
     matched,
     detail: matched
-      ? `A rough Roman-letter sound comparison connects this name with your ${hasHint ? 'pronunciation hint' : 'written name'}.`
-      : `No close sound link was found with your ${hasHint ? 'pronunciation hint' : 'written name'}.`,
+      ? `Its Roman spelling sounds somewhat like your ${hasHint ? 'pronunciation hint' : 'written name'}. This is an approximate match.`
+      : `We did not find a close sound match with your ${hasHint ? 'pronunciation hint' : 'written name'}.`,
   };
 }
 
@@ -171,16 +170,16 @@ const meaningThemes = [
 function meaningFit(hint: string | null | undefined, pair: ReturnType<typeof checkedPairFor>) {
   if (!hint) return { score: 0, matched: false, detail: 'You did not add a personal meaning or story.' };
   const requested = meaningThemes.filter(theme => theme.cues.test(hint));
-  if (!requested.length) return { score: 0, matched: false, detail: 'Your story is kept with this result, but its meaning needs a personal review.' };
-  if (!pair) return { score: 0, matched: false, detail: 'No Hanja meaning has been checked for this name yet.' };
+  if (!requested.length) return { score: 0, matched: false, detail: 'We could not connect your note to a checked Hanja meaning in this beta.' };
+  if (!pair) return { score: 0, matched: false, detail: 'This name has no checked Hanja spelling yet, so we cannot compare its literal meaning.' };
   for (const theme of requested) {
     const character = [...pair.hanja].find(glyph => theme.characters.includes(glyph));
     if (character) {
       const verified = verifiedHanja.characters.find(entry => entry.character === character);
-      return { score: 7, matched: true, detail: `Your ${theme.key} theme connects with ${character} (${verified?.englishGloss || 'a checked character'}). This is one possible Hanja pairing.` };
+      return { score: 7, matched: true, detail: `${character} can mean ${verified?.englishGloss || 'a related idea'}, echoing the ${theme.key} theme you chose. This is one possible Hanja spelling.` };
     }
   }
-  return { score: 0, matched: false, detail: 'This checked Hanja pairing has no direct link to the meaning theme you shared.' };
+  return { score: 0, matched: false, detail: 'These checked characters do not directly reflect the meaning theme you chose.' };
 }
 function birthFit(pair: ReturnType<typeof checkedPairFor>, saju: SajuSummary) {
   const stems = [
@@ -197,14 +196,14 @@ function birthFit(pair: ReturnType<typeof checkedPairFor>, saju: SajuSummary) {
   if (!best) return {
     score: 0, matched: false, connection: null,
     detail: pair
-      ? 'No direct elemental image in this checked Hanja pairing matches the available birth-date stems.'
-      : 'A birth-date name link is not scored until a Hanja pairing is checked for this name.',
+      ? 'We found no clear birth-chart link in these checked characters.'
+      : 'No checked Hanja spelling yet, so we cannot score a birth-chart link for this name.',
   };
   return {
     score: Math.min(7, matches.reduce((sum, match) => sum + match.weight, 0)),
     matched: true,
     connection: best.label === 'day' ? { element: best.image.element, character: best.character, image: best.image.image } : null,
-    detail: `${best.character} evokes ${best.image.image}; we connect that image with your ${best.label}-stem element. This is a limited editorial reading, not a yongshin or fortune judgment.`,
+    detail: `${best.character} evokes ${best.image.image}, which we symbolically link to the ${best.label} part of your birth chart. This does not predict your fortune.`,
   };
 }
 export function validateNameRequest(value: unknown):
@@ -237,10 +236,10 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
     const feeling = {
       matched: feelingMatched,
       detail: input.style === 'any'
-        ? `You left the mood open; this name has a ${vibe} impression in our ${item.editorial ? 'edited' : 'estimated'} catalog.`
+        ? `You left the style open. We describe this name as ${vibe}.`
         : feelingMatched
-          ? `Its ${vibe} catalog impression fits the ${input.style} feeling you chose.`
-          : `Its catalog impression is ${vibe}; it is a different take on your ${input.style} request.`,
+          ? `We describe this name as ${vibe}, fitting the ${input.style} style you chose.`
+          : `We describe this name as ${vibe}, a different direction from the ${input.style} style you chose.`,
     };
     const sound = soundFit(input.pronunciationHint || input.name, item.romanization, !!input.pronunciationHint);
     const pair = checkedPairFor(item.hangul);

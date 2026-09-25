@@ -3,6 +3,7 @@ import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 export const nameResults = sqliteTable('name_results', {
   id: text('id').primaryKey(),
   accessTokenHash: text('access_token_hash').notNull(),
+  deleteTokenHash: text('delete_token_hash'),
   originalName: text('original_name').notNull(),
   pronunciationHint: text('pronunciation_hint'),
   meaningHint: text('meaning_hint'),
@@ -14,3 +15,17 @@ export const nameResults = sqliteTable('name_results', {
   createdAt: integer('created_at').notNull(),
   expiresAt: integer('expires_at').notNull(),
 }, table => [index('idx_name_results_expires_at').on(table.expiresAt)]);
+
+export const betaFeedback = sqliteTable('beta_feedback', {
+  id: text('id').primaryKey(),
+  rating: integer('rating').notNull(),
+  selectedName: text('selected_name'),
+  comment: text('comment').notNull(),
+  createdAt: integer('created_at').notNull(),
+}, table => [index('idx_beta_feedback_created_at').on(table.createdAt)]);
+
+export const betaRateLimits = sqliteTable('beta_rate_limits', {
+  visitorKey: text('visitor_key').primaryKey(),
+  count: integer('count').notNull(),
+  resetAt: integer('reset_at').notNull(),
+}, table => [index('idx_beta_rate_limits_reset_at').on(table.resetAt)]);

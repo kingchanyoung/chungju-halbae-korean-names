@@ -1,0 +1,1 @@
+ALTER TABLE `name_results` ADD `delete_token_hash` text;

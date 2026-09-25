@@ -8,7 +8,7 @@ lib/saju.ts는 k-saju 0.1.4와 Temporal 0.5.1로 절기 기준 연·월·일·�
 
 lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자 조회에서 **개별 글자와 지정 독음**을 확인했습니다. 그 밖의 이름은 한자를 배정하지 않습니다. 전체 이름의 법적 등록 가능성과 한자 오행 분류는 검증된 것이 아닙니다. 영어 뜻은 편집 번역이며 한글 이름마다 가능한 한자 조합이 여러 개일 수 있습니다. 남성적·여성적·중립적 인상은 제한된 법원 자료와 합성 표본의 성별 필드를 활용한 분류로, 개인의 성별이나 이름 사용 자격을 뜻하지 않습니다.
 
-무료 결과는 D1에 저장하며 무작위 결과 ID와 접근 토큰으로 다시 엽니다. 링크는 7일 유효합니다. **원본 출생일·시각·시간대는 저장하지 않고 사주 요약만 저장**합니다. 원래 이름과 힌트, 다섯 이름은 저장됩니다. app/api/names/generate와 app/api/names/read가 무료 API입니다. lib/report.ts의 buildReport는 **51개 한자 조합 검증 이름을 선택했을 때만** 보고서를 만들 수 있습니다. 다른 이름은 작명가의 한자 조합 검토가 필요하며 결제 대상에 넣으면 안 됩니다. /sample-report는 가상 예시입니다.
+무료 결과는 D1에 저장하며 무작위 결과 ID와 읽기 전용 접근 토큰으로 다시 엽니다. 링크는 7일 유효합니다. **원본 출생일·시각·시간대는 저장하지 않고 사주 요약만 저장**합니다. 원래 이름과 힌트, 다섯 이름은 저장됩니다. 삭제 토큰은 읽기 토큰과 분리하고 생성한 브라우저에 보관합니다. 공유 링크를 받은 사람은 결과를 삭제할 수 없습니다. 베타 피드백은 결과와 분리하여 저장하고 다음 결과 생성 시 30일 초과 항목을 정리합니다. app/api/names/generate와 app/api/names/read가 무료 API입니다. lib/report.ts의 buildReport는 **51개 한자 조합 검증 이름을 선택했을 때만** 보고서를 만들 수 있습니다. 다른 이름은 작명가의 한자 조합 검토가 필요하며 결제 대상에 넣으면 안 됩니다. /sample-report는 가상 예시입니다.
 
 ## 가격과 결제
 
@@ -31,7 +31,7 @@ lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자
 4. 성공 URL만으로 보고서를 열지 않습니다. 서버가 paymentKey/orderId/amount를 대조해 [결제 승인 API](https://docs.tosspayments.com/guides/v2/payment-widget/integration)를 호출하고 DONE 상태·금액·통화를 확인한 뒤 권한을 발급합니다. 중복 승인과 웹훅은 멱등 처리합니다.
 5. 구매자 이메일의 인증 링크로 재열람하고 인쇄·PDF를 제공합니다. 환불 시 권한을 정지하고 [취소 API](https://docs.tosspayments.com/guides/v2/cancel-payment)를 호출합니다.
 
-## 공개 전 필수 작업
+## 유료 정식 출시 전 필수 작업
 
 - 한국어 작명 검수자가 2,119개 후보의 추천 상위권, 51개 한자 조합의 영문 풀이, 성별·세대별 인상, 성씨 결합을 검토합니다. 명리 전문가는 현재 오행 이미지 연결과 순위 규칙을 별도로 검수해야 합니다.
 - [한국천문연구원 월력요항](https://astro.kasi.re.kr/kor/life/post/almanac?search_year=2026)과 입춘·주요 절기, 해외 시간대·DST, 오래된 시간대, 자시 경계를 대조합니다. 도시 검색과 음력·윤달 지원 여부를 결정합니다.
@@ -42,11 +42,13 @@ lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자
 
 ## 로컬 실행
 
-Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니다. 새 D1 로컬 DB에는 0000, 0001, 0002 마이그레이션을 순서대로 적용합니다. 기존 DB에는 아직 적용하지 않은 후속 마이그레이션만 순서대로 적용합니다.
+Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니다. 새 D1 로컬 DB에는 0000부터 0004까지 마이그레이션을 순서대로 적용합니다. 기존 DB에는 아직 적용하지 않은 후속 마이그레이션만 순서대로 적용합니다. 공개 베타 환경에는 `BETA_RATE_SECRET`을 비밀 환경 변수로 설정해야 요청 제한이 작동합니다.
 
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0000_dapper_redwing.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0001_clammy_redwing.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0002_uneven_blindfold.sql --yes
+    npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0003_rare_colleen_wing.sql --yes
+    npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0004_fancy_wallop.sql --yes
 
 ## 주요 자료
 

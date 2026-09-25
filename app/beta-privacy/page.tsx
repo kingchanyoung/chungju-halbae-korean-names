@@ -13,7 +13,7 @@ export default function BetaPrivacy() {
       <h1>Your answers and privacy</h1>
       <p>This beta is free. You do not need an account or a credit card.</p>
       <h2>What we save</h2>
-      <p>To make a result link, we save your given name, pronunciation hint, meaning note, style choices, the calculated birth-chart summary, and the five suggested names. We do not save your exact birth date, birth time, or birthplace time zone. We use those details to calculate the summary when you submit the form.</p>
+      <p>To make a result link, we save your given name, pronunciation hint, meaning note, style choices, the calculated birth-chart summary, and the suggested names. We do not save your exact birth date, birth time, or birthplace time zone. We use those details to calculate the summary when you submit the form.</p>
       <h2>Your private link</h2>
       <p>Your result link works for seven days. Anyone with the full link can view your names and the information saved with them, so share it only with people you trust. The browser that created a new result keeps a separate deletion key on your device. From that browser, choose <strong>Delete my result</strong> to remove it immediately. People you share the link with cannot delete it. If you clear that browser&apos;s storage, email us with your result link to request deletion. The link stops working after seven days. Expired records may remain in our database until the next result is created.</p>
       <h2>Feedback</h2>

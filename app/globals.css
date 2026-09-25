@@ -203,6 +203,7 @@ body{background:#000;color:#f1efec}
 .names-site .result-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
 .names-site .result-actions button{min-height:37px;height:auto;white-space:normal}
 .names-site .result-actions .delete-result{border-color:#6d4140;color:#d79b93}
+.names-site .result-notice{max-width:432px;margin:14px auto;padding:0 16px;font-size:12px}
 .names-site .footer-links{display:flex;gap:18px;justify-content:center}
 .names-site footer .footer-links a{font:400 11px 'Noto Sans KR',Arial,sans-serif;color:#d4b875;text-decoration:underline;text-underline-offset:3px}
 .beta-info-page .beta-info-card{padding:36px 24px 50px;color:#c9c1b2}

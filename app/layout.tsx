@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Find Your Korean Name | Chungju Halbae',
-  description: 'Chungju Halbae offers five Korean names inspired by your name, sound and style. Free to explore.',
+  description: 'Find a Korean name inspired by your name, story, and date of birth. Free to explore.',
   icons: { icon: '/favicon.png' },
   metadataBase: new URL('https://chungju-halbae-korean-names.ysp106.chatgpt.site'),
   robots: { index: false, follow: false },
@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://chungju-halbae-korean-names.ysp106.chatgpt.site',
     title: 'Chungju Halbae · Korean Names',
-    description: 'Five Korean names, free to explore.',
+    description: 'Find a Korean name that feels like you.',
     images: [{ url: '/og.png', width: 1730, height: 909, alt: 'Chungju Halbae Names' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Chungju Halbae · Korean Names',
-    description: 'Five Korean names, free to explore.',
+    description: 'Find a Korean name that feels like you.',
     images: ['/og.png'],
   },
 };

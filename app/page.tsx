@@ -7,13 +7,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import type { NameFeel, NameResult, NameStyle } from '@/lib/names';
 
-const examples = [
-  ['지안', 'Jian', 'Warm, balanced'],
-  ['서윤', 'Seoyun', 'Gentle, refined'],
-  ['도윤', 'Doyun', 'Calm, assured'],
-  ['하준', 'Hajun', 'Clear, confident'],
-  ['은서', 'Eunseo', 'Warm, gentle'],
-];
 const styles: NameStyle[] = ['any', 'gentle', 'bright', 'distinctive', 'classic', 'modern'];
 const meaningSuggestions = ['Peace', 'Wisdom', 'Kindness', 'Hope', 'Nature', 'Light', 'Strength', 'Creativity'];
 const nameFeelOptions: { value: NameFeel; label: string }[] = [
@@ -84,13 +77,21 @@ export default function Home() {
       setFeedbackRating(0); setFeedbackComment(''); setFeedbackMessage('');
       try { localStorage.setItem(`chungju-halbae-delete:${next.id}`, body.deleteToken); } catch { /* deletion remains available in this tab */ }
       history.replaceState(null, '', '#result=' + next.id + '.' + body.token);
-      setTimeout(() => { document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); document.getElementById('results-heading')?.focus({ preventScroll: true }); }, 80);
       return next;
     } catch (caught) {
       setError(caught instanceof SyntaxError ? 'Something went wrong. Please try again.' : caught instanceof Error ? caught.message : 'Please try again.');
       throw caught;
     } finally { setBusy(false); }
   }, []);
+
+  useEffect(() => {
+    if (!result) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('results-heading')?.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [result]);
 
   useEffect(() => {
     const match = location.hash.match(/^#result=([a-f0-9-]+)\.([a-f0-9-]+)(?:&selected=([^&]+))?$/);
@@ -121,8 +122,8 @@ export default function Home() {
     const lifecycle = new AbortController();
     void Promise.resolve(context.registerTool({
       name: 'generate_korean_names',
-      title: 'Find five Korean names',
-      description: 'Generate five free Korean given names from an approximate name-sound match, personal meaning, preferred mood and a limited birth-date reading for checked Hanja.',
+      title: 'Find Korean names',
+      description: 'Explore Korean given names using an approximate name-sound match, personal meaning, preferred mood and a limited birth-date reading for checked Hanja.',
       inputSchema: {
         type: 'object', properties: {
           name: { type: 'string', minLength: 1 },
@@ -206,7 +207,7 @@ export default function Home() {
         <div className="portrait-wrap"><img src="/halbae.jpg" alt="Portrait of Chungju Halbae in traditional clothing"/></div>
         <h1>Come closer.<br/><em>Let&apos;s find your Korean name.</em></h1>
         <p className="subtitle">“Tell me your name, date of birth, and the meaning you hope to carry. I&apos;ll look for a Korean name that feels like you.”</p>
-        <div className="promises"><span><Check size={15}/> Five names free</span><span><Check size={15}/> No sign-up</span><span><Check size={15}/> No credit card</span></div>
+        <div className="promises"><span><Check size={15}/> Free name reading</span><span><Check size={15}/> No sign-up</span><span><Check size={15}/> No credit card</span></div>
         <a className="hero-cta" href="#find-your-name">Begin your name reading <ArrowRight size={17}/></a>
       </div>
       <div className="form-frame" id="find-your-name">
@@ -248,14 +249,14 @@ export default function Home() {
           <div className="style-chips feel-chips" role="group" aria-label="Name impression">{nameFeelOptions.map(option => <Button key={option.value} type="button" variant="outline" className={nameFeel === option.value ? 'active' : ''} aria-pressed={nameFeel === option.value} onClick={() => setNameFeel(option.value)}>{option.label}</Button>)}</div>
           <p className="field-help">This describes a name&apos;s common impression, not your gender. Anyone may use a name they like.</p>
           {error && <p className="form-error" role="alert">{error}</p>}
-          <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Halbae is looking…' : 'Show me five names'} <ArrowRight size={18}/></Button>
+          <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Halbae is looking…' : 'Find my Korean name'} <ArrowRight size={18}/></Button>
         </form>
         <p className="privacy-line">Your name, pronunciation hint, meaning note, and chart summary are saved with a private result link for seven days. Your exact birth date and time are not saved. Anyone with the link can open it. <a href="/beta-privacy">Beta privacy details</a></p>
       </div>
     </section>
     <p className="preview-truth"><strong>How this reading works</strong> We compare the sound of your name and the style you want with more than 2,000 two-syllable Korean name options. For names with checked Hanja, your meaning and birth chart may also affect the order. This is a limited traditional reading.</p>
-    <section className="preview-section" id="how-it-works">
-      <div className="section-heading"><div><p className="eyebrow">{result ? '02 · YOUR FREE NAMES' : '02 · A FIRST LOOK'}</p><h2 id="results-heading" tabIndex={-1}>{result ? 'Names for ' + result.originalName : 'A glimpse of your names'}</h2><p>{result ? `${nameFeelSummary[result.nameFeel || 'any']}. Choose the one that feels most like you. Your private result link works for seven days.` : 'These are examples. Tell Halbae your name to see your own five.'}</p></div><span className="step-badge">FIVE FREE</span></div>
+    {result && <section className="preview-section" id="how-it-works">
+      <div className="section-heading"><div><p className="eyebrow">02 · YOUR NAME READING</p><h2 id="results-heading" tabIndex={-1}>{'Names for ' + result.originalName}</h2><p>{`${nameFeelSummary[result.nameFeel || 'any']}. Choose the one that feels most like you. Your private result link works for seven days.`}</p></div></div>
       {result?.saju && <div className="saju-reading">
         <p className="eyebrow">YOUR BIRTH-DATE READING</p>
         <h3>Day stem: <span lang="ko">{result.saju.day.stem}</span> · {result.saju.dayElementEnglish}</h3>
@@ -269,8 +270,7 @@ export default function Home() {
         {result.saju.boundaryUncertain && <p className="boundary-note">A seasonal boundary may occur on this date. Add your local birth time and birthplace time zone to resolve the year or month pillar.</p>}
         <p className="method-note">We use the birth-chart information we can calculate reliably. Names with checked Hanja may reflect it through a symbolic character image. We don&apos;t determine your most favorable element or predict your fortune.</p>
       </div>}
-      <div className="name-grid">{result
-        ? result.candidates.map((candidate, i) => <article className={'name-card' + (selected === candidate.hangul ? ' selected-card' : '')} key={candidate.hangul}>
+      <div className="name-grid">{result.candidates.map((candidate, i) => <article className={'name-card' + (selected === candidate.hangul ? ' selected-card' : '')} key={candidate.hangul}>
             <div className="card-meta"><span>NAME {String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">START HERE</span>}</div>
             <div className="hangul" lang="ko">{candidate.hangul}</div><div className="roman"><small>Split spelling</small> {candidate.syllables} <small>Joined spelling</small> {candidate.romanization}</div>
             {candidate.presentation && <div className="presentation-label">{candidate.presentation[0].toUpperCase() + candidate.presentation.slice(1)} impression (approximate)</div>}
@@ -286,9 +286,8 @@ export default function Home() {
             {candidate.hanja && <div className="basic-meaning"><span>ONE POSSIBLE HANJA SPELLING</span><b lang="ko">{candidate.hanja.pair}</b><small>{candidate.hanja.characters.map(character => character.character + ' ' + character.gloss).join(' · ')}</small></div>}
             {!candidate.hanja && <div className="basic-meaning"><span>HANJA SPELLING</span><small>No characters have been checked for this name yet. Its Hangul spelling does not have one fixed character meaning.</small></div>}
             <Button type="button" variant={selected === candidate.hangul ? 'default' : 'outline'} className="choose-button" onClick={() => chooseName(candidate.hangul)}>{selected === candidate.hangul ? 'Your choice ✓' : 'Choose this name'}</Button>
-          </article>)
-        : examples.map(([hangul, roman, mood], i) => <article className="name-card" key={hangul}><div className="card-meta"><span>EXAMPLE {String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">START HERE</span>}</div><div className="hangul" lang="ko">{hangul}</div><div className="roman">{roman}</div><div className="card-line"/><strong>{mood}</strong><p>An example of a two-syllable Korean given name.</p></article>)}</div>
-      <p className="disclaimer">{result ? 'Hanja are characters sometimes used to write Korean given names. We checked individual character readings against the Korean Supreme Court lookup, but not the full name’s registration eligibility or its element interpretation. English meanings are editorial translations. Audio uses your browser’s Korean voice.' : 'Example names shown. Generate yours to see the birth chart, five name options, and any checked Hanja spellings.'}</p>
+          </article>)}</div>
+      <p className="disclaimer">Hanja are characters sometimes used to write Korean given names. We checked individual character readings against the Korean Supreme Court lookup, but not the full name’s registration eligibility or its element interpretation. English meanings are editorial translations. Audio uses your browser’s Korean voice.</p>
       {result && <div className="surname-panel">
         <div><p className="eyebrow">OPTIONAL FULL-NAME PREVIEW</p><h3>What about a family name?</h3><p>Korean names usually put the family name first. Your own surname remains yours; a Korean-style surname here is only a nickname example.</p></div>
         <div className="surname-options" role="group" aria-label="Family name preview">
@@ -300,19 +299,19 @@ export default function Home() {
         {surnameMode === 'korean' && <div className="surname-detail"><p>Choose one to see how the full name looks:</p><div className="surname-picks">{koreanSurnames.map(surname => <Button type="button" key={surname.hangul} variant={koreanSurname.hangul === surname.hangul ? 'default' : 'outline'} onClick={() => setKoreanSurname(surname)}>{surname.hangul} <small>{surname.romanization}</small></Button>)}</div><strong className="full-name-preview" lang="ko">{koreanSurname.hangul}{selected}</strong><span className="full-name-roman">{koreanSurname.romanization} {result.candidates.find(candidate => candidate.hangul === selected)?.romanization}</span><p>This is a cultural nickname preview. It does not imply family ancestry or change your legal name.</p></div>}
       </div>}
       {result && <div className="feedback-panel" id="beta-feedback"><p className="eyebrow">HELP HALBAE IMPROVE</p><h3>Did these names feel right?</h3><p>We store feedback separately from your original name and birth chart. Please leave out personal details.</p><div className="rating-buttons" role="group" aria-label="Rate these names from one to five">{[1,2,3,4,5].map(value => <Button type="button" key={value} variant={feedbackRating === value ? 'default' : 'outline'} aria-pressed={feedbackRating === value} aria-label={`${value} out of 5`} onClick={() => setFeedbackRating(value)}>{value}</Button>)}</div><label htmlFor="feedback-comment">What worked or felt off? <small>Optional</small></label><Textarea id="feedback-comment" className="form-input meaning-input" maxLength={500} value={feedbackComment} onChange={event => setFeedbackComment(event.target.value)} placeholder="For example: a name felt too formal, or its meaning fit perfectly"/><Button type="button" className="feedback-submit" disabled={feedbackBusy} onClick={() => void sendFeedback()}>{feedbackBusy ? 'Sending…' : 'Send feedback'}</Button>{feedbackMessage && <p role="status" className="feedback-message">{feedbackMessage}</p>}</div>}
-      {notice && <p className="notice" role="status">{notice}</p>}
       {result && <div className="result-footer"><span>Bookmark or copy your private link to revisit these names within seven days. Anyone with the link can view them.</span><div className="result-actions"><Button type="button" variant="outline" onClick={() => void copyResultLink()}><Copy size={15}/> Copy result link</Button><Button type="button" variant="outline" onClick={() => { setResult(null); setSelected(''); setDeleteToken(''); history.replaceState(null, '', location.pathname); document.getElementById('find-your-name')?.scrollIntoView({ behavior: 'smooth' }); }}><RotateCcw size={15}/> Try another name</Button>{deleteToken && <Button type="button" variant="outline" className="delete-result" onClick={() => void deleteMyResult()}>Delete my result</Button>}</div></div>}
-    </section>
+    </section>}
+    {notice && <p className="notice result-notice" role="status">{notice}</p>}
     <section className="method-section" id="about">
-      <p className="eyebrow">03 · HOW HALBAE CHOOSES</p>
+      <p className="eyebrow">HOW HALBAE CHOOSES</p>
       <h2>What goes into a name?</h2>
       <div className="method-row"><span>一</span><p><strong>Your name and preferences.</strong> We compare your pronunciation hint, when provided, with Korean name spellings. Your chosen style and name impression guide the shortlist. Sound matching is approximate.</p></div>
       <div className="method-row"><span>二</span><p><strong>Your meaning or story.</strong> We look for themes in your English note. If a name has a checked Hanja character with a related meaning, we show that link. Notes we cannot connect do not change the order.</p></div>
       <div className="method-row"><span>三</span><p><strong>Your birth chart.</strong> Your date gives a partial traditional reading. If you know your birth time and birthplace time zone, we can calculate one more part. For checked Hanja names, a character image may symbolically connect to the chart and affect the order. We do not calculate a definitive best element.</p></div>
-      <div className="method-row"><span>四</span><p><strong>Korean name options.</strong> We screen more than 2,000 two-syllable forms and favor names that appear more often in our source data. The five results have different opening syllables. Only 51 forms currently have a checked possible Hanja spelling.</p></div>
+      <div className="method-row"><span>四</span><p><strong>Korean name options.</strong> We screen more than 2,000 two-syllable forms and favor names that appear more often in our source data. The suggestions have different opening syllables. Only 51 forms currently have a checked possible Hanja spelling.</p></div>
       <div className="saju-future"><strong>ABOUT THIS BETA</strong><p>Most options come from a synthetic Korean persona dataset, with a smaller set informed by published birth-name data. The full list and every interpretation have not been reviewed by a Korean naming expert. Character meanings and birth-chart links are limited, so please tell us when a name feels unnatural.</p><p><a href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea" target="_blank" rel="noopener noreferrer">NVIDIA Nemotron-Personas-Korea</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a> · <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank" rel="noopener noreferrer">Korean court birth-name table</a>.</p></div>
     </section>
-    <section className="premium-section"><div><p className="eyebrow">LATER, AFTER THE BETA</p><h2>A deeper name story.</h2><p>All five names are free. We are exploring an optional detailed report for names with checked Hanja. You can preview the format now; no payment is available during this beta.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>OPEN BETA</small><strong>Free</strong><span>No payment or subscription</span></div></section>
+    {result && <section className="premium-section"><div><p className="eyebrow">LATER, AFTER THE BETA</p><h2>A deeper name story.</h2><p>Your name suggestions are free. We are exploring an optional detailed report for names with checked Hanja. You can preview the format now; no payment is available during this beta.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>OPEN BETA</small><strong>Free</strong><span>No payment or subscription</span></div></section>}
     <footer><a href="https://gwimunsaju.com/" target="_blank" rel="noopener noreferrer" lang="ko">충주 할배 · 귀문사주</a><span>For cultural exploration. Name suggestions are not legal name changes or promises about the future.</span><div className="footer-links"><a href="/beta-privacy">Beta privacy</a><a href="mailto:shj2331@chansworld.co.kr?subject=Korean%20name%20beta">Contact</a></div><small>© 2026 Chungju Halbae Names</small></footer>
   </main>;
 }

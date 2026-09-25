@@ -7,16 +7,16 @@ import { PrintButton } from './print-button';
 
 export const metadata: Metadata = {
   title: 'Sample Korean Name Report | Chungju Halbae Names',
-  description: 'Preview the planned Korean name report, with checked Hanja characters and a five-name comparison.',
+  description: 'Preview the planned Korean name report, with checked Hanja characters and a name comparison.',
   openGraph: {
     title: 'Sample Korean Name Report',
-    description: 'A sample five-name comparison and checked Hanja character explanation.',
+    description: 'A sample name comparison and checked Hanja character explanation.',
     images: [],
   },
   twitter: {
     card: 'summary',
     title: 'Sample Korean Name Report',
-    description: 'A sample five-name comparison and checked Hanja character explanation.',
+    description: 'A sample name comparison and checked Hanja character explanation.',
     images: [],
   },
 };
@@ -48,7 +48,7 @@ export default function SampleReport() {
       <div className="report-head"><p className="eyebrow">CHUNGJU HALBAE NAMES · SAMPLE</p><span>EXAMPLE ONLY</span></div>
       <div className="report-title-row"><div><p className="report-overline">A KOREAN NAME FOR</p><h1>Emma</h1><p>This fictional example previews a possible future report. Reports are not sold during the beta. The example birth date is 16 March 1995.</p></div><div className="report-name"><strong lang="ko">지안</strong><span>Jian · Ji-an</span></div></div>
       <div className="report-divider"/>
-      <section className="report-section"><span className="report-number">01</span><div><h2>Your five-name comparison</h2><p>All five Hangul names are free. A basic Hanja meaning appears only for checked spellings. A future report could bring sound, style, and selection reasons together so you can compare the names side by side.</p><div className="comparison-list">{alternatives.map(([hangul, roman, impression, reason], i) => <div className="comparison-item" key={hangul}><span>{String(i+1).padStart(2, '0')}</span><strong lang="ko">{hangul}</strong><b>{roman}</b><em>{impression}</em><small>{reason}</small></div>)}</div></div></section>
+      <section className="report-section"><span className="report-number">01</span><div><h2>Comparing your options</h2><p>Your Hangul name suggestions are free. A basic Hanja meaning appears only for checked spellings. A future report could bring sound, style, and selection reasons together so you can compare the names side by side.</p><div className="comparison-list">{alternatives.map(([hangul, roman, impression, reason], i) => <div className="comparison-item" key={hangul}><span>{String(i+1).padStart(2, '0')}</span><strong lang="ko">{hangul}</strong><b>{roman}</b><em>{impression}</em><small>{reason}</small></div>)}</div></div></section>
       <section className="report-section"><span className="report-number">02</span><div><h2>A closer look at 지안</h2><p>Jian is a two-syllable given name. Its two syllables are relatively easy to say, and several Hanja spellings may be possible. “Warm, balanced” describes our impression of the name, not a fixed dictionary meaning.</p><div className="hanja-block"><div><span>ONE CHECKED HANJA SPELLING</span><strong lang="ko">{example.hanja}</strong><small>Possible Hanja for 지안</small></div><p>Hanja are characters sometimes used to write Korean names. The spelling here is one possible choice; we checked each character and its Korean reading in the Supreme Court’s personal-name character lookup.</p></div><div className="character-grid">{characters.map(character => <div className="character-card" key={character.character}><strong lang="ko">{character.character}</strong><div><b>{character.reading.join(', ')}</b><p>{character.englishGloss}</p><a href={character.officialRecordUrl} target="_blank" rel="noopener noreferrer">Official character record <ExternalLink size={12}/></a></div></div>)}</div><p className="report-caveat">Individual character readings were checked. The full name’s legal registration eligibility has not been checked. English meanings are editorial translations of the official Korean character descriptions.</p></div></section>
       <section className="report-section"><span className="report-number">03</span><div><h2>The example birth-date chart</h2><p>For 16 March 1995, the calculated day pillar is <span lang="ko">{report.saju?.day.hanja}</span>, and the day-stem element is {report.saju?.dayElementEnglish}. The year and month pillars are <span lang="ko">{report.saju?.year?.hanja}</span> and <span lang="ko">{report.saju?.month?.hanja}</span>. With no birth time, the hour pillar is unknown.</p><p>The chart uses the traditional local-midnight day convention. In a live reading, available day, month, year and hour stems can affect the order only of names with checked Hanja imagery. This fictional report illustrates the format; it does not establish a missing element or prove that this name is the optimal match.</p></div></section>
       <section className="report-section"><span className="report-number">04</span><div><h2>Using your name</h2><p>Introduce yourself as “Jian” and write your given name as 지안. For someone named Emma, Jian offers a different rhythm while keeping a gentle impression. That is a naming choice, not a translation of Emma’s meaning.</p><p>This service suggests a given name only; it does not assign a Korean family name. For a cultural nickname, 김지안 (Kim Jian) shows the family-name-first order. Using 김 here does not imply Kim family ancestry or give you a legal surname. You can keep your own family name instead.</p><p>Your preferred Roman spelling may differ from the standard joined or hyphenated form. For passports, residence documents, and contracts, use your registered name.</p></div></section>

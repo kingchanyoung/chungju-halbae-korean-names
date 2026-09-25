@@ -56,7 +56,7 @@ export function buildReport(result: NameResult, selectedHangul: string) {
       'The individual characters and readings were checked, but legal registration of the whole name was not verified.',
       'This report is for personal and cultural exploration, not a legal name-change document.',
       result.saju
-        ? 'The day-stem element was calculated from a traditional Four Pillars chart. Hanja imagery used for ranking is editorial, not a certified missing-element remedy.'
+        ? 'Available day, month, year and hour stem elements can inform ranking for checked Hanja images. This editorial association is not a yongshin calculation or certified missing-element remedy.'
         : 'This example has no birth-chart calculation.',
     ],
   };

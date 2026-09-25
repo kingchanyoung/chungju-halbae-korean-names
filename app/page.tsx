@@ -40,7 +40,9 @@ export default function Home() {
   const [name, setName] = useState('');
   const [pronunciationHint, setPronunciationHint] = useState('');
   const [meaningHint, setMeaningHint] = useState('');
-  const [birthDate, setBirthDate] = useState('');
+  const [birthYear, setBirthYear] = useState('');
+  const [birthMonth, setBirthMonth] = useState('');
+  const [birthDay, setBirthDay] = useState('');
   const [birthTime, setBirthTime] = useState('');
   const [birthZone, setBirthZone] = useState('');
   const [style, setStyle] = useState<NameStyle>('any');
@@ -58,6 +60,14 @@ export default function Home() {
   const [surnameMode, setSurnameMode] = useState<'none' | 'own' | 'korean'>('none');
   const [ownSurname, setOwnSurname] = useState('');
   const [koreanSurname, setKoreanSurname] = useState(koreanSurnames[0]);
+  const birthDate = birthYear && birthMonth && birthDay
+    ? `${birthYear}-${birthMonth.padStart(2, '0')}-${birthDay.padStart(2, '0')}`
+    : '';
+
+  function setBirthDateParts(value: string) {
+    const [year = '', month = '', day = ''] = value.split('-');
+    setBirthYear(year); setBirthMonth(month); setBirthDay(day);
+  }
 
   const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel }) => {
     setBusy(true); setError(''); setNotice('');
@@ -130,7 +140,7 @@ export default function Home() {
         if (!value || typeof value.name !== 'string' || typeof value.birthDate !== 'string') throw new Error('A given name and birth date are required.');
         setName(value.name); setPronunciationHint(value.pronunciationHint || '');
         setMeaningHint(value.meaningHint || ''); setStyle(value.style || 'any'); setNameFeel(value.nameFeel || 'any');
-        setBirthDate(value.birthDate); setBirthTime(value.birthTime || ''); setBirthZone(value.birthZone || '');
+        setBirthDateParts(value.birthDate); setBirthTime(value.birthTime || ''); setBirthZone(value.birthZone || '');
         const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style, nameFeel: value.nameFeel });
         return { resultId: next.id, names: next.candidates.map(candidate => ({ hangul: candidate.hangul, romanization: candidate.romanization })) };
       },
@@ -206,9 +216,16 @@ export default function Home() {
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
           <p className="field-help">Your original name, in any language or script.</p>
-          <label htmlFor="birth-date">Your birth date <b>*</b></label>
-          <Input id="birth-date" type="date" className="form-input" autoComplete="bday" required min="1901-01-01" value={birthDate} onChange={event => setBirthDate(event.target.value)}/>
-          <p className="field-help">Use the local date where you were born. It&apos;s fine if you don&apos;t know your birth time.</p>
+          <fieldset className="birth-date-fields" aria-describedby="birth-date-help">
+            <legend>Your birth date <b>*</b></legend>
+            <div className="birth-date-grid">
+              <div><label htmlFor="birth-year">Year</label><Input id="birth-year" type="text" inputMode="numeric" autoComplete="bday-year" className="form-input" required maxLength={4} pattern="[0-9]{4}" title="Enter a four-digit year" placeholder="1990" value={birthYear} onChange={event => setBirthYear(event.target.value.replace(/\D/g, '').slice(0, 4))}/></div>
+              <div><label htmlFor="birth-month">Month</label><Input id="birth-month" type="text" inputMode="numeric" autoComplete="bday-month" className="form-input" required maxLength={2} pattern="0?[1-9]|1[0-2]" title="Enter a month from 1 to 12" placeholder="03" value={birthMonth} onChange={event => setBirthMonth(event.target.value.replace(/\D/g, '').slice(0, 2))} onBlur={() => setBirthMonth(current => current.length === 1 ? current.padStart(2, '0') : current)}/></div>
+              <div><label htmlFor="birth-day">Day</label><Input id="birth-day" type="text" inputMode="numeric" autoComplete="bday-day" className="form-input" required maxLength={2} pattern="0?[1-9]|[12][0-9]|3[01]" title="Enter a day from 1 to 31" placeholder="16" value={birthDay} onChange={event => setBirthDay(event.target.value.replace(/\D/g, '').slice(0, 2))} onBlur={() => setBirthDay(current => current.length === 1 ? current.padStart(2, '0') : current)}/></div>
+            </div>
+          </fieldset>
+          <p className="field-help" id="birth-date-help">Type the year, month, and day directly. Use the local date where you were born. It&apos;s fine if you don&apos;t know your birth time.</p>
+          <details className="birth-calendar"><summary>Prefer a calendar?</summary><label htmlFor="birth-calendar-date">Choose your birth date</label><Input id="birth-calendar-date" type="date" className="form-input" value={birthDate} onChange={event => setBirthDateParts(event.target.value)}/></details>
           <details className="birth-details">
             <summary>Know your birth time? Add it for a more detailed birth-chart reading</summary>
             <label htmlFor="birth-time">Local birth time <small>Optional</small></label>

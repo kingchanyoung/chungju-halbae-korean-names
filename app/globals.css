@@ -149,6 +149,17 @@ body{background:#000;color:#f1efec}
 
 /* Birth-date reading */
 .names-site input[type=date],.names-site input[type=time]{color-scheme:dark}
+.birth-date-fields{min-width:0;margin:23px 0 0;padding:0;border:0}
+.birth-date-fields legend{padding:0;color:#e0d9cc;font-size:12px;font-weight:700}
+.birth-date-fields legend b{color:#c95e52}
+.birth-date-grid{display:grid;grid-template-columns:1.4fr .85fr .85fr;gap:9px;margin-top:11px}
+.names-site .birth-date-grid label{margin:0 0 7px;color:#aaa399;font-size:11px;font-weight:500}
+.birth-date-grid .form-input{width:100%;min-width:0;text-align:center;font-variant-numeric:tabular-nums}
+.names-site #birth-date-help{margin:9px 0 12px}
+.birth-calendar{margin:0 0 24px;padding:0 0 3px;border-bottom:1px solid #30291f}
+.birth-calendar summary{cursor:pointer;display:list-item;width:fit-content;padding:4px 0 11px;color:#dfc68f;font-size:11px;font-weight:700}
+.names-site .birth-calendar label{margin:5px 0 8px;color:#aaa399;font-size:11px}
+.birth-calendar .form-input{margin-bottom:14px}
 .birth-details{margin:3px 0 24px;padding:14px 15px 5px;border:1px solid #3c3224;border-radius:8px;background:#12110f}
 .birth-details summary{cursor:pointer;color:#dfc68f;font-size:12px;font-weight:700;line-height:1.5}
 .birth-details[open] summary{margin-bottom:15px}

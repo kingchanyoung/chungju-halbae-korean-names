@@ -15,6 +15,13 @@
       "when": 1790333903077,
       "tag": "0001_clammy_redwing",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790343427540,
+      "tag": "0002_uneven_blindfold",
+      "breakpoints": true
     }
   ]
 }

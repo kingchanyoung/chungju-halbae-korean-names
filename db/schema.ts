@@ -7,6 +7,7 @@ export const nameResults = sqliteTable('name_results', {
   pronunciationHint: text('pronunciation_hint'),
   meaningHint: text('meaning_hint'),
   style: text('style').notNull(),
+  nameFeel: text('name_feel'),
   candidatesJson: text('candidates_json').notNull(),
   sajuJson: text('saju_json'),
   algorithmVersion: text('algorithm_version').notNull(),

@@ -33,6 +33,7 @@ export function buildReport(result: NameResult, selectedHangul: string) {
     pronunciationHint: result.pronunciationHint,
     meaningHint: result.meaningHint,
     requestedStyle: result.style,
+    requestedNameFeel: result.nameFeel,
     saju: result.saju,
     selectedName: { ...selected, hanja: pair.hanja, characters },
     comparison: result.candidates.map((candidate, index) => ({

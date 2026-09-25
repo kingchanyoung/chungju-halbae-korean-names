@@ -1,0 +1,1 @@
+ALTER TABLE `name_results` ADD `name_feel` text;

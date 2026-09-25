@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedAtUtc": "2026-09-25T10:54:29.773323+00:00",
+  "retrievedAtUtc": "2026-09-25T13:43:24.947664+00:00",
   "authority": "Supreme Court of Korea, electronic family registration system",
   "officialLookupPage": "https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010",
   "verificationScope": "Each Hanja character was returned as usable for personal names with the listed designated reading. The pair as a whole, legal registration eligibility, and English glosses were not verified by the court. English glosses translate the official Korean hun.",
@@ -309,6 +309,441 @@
         "use": true,
         "inmyungeumga": "은"
       }
+    },
+    {
+      "character": "佑",
+      "unicode": "U+4F51",
+      "designatedReadings": [
+        "우"
+      ],
+      "officialKoreanHun": "우 : 도울(우)",
+      "englishGloss": "help; assist",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=04f51",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "우"
+      }
+    },
+    {
+      "character": "健",
+      "unicode": "U+5065",
+      "designatedReadings": [
+        "건"
+      ],
+      "officialKoreanHun": "건 : 굳셀(건)",
+      "englishGloss": "strong; robust",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05065",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "건"
+      }
+    },
+    {
+      "character": "夏",
+      "unicode": "U+590F",
+      "designatedReadings": [
+        "하"
+      ],
+      "officialKoreanHun": "하 : 여름(하) 나라(하) 회초리(하)",
+      "englishGloss": "summer",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=0590f",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "하"
+      }
+    },
+    {
+      "character": "娜",
+      "unicode": "U+5A1C",
+      "designatedReadings": [
+        "나"
+      ],
+      "officialKoreanHun": "나 : 아리따울(나) 휘청휘청할(나)",
+      "englishGloss": "beautiful; swaying",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05a1c",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "나"
+      }
+    },
+    {
+      "character": "媛",
+      "unicode": "U+5A9B",
+      "designatedReadings": [
+        "원"
+      ],
+      "officialKoreanHun": "원 : 미녀(원)",
+      "englishGloss": "beautiful woman",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05a9b",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "원"
+      }
+    },
+    {
+      "character": "宇",
+      "unicode": "U+5B87",
+      "designatedReadings": [
+        "우"
+      ],
+      "officialKoreanHun": "우 : 집(우) 천하(우)",
+      "englishGloss": "house; world",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05b87",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "우"
+      }
+    },
+    {
+      "character": "延",
+      "unicode": "U+5EF6",
+      "designatedReadings": [
+        "연"
+      ],
+      "officialKoreanHun": "연 : 끌(연) 미칠(연)",
+      "englishGloss": "extend; reach",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05ef6",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "연"
+      }
+    },
+    {
+      "character": "彩",
+      "unicode": "U+5F69",
+      "designatedReadings": [
+        "채"
+      ],
+      "officialKoreanHun": "채 : 채색(채) 무늬(채) 비단(채)",
+      "englishGloss": "color; pattern; silk",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05f69",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "채"
+      }
+    },
+    {
+      "character": "律",
+      "unicode": "U+5F8B",
+      "designatedReadings": [
+        "률",
+        "율"
+      ],
+      "officialKoreanHun": "률,율 : 법(률/율) 가(률/율)",
+      "englishGloss": "law; song",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05f8b",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "률,율"
+      }
+    },
+    {
+      "character": "志",
+      "unicode": "U+5FD7",
+      "designatedReadings": [
+        "지"
+      ],
+      "officialKoreanHun": "지 : 뜻(지) 기억할(지)",
+      "englishGloss": "intention; remember",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05fd7",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "지"
+      }
+    },
+    {
+      "character": "怡",
+      "unicode": "U+6021",
+      "designatedReadings": [
+        "이"
+      ],
+      "officialKoreanHun": "이 : 기뻐할(이)",
+      "englishGloss": "rejoice; joyful",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06021",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "이"
+      }
+    },
+    {
+      "character": "悟",
+      "unicode": "U+609F",
+      "designatedReadings": [
+        "오"
+      ],
+      "officialKoreanHun": "오 : 깨달을(오)",
+      "englishGloss": "understand; awaken",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=0609f",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "오"
+      }
+    },
+    {
+      "character": "書",
+      "unicode": "U+66F8",
+      "designatedReadings": [
+        "서"
+      ],
+      "officialKoreanHun": "서 : 글(서)",
+      "englishGloss": "writing; text",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=066f8",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "서"
+      }
+    },
+    {
+      "character": "正",
+      "unicode": "U+6B63",
+      "designatedReadings": [
+        "정"
+      ],
+      "officialKoreanHun": "정 : 바를(정)",
+      "englishGloss": "upright; correct",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06b63",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "정"
+      }
+    },
+    {
+      "character": "泰",
+      "unicode": "U+6CF0",
+      "designatedReadings": [
+        "태"
+      ],
+      "officialKoreanHun": "태 : 심히(태) 클(태)",
+      "englishGloss": "great; very",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06cf0",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "태"
+      }
+    },
+    {
+      "character": "浩",
+      "unicode": "U+6D69",
+      "designatedReadings": [
+        "호"
+      ],
+      "officialKoreanHun": "호 : 넓을(호)",
+      "englishGloss": "broad; vast",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06d69",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "호"
+      }
+    },
+    {
+      "character": "源",
+      "unicode": "U+6E90",
+      "designatedReadings": [
+        "원"
+      ],
+      "officialKoreanHun": "원 : 수원(원) 근원(원)",
+      "englishGloss": "source; origin",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06e90",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "원"
+      }
+    },
+    {
+      "character": "璘",
+      "unicode": "U+7498",
+      "designatedReadings": [
+        "린",
+        "인"
+      ],
+      "officialKoreanHun": "린,인 : 옥빛(린/인)",
+      "englishGloss": "jade luster",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=07498",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "린,인"
+      }
+    },
+    {
+      "character": "知",
+      "unicode": "U+77E5",
+      "designatedReadings": [
+        "지"
+      ],
+      "officialKoreanHun": "지 : 알(지)",
+      "englishGloss": "know; knowledge",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=077e5",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "지"
+      }
+    },
+    {
+      "character": "舒",
+      "unicode": "U+8212",
+      "designatedReadings": [
+        "서"
+      ],
+      "officialKoreanHun": "서 : 펼(서) 조용할(서)",
+      "englishGloss": "unfold; quiet",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=08212",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "서"
+      }
+    },
+    {
+      "character": "詩",
+      "unicode": "U+8A69",
+      "designatedReadings": [
+        "시"
+      ],
+      "officialKoreanHun": "시 : 시(시) 받을(시)",
+      "englishGloss": "poem; poetry",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=08a69",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "시"
+      }
+    },
+    {
+      "character": "賢",
+      "unicode": "U+8CE2",
+      "designatedReadings": [
+        "현"
+      ],
+      "officialKoreanHun": "현 : 어질(현)",
+      "englishGloss": "wise; virtuous",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=08ce2",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "현"
+      }
+    },
+    {
+      "character": "雅",
+      "unicode": "U+96C5",
+      "designatedReadings": [
+        "아"
+      ],
+      "officialKoreanHun": "아 : 바를(아) 우아할(아)",
+      "englishGloss": "refined; elegant",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=096c5",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "아"
+      }
+    },
+    {
+      "character": "善",
+      "unicode": "U+5584",
+      "designatedReadings": [
+        "선"
+      ],
+      "officialKoreanHun": "선 : 착할(선)",
+      "englishGloss": "good; virtuous",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05584",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "선"
+      }
+    },
+    {
+      "character": "才",
+      "unicode": "U+624D",
+      "designatedReadings": [
+        "재"
+      ],
+      "officialKoreanHun": "재 : 재주(재) 겨우(재)",
+      "englishGloss": "talent; ability",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=0624d",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "재"
+      }
+    },
+    {
+      "character": "昭",
+      "unicode": "U+662D",
+      "designatedReadings": [
+        "소",
+        "조"
+      ],
+      "officialKoreanHun": "조,소 : 밝을소(조)",
+      "englishGloss": "bright",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=0662d",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "조,소"
+      }
+    },
+    {
+      "character": "珠",
+      "unicode": "U+73E0",
+      "designatedReadings": [
+        "주"
+      ],
+      "officialKoreanHun": "주 : 구슬(주)",
+      "englishGloss": "bead; pearl",
+      "englishGlossStatus": "editorial rendering of official Korean hun; review pending",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=073e0",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "주"
+      }
     }
   ],
   "names": [
@@ -501,8 +936,681 @@
         "englishImage": "river",
         "status": "editorial imagery; not a Supreme Court element classification"
       }
+    },
+    {
+      "hangul": "지우",
+      "hanja": "知佑",
+      "characterReferences": [
+        "U+77E5",
+        "U+4F51"
+      ],
+      "selectedReadings": [
+        "지",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Jiu",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "연우",
+      "hanja": "延佑",
+      "characterReferences": [
+        "U+5EF6",
+        "U+4F51"
+      ],
+      "selectedReadings": [
+        "연",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Yeonu",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "서우",
+      "hanja": "書宇",
+      "characterReferences": [
+        "U+66F8",
+        "U+5B87"
+      ],
+      "selectedReadings": [
+        "서",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Seou",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "이현",
+      "hanja": "怡賢",
+      "characterReferences": [
+        "U+6021",
+        "U+8CE2"
+      ],
+      "selectedReadings": [
+        "이",
+        "현"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Ihyeon",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "지율",
+      "hanja": "智律",
+      "characterReferences": [
+        "U+667A",
+        "U+5F8B"
+      ],
+      "selectedReadings": [
+        "지",
+        "율"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Jiyul",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "시현",
+      "hanja": "詩賢",
+      "characterReferences": [
+        "U+8A69",
+        "U+8CE2"
+      ],
+      "selectedReadings": [
+        "시",
+        "현"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Sihyeon",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "이안",
+      "hanja": "怡安",
+      "characterReferences": [
+        "U+6021",
+        "U+5B89"
+      ],
+      "selectedReadings": [
+        "이",
+        "안"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Ian",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "하율",
+      "hanja": "河律",
+      "characterReferences": [
+        "U+6CB3",
+        "U+5F8B"
+      ],
+      "selectedReadings": [
+        "하",
+        "율"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Hayul",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "수현",
+      "hanja": "秀賢",
+      "characterReferences": [
+        "U+79C0",
+        "U+8CE2"
+      ],
+      "selectedReadings": [
+        "수",
+        "현"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Suhyeon",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "시원",
+      "hanja": "詩源",
+      "characterReferences": [
+        "U+8A69",
+        "U+6E90"
+      ],
+      "selectedReadings": [
+        "시",
+        "원"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Siwon",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "서준",
+      "hanja": "瑞俊",
+      "characterReferences": [
+        "U+745E",
+        "U+4FCA"
+      ],
+      "selectedReadings": [
+        "서",
+        "준"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Seojun",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "민준",
+      "hanja": "敏俊",
+      "characterReferences": [
+        "U+654F",
+        "U+4FCA"
+      ],
+      "selectedReadings": [
+        "민",
+        "준"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Minjun",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "도현",
+      "hanja": "道賢",
+      "characterReferences": [
+        "U+9053",
+        "U+8CE2"
+      ],
+      "selectedReadings": [
+        "도",
+        "현"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Dohyeon",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "우진",
+      "hanja": "宇珍",
+      "characterReferences": [
+        "U+5B87",
+        "U+73CD"
+      ],
+      "selectedReadings": [
+        "우",
+        "진"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Ujin",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "태오",
+      "hanja": "泰悟",
+      "characterReferences": [
+        "U+6CF0",
+        "U+609F"
+      ],
+      "selectedReadings": [
+        "태",
+        "오"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Taeo",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "건우",
+      "hanja": "健佑",
+      "characterReferences": [
+        "U+5065",
+        "U+4F51"
+      ],
+      "selectedReadings": [
+        "건",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Geonu",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "현우",
+      "hanja": "賢宇",
+      "characterReferences": [
+        "U+8CE2",
+        "U+5B87"
+      ],
+      "selectedReadings": [
+        "현",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Hyeonu",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "정우",
+      "hanja": "正佑",
+      "characterReferences": [
+        "U+6B63",
+        "U+4F51"
+      ],
+      "selectedReadings": [
+        "정",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Jeongu",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "준우",
+      "hanja": "俊佑",
+      "characterReferences": [
+        "U+4FCA",
+        "U+4F51"
+      ],
+      "selectedReadings": [
+        "준",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Junu",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "지호",
+      "hanja": "志浩",
+      "characterReferences": [
+        "U+5FD7",
+        "U+6D69"
+      ],
+      "selectedReadings": [
+        "지",
+        "호"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Jiho",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "서아",
+      "hanja": "舒雅",
+      "characterReferences": [
+        "U+8212",
+        "U+96C5"
+      ],
+      "selectedReadings": [
+        "서",
+        "아"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Seoa",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "하린",
+      "hanja": "河璘",
+      "characterReferences": [
+        "U+6CB3",
+        "U+7498"
+      ],
+      "selectedReadings": [
+        "하",
+        "린"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Harin",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "하윤",
+      "hanja": "夏潤",
+      "characterReferences": [
+        "U+590F",
+        "U+6F64"
+      ],
+      "selectedReadings": [
+        "하",
+        "윤"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Hayun",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "지아",
+      "hanja": "智雅",
+      "characterReferences": [
+        "U+667A",
+        "U+96C5"
+      ],
+      "selectedReadings": [
+        "지",
+        "아"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Jia",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "아린",
+      "hanja": "雅璘",
+      "characterReferences": [
+        "U+96C5",
+        "U+7498"
+      ],
+      "selectedReadings": [
+        "아",
+        "린"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Arin",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "유나",
+      "hanja": "柔娜",
+      "characterReferences": [
+        "U+67D4",
+        "U+5A1C"
+      ],
+      "selectedReadings": [
+        "유",
+        "나"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Yuna",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "수아",
+      "hanja": "秀雅",
+      "characterReferences": [
+        "U+79C0",
+        "U+96C5"
+      ],
+      "selectedReadings": [
+        "수",
+        "아"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Sua",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "채원",
+      "hanja": "彩媛",
+      "characterReferences": [
+        "U+5F69",
+        "U+5A9B"
+      ],
+      "selectedReadings": [
+        "채",
+        "원"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Chaewon",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "예서",
+      "hanja": "藝書",
+      "characterReferences": [
+        "U+85DD",
+        "U+66F8"
+      ],
+      "selectedReadings": [
+        "예",
+        "서"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Yeseo",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "하은",
+      "hanja": "河恩",
+      "characterReferences": [
+        "U+6CB3",
+        "U+6069"
+      ],
+      "selectedReadings": [
+        "하",
+        "은"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Haeun",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "선우",
+      "hanja": "善佑",
+      "characterReferences": [
+        "U+5584",
+        "U+4F51"
+      ],
+      "selectedReadings": [
+        "선",
+        "우"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "proposedPresentationImpression": "neutral",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Seonu",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "재이",
+      "hanja": "才怡",
+      "characterReferences": [
+        "U+624D",
+        "U+6021"
+      ],
+      "selectedReadings": [
+        "재",
+        "이"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "proposedPresentationImpression": "neutral",
+      "seedStyleImpression": "neutral",
+      "seedRomanization": "Jaei",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "주원",
+      "hanja": "珠源",
+      "characterReferences": [
+        "U+73E0",
+        "U+6E90"
+      ],
+      "selectedReadings": [
+        "주",
+        "원"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "proposedPresentationImpression": "neutral",
+      "seedStyleImpression": "masculine",
+      "seedRomanization": "Juwon",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "윤서",
+      "hanja": "潤書",
+      "characterReferences": [
+        "U+6F64",
+        "U+66F8"
+      ],
+      "selectedReadings": [
+        "윤",
+        "서"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "proposedPresentationImpression": "neutral",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Yunseo",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
+    },
+    {
+      "hangul": "소율",
+      "hanja": "昭律",
+      "characterReferences": [
+        "U+662D",
+        "U+5F8B"
+      ],
+      "selectedReadings": [
+        "소",
+        "율"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "naturalnessReview": "pending Korean naming practitioner review",
+      "pairMeaningReview": "pending Korean naming practitioner review",
+      "proposedPresentationImpression": "neutral",
+      "seedStyleImpression": "feminine",
+      "seedRomanization": "Soyul",
+      "hangulFormSource": "local curated 77-name seed; no official per-name count verified"
     }
   ],
   "baseDatasetRetrievedAtUtc": "2026-09-25T08:33:38.035805+00:00",
-  "editorialElementImageScope": "Five-Element image labels are editorial associations with visible Hanja imagery. They do not establish a universal Hanja element classification, a person's missing element, or name suitability."
+  "editorialElementImageScope": "Five-Element image labels are editorial associations with visible Hanja imagery. They do not establish a universal Hanja element classification, a person's missing element, or name suitability.",
+  "priorDatasetRetrievedAtUtc": "2026-09-25T13:37:36.950562+00:00",
+  "expansionNote": "Thirty Hangul forms were selected from a curated contemporary-name seed. New Hanja characters and selected readings passed the Supreme Court lookup. Pair meaning, frequency, naturalness, whole-name legal eligibility, and saju suitability await separate expert review.",
+  "neutralExtensionNote": "Five additional Hangul forms with distinct new opening syllables. Neutral presentation is an editorial proposal, not measured gender usage. Only individual Hanja and designated readings were checked."
 }

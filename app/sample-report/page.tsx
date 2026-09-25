@@ -29,10 +29,10 @@ const alternatives = [
 ];
 const sampleResult: NameResult = {
   id: 'sample', originalName: 'Emma', pronunciationHint: 'EH-ma',
-  meaningHint: null, style: 'gentle',
+  meaningHint: null, style: 'gentle', nameFeel: 'any',
   candidates: alternatives.map(([hangul, romanization, impression, reason]) => ({
     hangul, romanization, syllables: romanization, impression, reason,
-    soundConnection: false, meaningConnection: false, birthConnection: null, hanja: null,
+    soundConnection: false, meaningConnection: false, birthConnection: null, presentation: 'neutral', hanja: null,
   })),
   saju: calculateSaju({ birthDate: '1995-03-16', birthTime: null, birthZone: null }),
   algorithmVersion: 'sample', createdAt: 0, expiresAt: 0,

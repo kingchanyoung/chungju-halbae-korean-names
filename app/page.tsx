@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ArrowRight, Check, Copy, Heart, RotateCcw, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { NameResult, NameStyle } from '@/lib/names';
+import type { NameFeel, NameResult, NameStyle } from '@/lib/names';
 
 const examples = [
   ['지안', 'Jian', 'Warm, balanced'],
@@ -14,6 +14,18 @@ const examples = [
   ['은서', 'Eunseo', 'Warm, gentle'],
 ];
 const styles: NameStyle[] = ['gentle', 'bright', 'distinctive', 'classic', 'modern'];
+const nameFeelOptions: { value: NameFeel; label: string }[] = [
+  { value: 'any', label: 'Show me a mix' },
+  { value: 'feminine', label: 'More feminine' },
+  { value: 'masculine', label: 'More masculine' },
+  { value: 'neutral', label: 'Gender neutral' },
+];
+const nameFeelSummary: Record<NameFeel, string> = {
+  any: 'A mix of name impressions',
+  feminine: 'A more feminine impression',
+  masculine: 'A more masculine impression',
+  neutral: 'A gender-neutral impression',
+};
 const koreanSurnames = [
   { hangul: '김', romanization: 'Kim' },
   { hangul: '이', romanization: 'Lee' },
@@ -30,6 +42,7 @@ export default function Home() {
   const [birthTime, setBirthTime] = useState('');
   const [birthZone, setBirthZone] = useState('');
   const [style, setStyle] = useState<NameStyle>('gentle');
+  const [nameFeel, setNameFeel] = useState<NameFeel | null>(null);
   const [result, setResult] = useState<NameResult | null>(null);
   const [selected, setSelected] = useState('');
   const [busy, setBusy] = useState(false);
@@ -39,7 +52,7 @@ export default function Home() {
   const [ownSurname, setOwnSurname] = useState('');
   const [koreanSurname, setKoreanSurname] = useState(koreanSurnames[0]);
 
-  const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle }) => {
+  const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel }) => {
     setBusy(true); setError(''); setNotice('');
     try {
       const response = await fetch('/api/names/generate', {
@@ -72,12 +85,13 @@ export default function Home() {
       setResult(restored); setName(restored.originalName);
       setPronunciationHint(restored.pronunciationHint || '');
       setMeaningHint(restored.meaningHint || '');
-      setStyle(restored.style); setSelected(restored.candidates[0].hangul);
+      setStyle(restored.style); setNameFeel(restored.nameFeel || 'any');
+      setSelected(restored.candidates[0].hangul);
     }).catch(caught => setError(caught instanceof Error ? caught.message : 'This result link is unavailable.'));
   }, []);
 
   useEffect(() => {
-    type ToolInput = { name?: string; birthDate?: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle };
+    type ToolInput = { name?: string; birthDate?: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel };
     type Tool = { registerTool?: (tool: unknown, options?: { signal?: AbortSignal }) => void | Promise<void> };
     const context = (document as Document & { modelContext?: Tool }).modelContext;
     if (!context?.registerTool) return;
@@ -95,15 +109,16 @@ export default function Home() {
           pronunciationHint: { type: 'string' },
           meaningHint: { type: 'string' },
           style: { type: 'string', enum: styles },
+          nameFeel: { type: 'string', enum: nameFeelOptions.map(option => option.value), description: 'Optional desired name impression; not the user’s gender' },
         }, required: ['name', 'birthDate'], additionalProperties: false,
       },
       annotations: { readOnlyHint: false, untrustedContentHint: false },
       async execute(value: ToolInput) {
         if (!value || typeof value.name !== 'string' || typeof value.birthDate !== 'string') throw new Error('A given name and birth date are required.');
         setName(value.name); setPronunciationHint(value.pronunciationHint || '');
-        setMeaningHint(value.meaningHint || ''); setStyle(value.style || 'gentle');
+        setMeaningHint(value.meaningHint || ''); setStyle(value.style || 'gentle'); setNameFeel(value.nameFeel || 'any');
         setBirthDate(value.birthDate); setBirthTime(value.birthTime || ''); setBirthZone(value.birthZone || '');
-        const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style });
+        const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style, nameFeel: value.nameFeel });
         return { resultId: next.id, names: next.candidates.map(candidate => ({ hangul: candidate.hangul, romanization: candidate.romanization })) };
       },
     }, { signal: lifecycle.signal })).catch(() => {});
@@ -138,7 +153,7 @@ export default function Home() {
       <div className="form-frame" id="find-your-name">
         <div className="form-top"><span>01 · YOUR STORY</span><span>FREE</span></div>
         <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>Your birthday gives this reading its starting point.</p></div></div>
-        <form onSubmit={event => { event.preventDefault(); void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style }).catch(() => {}); }}>
+        <form onSubmit={event => { event.preventDefault(); if (!nameFeel) { setError('Choose how you would like your Korean name to come across.'); return; } void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel }).catch(() => {}); }}>
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
           <p className="field-help">Your original name, in any language or script.</p>
@@ -161,6 +176,9 @@ export default function Home() {
           <Input id="meaning" className="form-input" maxLength={180} value={meaningHint} onChange={event => setMeaningHint(event.target.value)} placeholder="A feeling, memory, or meaning"/>
           <label>What feeling would you like your Korean name to have?</label>
           <div className="style-chips" role="group" aria-label="Name feeling">{styles.map(choice => <Button key={choice} type="button" variant="outline" className={style === choice ? 'active' : ''} aria-pressed={style === choice} onClick={() => setStyle(choice)}>{choice[0].toUpperCase()+choice.slice(1)}</Button>)}</div>
+          <label>How would you like your Korean name to come across? <b>*</b></label>
+          <div className="style-chips feel-chips" role="group" aria-label="Name impression">{nameFeelOptions.map(option => <Button key={option.value} type="button" variant="outline" className={nameFeel === option.value ? 'active' : ''} aria-pressed={nameFeel === option.value} onClick={() => setNameFeel(option.value)}>{option.label}</Button>)}</div>
+          <p className="field-help">Choose a direction, or see a mix. This does not ask for your gender, and anyone may use a name they like.</p>
           {error && <p className="form-error" role="alert">{error}</p>}
           <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Halbae is looking…' : 'Show me five names'} <ArrowRight size={18}/></Button>
         </form>
@@ -169,7 +187,7 @@ export default function Home() {
     </section>
     <p className="preview-truth"><strong>How this reading works</strong> Your birth date determines a traditional day pillar. A visible Hanja image connected to its element helps order the names. This is an early naming method, not a claim that an element is missing or that a name guarantees good fortune.</p>
     <section className="preview-section" id="how-it-works">
-      <div className="section-heading"><div><p className="eyebrow">{result ? '02 · YOUR FREE NAMES' : '02 · A FIRST LOOK'}</p><h2>{result ? 'Names for ' + result.originalName : 'A glimpse of your names'}</h2><p>{result ? 'Choose the one that feels most like you. Your result link stays valid for seven days.' : 'These are examples. Tell Halbae your name to see your own five.'}</p></div><span className="step-badge">FIVE FREE</span></div>
+      <div className="section-heading"><div><p className="eyebrow">{result ? '02 · YOUR FREE NAMES' : '02 · A FIRST LOOK'}</p><h2>{result ? 'Names for ' + result.originalName : 'A glimpse of your names'}</h2><p>{result ? `${nameFeelSummary[result.nameFeel || 'any']}. Choose the one that feels most like you. Your result link stays valid for seven days.` : 'These are examples. Tell Halbae your name to see your own five.'}</p></div><span className="step-badge">FIVE FREE</span></div>
       {result?.saju && <div className="saju-reading">
         <p className="eyebrow">YOUR BIRTH-DATE READING</p>
         <h3>Day stem: <span lang="ko">{result.saju.day.stem}</span> · {result.saju.dayElementEnglish}</h3>
@@ -186,7 +204,8 @@ export default function Home() {
       <div className="name-grid">{result
         ? result.candidates.map((candidate, i) => <article className={'name-card' + (selected === candidate.hangul ? ' selected-card' : '')} key={candidate.hangul}>
             <div className="card-meta"><span>NAME {String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">START HERE</span>}</div>
-            <div className="hangul" lang="ko">{candidate.hangul}</div><div className="roman">{candidate.romanization} <small>{candidate.syllables}</small></div>
+            <div className="hangul" lang="ko">{candidate.hangul}</div><div className="roman">{candidate.syllables} <small>{candidate.romanization}</small></div>
+            {candidate.presentation && <div className="presentation-label">{candidate.presentation} feel · editorial guide</div>}
             <div className="card-actions"><Button type="button" variant="ghost" size="icon-sm" aria-label={'Hear ' + candidate.hangul} onClick={() => pronounce(candidate.hangul)}><Volume2 size={16}/></Button><Button type="button" variant="ghost" size="icon-sm" aria-label={'Copy ' + candidate.hangul} onClick={() => void copyName(candidate.hangul, candidate.romanization)}><Copy size={15}/></Button></div>
             <div className="card-line"/><strong>{candidate.impression}</strong><p>{candidate.reason}</p>
             {candidate.birthConnection && result.saju && <p className="birth-link"><span lang="ko">{candidate.birthConnection.character}</span> evokes {candidate.birthConnection.image}, an image we connect with your {result.saju.dayElementEnglish} day stem.</p>}
@@ -211,10 +230,10 @@ export default function Home() {
     <section className="method-section" id="about">
       <p className="eyebrow">03 · HOW HALBAE CHOOSES</p>
       <h2>What goes into a name?</h2>
-      <div className="method-row"><span>一</span><p><strong>Your name and its sound.</strong> Your name&apos;s Romanized first letter and shared vowel letters help order the options.</p></div>
-      <div className="method-row"><span>二</span><p><strong>The feeling you want.</strong> Your style and meaning words help order the options.</p></div>
+      <div className="method-row"><span>一</span><p><strong>Your name and its spelling.</strong> Your Roman-letter name or pronunciation hint helps order options by matching opening letters and letter pairs. This is a rough spelling match, not a phonetic analysis.</p></div>
+      <div className="method-row"><span>二</span><p><strong>The feeling you want.</strong> Your preferred masculine, feminine or neutral name impression filters the options if you choose one. Style and meaning words then help order them. These are editorial impressions, not rules about who may use a name.</p></div>
       <div className="method-row"><span>三</span><p><strong>Your birth-date pillars.</strong> The traditional calendar gives the day pillar; solar-term instants determine the year and month when unambiguous. Local birth time and birthplace time zone let us calculate the hour pillar too.</p></div>
-      <div className="method-row"><span>四</span><p><strong>Checked Hanja and visible imagery.</strong> We show one possible pairing from a small 16-name catalog. A forest, radiance, fortress, silver or river image matching the day-stem element gets a ranking boost. We keep different opening syllables among your five options.</p></div>
+      <div className="method-row"><span>四</span><p><strong>Checked Hanja and visible imagery.</strong> We show one possible pairing from a 51-name pilot catalog. A forest, radiance, fortress, silver or river image matching the day-stem element gets a small ranking boost. Your five options have at least three different opening syllables.</p></div>
       <div className="saju-future"><strong>THE LIMIT OF THIS FIRST METHOD</strong><p>A birth chart does not by itself prove which name is best. Our image associations are editorial, and this small catalog and ranking method still need Korean naming expert review before we call the result a full saju naming judgment.</p></div>
     </section>
     <section className="premium-section"><div><p className="eyebrow">WHEN YOU FIND THE ONE</p><h2>A deeper name story.</h2><p>All five names and their basic Hanja meanings stay free. The planned one-time report adds a focused story for your choice, a side-by-side comparison, character sources, full-name considerations, and a printable keepsake.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>PLANNED ONE-TIME REPORT</small><strong>US$7.99</strong><span>Not on sale yet · no subscription</span></div></section>

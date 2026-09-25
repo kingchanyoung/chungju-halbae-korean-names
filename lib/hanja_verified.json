@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedAtUtc": "2026-09-25T08:33:38.035805+00:00",
+  "retrievedAtUtc": "2026-09-25T10:54:29.773323+00:00",
   "authority": "Supreme Court of Korea, electronic family registration system",
   "officialLookupPage": "https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010",
   "verificationScope": "Each Hanja character was returned as usable for personal names with the listed designated reading. The pair as a whole, legal registration eligibility, and English glosses were not verified by the court. English glosses translate the official Korean hun.",
@@ -244,6 +244,71 @@
         "use": true,
         "inmyungeumga": "도"
       }
+    },
+    {
+      "character": "林",
+      "unicode": "U+6797",
+      "designatedReadings": [
+        "림",
+        "임"
+      ],
+      "officialKoreanHun": "림,임 : 수풀(림/임)",
+      "englishGloss": "grove; woods",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06797",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "림,임"
+      }
+    },
+    {
+      "character": "炫",
+      "unicode": "U+70AB",
+      "designatedReadings": [
+        "현"
+      ],
+      "officialKoreanHun": "현 : 빛날(현)",
+      "englishGloss": "shine; radiance",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=070ab",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "현"
+      }
+    },
+    {
+      "character": "城",
+      "unicode": "U+57CE",
+      "designatedReadings": [
+        "성"
+      ],
+      "officialKoreanHun": "성 : 재(성)",
+      "englishGloss": "fortress; walled city",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=057ce",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "성"
+      }
+    },
+    {
+      "character": "銀",
+      "unicode": "U+9280",
+      "designatedReadings": [
+        "은"
+      ],
+      "officialKoreanHun": "은 : 은(은) 은빛(은) 돈(은)",
+      "englishGloss": "silver; silver color",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=09280",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "은"
+      }
     }
   ],
   "names": [
@@ -356,6 +421,88 @@
       ],
       "characterAndReadingCheck": "passed",
       "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "예림",
+      "hanja": "藝林",
+      "characterReferences": [
+        "U+85DD",
+        "U+6797"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "fiveElementImage": {
+        "element": "wood",
+        "basisHanja": "林",
+        "englishImage": "grove or woods",
+        "status": "editorial imagery; not a Supreme Court element classification"
+      }
+    },
+    {
+      "hangul": "서현",
+      "hanja": "瑞炫",
+      "characterReferences": [
+        "U+745E",
+        "U+70AB"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "fiveElementImage": {
+        "element": "fire",
+        "basisHanja": "炫",
+        "englishImage": "radiance or shining light",
+        "status": "editorial imagery; not a Supreme Court element classification"
+      }
+    },
+    {
+      "hangul": "지성",
+      "hanja": "智城",
+      "characterReferences": [
+        "U+667A",
+        "U+57CE"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "fiveElementImage": {
+        "element": "earth",
+        "basisHanja": "城",
+        "englishImage": "fortress or earthen walls",
+        "status": "editorial imagery; not a Supreme Court element classification"
+      }
+    },
+    {
+      "hangul": "지은",
+      "hanja": "智銀",
+      "characterReferences": [
+        "U+667A",
+        "U+9280"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "fiveElementImage": {
+        "element": "metal",
+        "basisHanja": "銀",
+        "englishImage": "silver",
+        "status": "editorial imagery; not a Supreme Court element classification"
+      }
+    },
+    {
+      "hangul": "서하",
+      "hanja": "瑞河",
+      "characterReferences": [
+        "U+745E",
+        "U+6CB3"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked",
+      "fiveElementImage": {
+        "element": "water",
+        "basisHanja": "河",
+        "englishImage": "river",
+        "status": "editorial imagery; not a Supreme Court element classification"
+      }
     }
-  ]
+  ],
+  "baseDatasetRetrievedAtUtc": "2026-09-25T08:33:38.035805+00:00",
+  "editorialElementImageScope": "Five-Element image labels are editorial associations with visible Hanja imagery. They do not establish a universal Hanja element classification, a person's missing element, or name suitability."
 }

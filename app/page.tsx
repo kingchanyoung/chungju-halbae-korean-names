@@ -26,6 +26,9 @@ export default function Home() {
   const [name, setName] = useState('');
   const [pronunciationHint, setPronunciationHint] = useState('');
   const [meaningHint, setMeaningHint] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [birthTime, setBirthTime] = useState('');
+  const [birthZone, setBirthZone] = useState('');
   const [style, setStyle] = useState<NameStyle>('gentle');
   const [result, setResult] = useState<NameResult | null>(null);
   const [selected, setSelected] = useState('');
@@ -36,7 +39,7 @@ export default function Home() {
   const [ownSurname, setOwnSurname] = useState('');
   const [koreanSurname, setKoreanSurname] = useState(koreanSurnames[0]);
 
-  const generate = useCallback(async (input: { name: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle }) => {
+  const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle }) => {
     setBusy(true); setError(''); setNotice('');
     try {
       const response = await fetch('/api/names/generate', {
@@ -74,7 +77,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    type ToolInput = { name?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle };
+    type ToolInput = { name?: string; birthDate?: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle };
     type Tool = { registerTool?: (tool: unknown, options?: { signal?: AbortSignal }) => void | Promise<void> };
     const context = (document as Document & { modelContext?: Tool }).modelContext;
     if (!context?.registerTool) return;
@@ -82,21 +85,25 @@ export default function Home() {
     void Promise.resolve(context.registerTool({
       name: 'generate_korean_names',
       title: 'Find five Korean names',
-      description: 'Generate and show five free Korean given names from the provided name and style.',
+      description: 'Generate five free Korean given names informed by a Gregorian birth date, name and preferred style.',
       inputSchema: {
         type: 'object', properties: {
           name: { type: 'string', minLength: 1 },
+          birthDate: { type: 'string', description: 'Gregorian birth date, YYYY-MM-DD' },
+          birthTime: { type: 'string', description: 'Optional birthplace local time, HH:mm' },
+          birthZone: { type: 'string', description: 'Required with birthTime: IANA birthplace time zone, e.g. America/New_York' },
           pronunciationHint: { type: 'string' },
           meaningHint: { type: 'string' },
           style: { type: 'string', enum: styles },
-        }, required: ['name'], additionalProperties: false,
+        }, required: ['name', 'birthDate'], additionalProperties: false,
       },
       annotations: { readOnlyHint: false, untrustedContentHint: false },
       async execute(value: ToolInput) {
-        if (!value || typeof value.name !== 'string') throw new Error('A given name is required.');
+        if (!value || typeof value.name !== 'string' || typeof value.birthDate !== 'string') throw new Error('A given name and birth date are required.');
         setName(value.name); setPronunciationHint(value.pronunciationHint || '');
         setMeaningHint(value.meaningHint || ''); setStyle(value.style || 'gentle');
-        const next = await generate({ name: value.name, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style });
+        setBirthDate(value.birthDate); setBirthTime(value.birthTime || ''); setBirthZone(value.birthZone || '');
+        const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style });
         return { resultId: next.id, names: next.candidates.map(candidate => ({ hangul: candidate.hangul, romanization: candidate.romanization })) };
       },
     }, { signal: lifecycle.signal })).catch(() => {});
@@ -124,44 +131,70 @@ export default function Home() {
         <p className="eyebrow">· KOREAN NAME READING ·</p>
         <div className="portrait-wrap"><img src="/halbae.jpg" alt="Portrait of Chungju Halbae in traditional clothing"/></div>
         <h1>Come closer.<br/><em>Let&apos;s find your Korean name.</em></h1>
-        <p className="subtitle">“Tell this old man what they call you. I&apos;ll find a Korean name with a sound and feeling you can carry.”</p>
+        <p className="subtitle">“Tell me your name and birthday. I&apos;ll read the birth-date pillars I can calculate and find a Korean name with a sound and feeling you can carry.”</p>
         <div className="promises"><span><Check size={15}/> Five names free</span><span><Check size={15}/> No sign-up</span><span><Check size={15}/> No card</span></div>
-        <a className="hero-cta" href="#find-your-name">Tell Halbae your name <ArrowRight size={17}/></a>
+        <a className="hero-cta" href="#find-your-name">Begin your name reading <ArrowRight size={17}/></a>
       </div>
       <div className="form-frame" id="find-your-name">
         <div className="form-top"><span>01 · YOUR STORY</span><span>FREE</span></div>
-        <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>A few words will guide this first reading.</p></div></div>
-        <form onSubmit={event => { event.preventDefault(); void generate({ name, pronunciationHint, meaningHint, style }).catch(() => {}); }}>
+        <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>Your birthday gives this reading its starting point.</p></div></div>
+        <form onSubmit={event => { event.preventDefault(); void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style }).catch(() => {}); }}>
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
           <p className="field-help">Your original name, in any language or script.</p>
-          <label htmlFor="pronunciation">How do you pronounce it? <small>Optional for Latin-script names</small></label>
+          <label htmlFor="birth-date">Your birth date <b>*</b></label>
+          <Input id="birth-date" type="date" className="form-input" autoComplete="bday" required min="1901-01-01" value={birthDate} onChange={event => setBirthDate(event.target.value)}/>
+          <p className="field-help">Use the date where you were born. A date alone is enough to begin.</p>
+          <details className="birth-details">
+            <summary>Know your birth time? Add it for a fuller reading</summary>
+            <label htmlFor="birth-time">Local birth time <small>Optional</small></label>
+            <Input id="birth-time" type="time" className="form-input" value={birthTime} onChange={event => { setBirthTime(event.target.value); if (!event.target.value) setBirthZone(''); }}/>
+            <label htmlFor="birth-zone">Birthplace time zone <small>Required with time</small></label>
+            <Input id="birth-zone" className="form-input" list="birth-zone-options" required={!!birthTime} disabled={!birthTime} maxLength={80} value={birthZone} onChange={event => setBirthZone(event.target.value)} placeholder="e.g. America/New_York"/>
+            <datalist id="birth-zone-options">{['Asia/Seoul', 'Asia/Tokyo', 'Asia/Shanghai', 'Asia/Singapore', 'Asia/Manila', 'Asia/Kolkata', 'Asia/Dubai', 'Europe/London', 'Europe/Paris', 'Europe/Berlin', 'America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles', 'America/Toronto', 'America/Vancouver', 'America/Sao_Paulo', 'Australia/Sydney', 'Pacific/Auckland'].map(zone => <option key={zone} value={zone}/>)}</datalist>
+            <p className="field-help">Use the time zone of the place you were born, including its city/region. The historic clock offset is applied automatically.</p>
+          </details>
+          <label htmlFor="pronunciation">How do you pronounce it? <small>Use Roman letters; required for other scripts</small></label>
           <Input id="pronunciation" className="form-input" maxLength={100} value={pronunciationHint} onChange={event => setPronunciationHint(event.target.value)} placeholder="e.g. EH-ma"/>
-          <p className="field-help">Please add a pronunciation hint if your name uses another script.</p>
-          <label htmlFor="meaning">What does your name mean to you? <small>Optional</small></label>
+          <p className="field-help">For example, write “EH-ma.” We use these letters for the sound match.</p>
+          <label htmlFor="meaning">What does your name mean to you? <small>Optional; English words</small></label>
           <Input id="meaning" className="form-input" maxLength={180} value={meaningHint} onChange={event => setMeaningHint(event.target.value)} placeholder="A feeling, memory, or meaning"/>
           <label>What feeling would you like your Korean name to have?</label>
           <div className="style-chips" role="group" aria-label="Name feeling">{styles.map(choice => <Button key={choice} type="button" variant="outline" className={style === choice ? 'active' : ''} aria-pressed={style === choice} onClick={() => setStyle(choice)}>{choice[0].toUpperCase()+choice.slice(1)}</Button>)}</div>
           {error && <p className="form-error" role="alert">{error}</p>}
           <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Halbae is looking…' : 'Show me five names'} <ArrowRight size={18}/></Button>
         </form>
-        <p className="privacy-line">All five names are free. No payment needed.</p>
+        <p className="privacy-line">All five names are free. Your result link expires in seven days. It stores the calculated chart summary, but not your raw birth date or time.</p>
       </div>
     </section>
-    <p className="preview-truth"><strong>About this preview</strong> These names use your name&apos;s sound, your chosen feeling and checked Hanja. Birth-chart calculation is not active yet.</p>
+    <p className="preview-truth"><strong>How this reading works</strong> Your birth date determines a traditional day pillar. A visible Hanja image connected to its element helps order the names. This is an early naming method, not a claim that an element is missing or that a name guarantees good fortune.</p>
     <section className="preview-section" id="how-it-works">
       <div className="section-heading"><div><p className="eyebrow">{result ? '02 · YOUR FREE NAMES' : '02 · A FIRST LOOK'}</p><h2>{result ? 'Names for ' + result.originalName : 'A glimpse of your names'}</h2><p>{result ? 'Choose the one that feels most like you. Your result link stays valid for seven days.' : 'These are examples. Tell Halbae your name to see your own five.'}</p></div><span className="step-badge">FIVE FREE</span></div>
+      {result?.saju && <div className="saju-reading">
+        <p className="eyebrow">YOUR BIRTH-DATE READING</p>
+        <h3>Day stem: <span lang="ko">{result.saju.day.stem}</span> · {result.saju.dayElementEnglish}</h3>
+        <p>{result.saju.basis === 'date' ? 'Calculated from your birth date. Your birth hour is unknown, so the hour pillar is omitted.' : 'Calculated from your birthplace local date, time and historical time-zone offset.'}</p>
+        <div className="pillar-list">
+          <span>YEAR <strong lang="ko">{result.saju.year?.hanja || 'Boundary uncertain'}</strong></span>
+          <span>MONTH <strong lang="ko">{result.saju.month?.hanja || 'Boundary uncertain'}</strong></span>
+          <span>DAY <strong lang="ko">{result.saju.day.hanja}</strong></span>
+          {result.saju.hour && <span>HOUR <strong lang="ko">{result.saju.hour.hanja}</strong></span>}
+        </div>
+        {result.saju.boundaryUncertain && <p className="boundary-note">A seasonal boundary may occur on this date. Add your local birth time and birthplace time zone to resolve the year or month pillar.</p>}
+        <p className="method-note">We use the local midnight day convention. The chart is a traditional reference; matching a Hanja image to its day element is our editorial naming rule, not a diagnosis of a missing element.</p>
+      </div>}
       <div className="name-grid">{result
         ? result.candidates.map((candidate, i) => <article className={'name-card' + (selected === candidate.hangul ? ' selected-card' : '')} key={candidate.hangul}>
             <div className="card-meta"><span>NAME {String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">START HERE</span>}</div>
             <div className="hangul" lang="ko">{candidate.hangul}</div><div className="roman">{candidate.romanization} <small>{candidate.syllables}</small></div>
             <div className="card-actions"><Button type="button" variant="ghost" size="icon-sm" aria-label={'Hear ' + candidate.hangul} onClick={() => pronounce(candidate.hangul)}><Volume2 size={16}/></Button><Button type="button" variant="ghost" size="icon-sm" aria-label={'Copy ' + candidate.hangul} onClick={() => void copyName(candidate.hangul, candidate.romanization)}><Copy size={15}/></Button></div>
             <div className="card-line"/><strong>{candidate.impression}</strong><p>{candidate.reason}</p>
+            {candidate.birthConnection && result.saju && <p className="birth-link"><span lang="ko">{candidate.birthConnection.character}</span> evokes {candidate.birthConnection.image}, an image we connect with your {result.saju.dayElementEnglish} day stem.</p>}
             {candidate.hanja && <div className="basic-meaning"><span>ONE POSSIBLE HANJA · BASIC MEANING</span><b lang="ko">{candidate.hanja.pair}</b><small>{candidate.hanja.characters.map(character => character.character + ' ' + character.gloss).join(' · ')}</small></div>}
             <Button type="button" variant={selected === candidate.hangul ? 'default' : 'outline'} className="choose-button" onClick={() => setSelected(candidate.hangul)}>{selected === candidate.hangul ? 'Your choice ✓' : 'Choose this name'}</Button>
           </article>)
         : examples.map(([hangul, roman, mood], i) => <article className="name-card" key={hangul}><div className="card-meta"><span>EXAMPLE {String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">START HERE</span>}</div><div className="hangul" lang="ko">{hangul}</div><div className="roman">{roman}</div><div className="card-line"/><strong>{mood}</strong><p>A natural Korean sound with its own distinct character.</p></article>)}</div>
-      <p className="disclaimer">{result ? 'Each Hanja line shows one possible pairing, not the only meaning of its Hangul name. Individual characters and readings were checked; the full name’s legal registration was not checked. English meanings are editorial translations. Audio uses your browser’s Korean voice.' : 'Example names shown. Generate your names to see one possible checked Hanja pairing and its basic meaning for each.'}</p>
+      <p className="disclaimer">{result ? 'Each Hanja line shows one possible pairing, not the only meaning of its Hangul name. Individual characters and readings were checked; the full name’s legal registration and our element imagery were not certified by the court. English meanings are editorial translations. Audio uses your browser’s Korean voice.' : 'Example names shown. Generate your names to see your chart basis, one possible checked Hanja pairing and its basic meaning for each.'}</p>
       {result && <div className="surname-panel">
         <div><p className="eyebrow">OPTIONAL FULL-NAME PREVIEW</p><h3>What about a family name?</h3><p>Korean names usually put the family name first. Your own surname remains yours; a Korean-style surname here is only a nickname example.</p></div>
         <div className="surname-options" role="group" aria-label="Family name preview">
@@ -178,12 +211,13 @@ export default function Home() {
     <section className="method-section" id="about">
       <p className="eyebrow">03 · HOW HALBAE CHOOSES</p>
       <h2>What goes into a name?</h2>
-      <div className="method-row"><span>一</span><p><strong>Your name and its sound.</strong> The first sound and shared vowels guide the match.</p></div>
+      <div className="method-row"><span>一</span><p><strong>Your name and its sound.</strong> Your name&apos;s Romanized first letter and shared vowel letters help order the options.</p></div>
       <div className="method-row"><span>二</span><p><strong>The feeling you want.</strong> Your style and meaning words help order the options.</p></div>
-      <div className="method-row"><span>三</span><p><strong>Checked Hanja.</strong> We show one possible pairing from a small 11-name catalog. We avoid repeating the same opening Hangul syllable.</p></div>
-      <div className="saju-future"><strong>FOUR PILLARS · IN DEVELOPMENT</strong><p>A true birth-chart reading will need your birth date, local time and birthplace, accurate seasonal-term calculations and reviewed naming rules. It is not part of these results yet.</p></div>
+      <div className="method-row"><span>三</span><p><strong>Your birth-date pillars.</strong> The traditional calendar gives the day pillar; solar-term instants determine the year and month when unambiguous. Local birth time and birthplace time zone let us calculate the hour pillar too.</p></div>
+      <div className="method-row"><span>四</span><p><strong>Checked Hanja and visible imagery.</strong> We show one possible pairing from a small 16-name catalog. A forest, radiance, fortress, silver or river image matching the day-stem element gets a ranking boost. We keep different opening syllables among your five options.</p></div>
+      <div className="saju-future"><strong>THE LIMIT OF THIS FIRST METHOD</strong><p>A birth chart does not by itself prove which name is best. Our image associations are editorial, and this small catalog and ranking method still need Korean naming expert review before we call the result a full saju naming judgment.</p></div>
     </section>
     <section className="premium-section"><div><p className="eyebrow">WHEN YOU FIND THE ONE</p><h2>A deeper name story.</h2><p>All five names and their basic Hanja meanings stay free. The planned one-time report adds a focused story for your choice, a side-by-side comparison, character sources, full-name considerations, and a printable keepsake.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>PLANNED ONE-TIME REPORT</small><strong>US$7.99</strong><span>Not on sale yet · no subscription</span></div></section>
-    <footer><a href="https://gwimunsaju.com/" target="_blank" rel="noopener noreferrer" lang="ko">충주 할배 · 귀문사주</a><span>Names are for cultural exploration. This preview does not provide a birth-chart reading or a legal name change.</span><small>© 2026 Chungju Halbae Names</small></footer>
+    <footer><a href="https://gwimunsaju.com/" target="_blank" rel="noopener noreferrer" lang="ko">충주 할배 · 귀문사주</a><span>Traditional birth-chart calculation and an editorial naming method for cultural exploration. This is not a legal name change or a guarantee of fortune.</span><small>© 2026 Chungju Halbae Names</small></footer>
   </main>;
 }

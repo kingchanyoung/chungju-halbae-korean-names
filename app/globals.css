@@ -144,3 +144,22 @@ body{background:#000;color:#f1efec}
 .character-card a{color:#d4b675}
 .report-caveat{color:#aaa399!important}
 @media print{.report-page{background:white;color:#1d1d1d}.report-paper{background:white;color:#1d1d1d;border:0}.report-paper h1,.report-paper h2,.report-paper .report-name strong{color:#1d1d1d}.report-section p,.report-title-row p:last-child,.comparison-item small{color:#555}.hanja-block{background:#f5f0e6}.character-card{border-color:#bbb}}
+
+/* Birth-date reading */
+.names-site input[type=date],.names-site input[type=time]{color-scheme:dark}
+.birth-details{margin:3px 0 24px;padding:14px 15px 5px;border:1px solid #3c3224;border-radius:8px;background:#12110f}
+.birth-details summary{cursor:pointer;color:#dfc68f;font-size:12px;font-weight:700;line-height:1.5}
+.birth-details[open] summary{margin-bottom:15px}
+.names-site .birth-details label{margin-top:16px}
+.birth-details .field-help{margin:8px 0 12px}
+.names-site .saju-reading{margin-bottom:24px;padding:21px 20px;background:linear-gradient(145deg,#1a150d,#0e0d0c);border:1px solid #725a32;border-radius:10px}
+.saju-reading h3{margin:10px 0 9px;color:#f0e3c5;font:400 25px/1.3 'Gowun Batang',Georgia,serif}
+.saju-reading h3 span{color:#dfbf7c}
+.saju-reading>p:not(.eyebrow){color:#b9b1a3;font-size:11px;line-height:1.65}
+.pillar-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:17px 0}
+.pillar-list span{display:flex;flex-direction:column;gap:3px;padding:11px 12px;border:1px solid #433622;border-radius:7px;color:#a89570;font-size:9px;font-weight:700;letter-spacing:.12em}
+.pillar-list strong{color:#ebddbd;font:400 17px/1.25 'Gowun Batang',Georgia,serif;letter-spacing:0}
+.names-site .saju-reading .boundary-note{color:#e1b876!important}
+.names-site .saju-reading .method-note{margin-bottom:0;color:#9e978b!important}
+.names-site .name-card .birth-link{margin:0 0 16px;padding:10px 11px;background:#211a11;border-left:2px solid #c2a566;color:#d5c6a4;font-size:11px;line-height:1.6}
+.birth-link span{font:400 16px 'Gowun Batang',serif;color:#efd79a}

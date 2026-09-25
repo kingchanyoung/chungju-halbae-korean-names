@@ -23,11 +23,12 @@ export function buildReport(result: NameResult, selectedHangul: string) {
   if (characters.length !== 2) throw new Error('The name needs two verified characters.');
   return {
     productId: 'korean_name_report_v1',
-    reportVersion: '1.0.0',
+    reportVersion: '1.1.0',
     originalName: result.originalName,
     pronunciationHint: result.pronunciationHint,
     meaningHint: result.meaningHint,
     requestedStyle: result.style,
+    saju: result.saju,
     selectedName: { ...selected, hanja: pair.hanja, characters },
     comparison: result.candidates.map((candidate, index) => ({
       rank: index + 1, hangul: candidate.hangul,
@@ -48,7 +49,9 @@ export function buildReport(result: NameResult, selectedHangul: string) {
       'A Hangul name can have multiple possible Hanja pairings; this report presents one checked character pairing.',
       'The individual characters and readings were checked, but legal registration of the whole name was not verified.',
       'This report is for personal and cultural exploration, not a legal name-change document.',
-      'No birth date, birth time, or saju calculation was used.',
+      result.saju
+        ? 'The day-stem element was calculated from a traditional Four Pillars chart. Hanja imagery used for ranking is editorial, not a certified missing-element remedy.'
+        : 'This example has no birth-chart calculation.',
     ],
   };
 }

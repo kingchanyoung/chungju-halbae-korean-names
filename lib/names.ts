@@ -180,13 +180,16 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
   const chosen: typeof ranked = [];
   if (input.nameFeel === 'any') {
     for (const impression of ['neutral', 'masculine', 'feminine'] as const) {
-      const match = ranked.find(entry => entry.item.style === impression && !chosen.some(pick => pick.item.hangul[0] === entry.item.hangul[0]));
+      const match = ranked.find(entry => entry.item.style === impression &&
+        !chosen.some(pick => pick.item.hangul[0] === entry.item.hangul[0]) &&
+        chosen.filter(pick => pick.item.hangul[1] === entry.item.hangul[1]).length < 2);
       if (match) chosen.push(match);
     }
   }
   for (const entry of ranked) {
     if (chosen.some(pick => pick.item.hangul === entry.item.hangul)) continue;
     if (chosen.some(pick => pick.item.hangul[0] === entry.item.hangul[0])) continue;
+    if (chosen.filter(pick => pick.item.hangul[1] === entry.item.hangul[1]).length >= 2) continue;
     chosen.push(entry);
     if (chosen.length === 5) break;
   }

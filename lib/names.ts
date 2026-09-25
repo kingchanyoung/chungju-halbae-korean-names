@@ -1,5 +1,7 @@
 import seed from './korean_given_names.seed.json';
+import corpus from './korean_name_corpus.json';
 import verifiedHanja from './hanja_verified.json';
+import { romanizeGivenName } from './romanize';
 import { validateBirthInput, type BirthInput, type SajuSummary } from './saju';
 
 export type NameStyle = 'gentle' | 'bright' | 'distinctive' | 'classic' | 'modern';
@@ -24,6 +26,9 @@ export type NameResult = {
 type SeedName = {
   hangul: string; romanization: string; romanization_hyphenated: string;
   style: NamePresentation; vibe_en: string;
+};
+type CatalogName = SeedName & {
+  youngUses: number; allUses: number; courtBirths: number; editorial: boolean;
 };
 const extraNames: SeedName[] = [
   { hangul: '민서', romanization: 'Minseo', romanization_hyphenated: 'Min-seo', style: 'neutral', vibe_en: 'thoughtful, classic' },
@@ -52,9 +57,34 @@ const presentationOverrides: Partial<Record<string, NamePresentation>> = {
   '이안': 'masculine', '이현': 'masculine', '시원': 'masculine',
   '지율': 'feminine', '하율': 'feminine',
 };
-const catalog = [...seed.names as SeedName[], ...extraNames]
-  .filter(name => checkedPairFor(name.hangul))
-  .map(name => ({ ...name, style: presentationOverrides[name.hangul] || name.style }));
+const editorialNames = new Map([...seed.names as SeedName[], ...extraNames].map(name => [name.hangul, name]));
+function corpusImpression(name: string, youngUses: number, allUses: number, courtBirths: number) {
+  const ageShare = allUses ? youngUses / allUses : 1;
+  const tags: string[] = [];
+  if (ageShare >= .7 || courtBirths >= 10) tags.push('modern');
+  else if (allUses >= 100) tags.push('classic');
+  else tags.push('distinctive');
+  if (/[아연은윤림유]$/.test(name)) tags.push('gentle');
+  else if (/^[하나예아라소]/.test(name)) tags.push('bright');
+  else tags.push('familiar');
+  return tags.join(', ');
+}
+const catalog: CatalogName[] = corpus.names.map(entry => {
+  const editorial = editorialNames.get(entry.hangul);
+  const guide = romanizeGivenName(entry.hangul);
+  return {
+    hangul: entry.hangul,
+    romanization: editorial?.romanization ?? guide.romanization,
+    romanization_hyphenated: editorial?.romanization_hyphenated ?? guide.romanization_hyphenated,
+    style: presentationOverrides[entry.hangul] ?? (entry.presentation as NamePresentation),
+    vibe_en: editorial?.vibe_en ?? corpusImpression(entry.hangul, entry.syntheticYoungUses, entry.syntheticAllUses, entry.courtSeoulTop20Births),
+    youngUses: entry.syntheticYoungUses,
+    allUses: entry.syntheticAllUses,
+    courtBirths: entry.courtSeoulTop20Births,
+    editorial: !!editorial,
+  };
+});
+export const CATALOG_COUNT = catalog.length;
 const descriptors: Record<NameStyle, string[]> = {
   gentle: ['gentle', 'soft', 'warm', 'calm', 'delicate', 'thoughtful'],
   bright: ['bright', 'fresh', 'lively', 'light', 'open'],
@@ -88,6 +118,14 @@ function spellingFit(original: string, romanization: string) {
   score += Math.min(new Set((romanization.match(/[aeiou]/g) ?? []).filter(vowel => vowels.has(vowel))).size, 2);
   return score;
 }
+function stableVariation(value: string) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index++) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0) / 4294967295;
+}
 export function validateNameRequest(value: unknown):
   | { ok: true; input: { name: string; pronunciationHint: string | null; meaningHint: string | null; style: NameStyle; nameFeel: NameFeel } & BirthInput }
   | { ok: false; error: string } {
@@ -113,10 +151,11 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
   const sound = normalized(input.pronunciationHint || input.name);
   const words = descriptors[input.style];
   const eligible = input.nameFeel === 'any' ? catalog : catalog.filter(item => item.style === input.nameFeel);
+  const variationKey = [sound, saju.day.hanja, input.style, input.nameFeel].join('|');
   const ranked = eligible.map(item => {
     const roman = normalized(item.romanization);
     const vibe = item.vibe_en.toLowerCase();
-    const fit = words.some(word => vibe.split(/[, ]+/).includes(word)) ? 6 : 0;
+    const fit = words.some(word => vibe.split(/[, ]+/).includes(word)) ? 2 : 0;
     const soundConnection = !!sound && sound[0] === roman[0];
     const pair = checkedPairFor(item.hangul);
     const possibleGlosses = pair?.characterReferences.map(reference =>
@@ -124,12 +163,18 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
     ).join(' ').toLowerCase() || '';
     const meaningWords = (input.meaningHint || '').toLowerCase().match(/[a-z]{4,}/g) || [];
     const meaningConnection = meaningWords.some(word => possibleGlosses.includes(word) || vibe.includes(word));
-    const meaningFit = meaningConnection ? 8 : 0;
+    const meaningFit = meaningConnection ? (pair ? 6 : 2) : 0;
     const birthConnection = [...(pair?.hanja || '')].map(character => {
       const image = elementImages[character];
       return image?.element === saju.dayElement ? { character, ...image } : null;
     }).find(Boolean) || null;
-    const score = fit + meaningFit + spellingFit(sound, roman) + (birthConnection ? 5 : 0);
+    // Synthetic frequency is a conservative naturalness signal, not a claim
+    // about actual registrations. The date only resolves close ranks.
+    const familiarity = Math.min(5, Math.log2(1 + item.youngUses / 10) * 1.2);
+    const courtSignal = Math.min(2, Math.log2(1 + item.courtBirths) * .4);
+    const variation = stableVariation(variationKey + '|' + item.hangul) * 6;
+    const rarePenalty = item.youngUses < 20 && item.courtBirths < 5 ? 5 : item.youngUses < 40 && item.courtBirths < 5 ? 2 : 0;
+    const score = fit + meaningFit + spellingFit(sound, roman) + familiarity + courtSignal + variation + (birthConnection ? 1 : 0) - rarePenalty;
     return { item, score, soundConnection, meaningConnection, birthConnection };
   }).sort((a, b) => b.score - a.score || a.item.hangul.localeCompare(b.item.hangul));
   const chosen: typeof ranked = [];
@@ -141,8 +186,7 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
   }
   for (const entry of ranked) {
     if (chosen.some(pick => pick.item.hangul === entry.item.hangul)) continue;
-    const sameOpening = chosen.filter(pick => pick.item.hangul[0] === entry.item.hangul[0]).length;
-    if (sameOpening >= 2 || (chosen.length < 3 && sameOpening)) continue;
+    if (chosen.some(pick => pick.item.hangul[0] === entry.item.hangul[0])) continue;
     chosen.push(entry);
     if (chosen.length === 5) break;
   }

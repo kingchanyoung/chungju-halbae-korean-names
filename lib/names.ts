@@ -30,8 +30,21 @@ const extraNames: SeedName[] = [
   { hangul: '지성', romanization: 'Jiseong', romanization_hyphenated: 'Ji-seong', style: 'neutral', vibe_en: 'steady, grounded' },
   { hangul: '지은', romanization: 'Jieun', romanization_hyphenated: 'Ji-eun', style: 'neutral', vibe_en: 'clear, refined' },
 ];
-const verifiedNameSet = new Set(verifiedHanja.names.map(name => name.hangul));
-const catalog = [...seed.names as SeedName[], ...extraNames].filter(name => verifiedNameSet.has(name.hangul));
+function checkedPairFor(hangul: string) {
+  const pair = verifiedHanja.names.find(name => name.hangul === hangul);
+  const syllables = [...hangul];
+  const glyphs = [...(pair?.hanja || '')];
+  if (!pair || pair.characterAndReadingCheck !== 'passed' || syllables.length !== 2 ||
+      glyphs.length !== 2 || pair.characterReferences.length !== 2) return null;
+  const valid = pair.characterReferences.every((reference, index) => {
+    const character = verifiedHanja.characters.find(entry => entry.unicode === reference);
+    return character?.character === glyphs[index] &&
+      character.officialFields.isinmyung === 1 && character.officialFields.use &&
+      character.designatedReadings.includes(syllables[index]);
+  });
+  return valid ? pair : null;
+}
+const catalog = [...seed.names as SeedName[], ...extraNames].filter(name => checkedPairFor(name.hangul));
 const descriptors: Record<NameStyle, string[]> = {
   gentle: ['gentle', 'soft', 'warm', 'calm', 'delicate', 'thoughtful'],
   bright: ['bright', 'fresh', 'lively', 'light', 'open'],
@@ -85,7 +98,7 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
     const vibe = item.vibe_en.toLowerCase();
     const fit = words.reduce((sum, word) => sum + (vibe.includes(word) ? 9 : 0), 0);
     const soundConnection = !!sound && sound[0] === roman[0];
-    const pair = verifiedHanja.names.find(name => name.hangul === item.hangul);
+    const pair = checkedPairFor(item.hangul);
     const possibleGlosses = pair?.characterReferences.map(reference =>
       verifiedHanja.characters.find(character => character.unicode === reference)?.englishGloss || ''
     ).join(' ').toLowerCase() || '';
@@ -106,11 +119,12 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
     if (chosen.length === 5) break;
   }
   return chosen.map(({ item, soundConnection, meaningConnection, birthConnection }, index) => {
-    const pairing = verifiedHanja.names.find(name => name.hangul === item.hangul);
-    const characters = pairing?.characterReferences.map(reference => {
+    const pairing = checkedPairFor(item.hangul);
+    const characters = pairing?.characterReferences.map((reference, index) => {
       const character = verifiedHanja.characters.find(entry => entry.unicode === reference);
-      if (!character || character.officialFields.isinmyung !== 1 || !character.officialFields.use) return null;
-      return { character: character.character, reading: character.designatedReadings[0], gloss: character.englishGloss, officialUrl: character.sourceUrl };
+      const reading = [...item.hangul][index];
+      if (!character || !reading || !character.designatedReadings.includes(reading)) return null;
+      return { character: character.character, reading, gloss: character.englishGloss, officialUrl: character.sourceUrl };
     }) ?? [];
     const hanja = pairing && pairing.characterAndReadingCheck === 'passed' && characters.length === 2 && characters.every(Boolean)
       ? { pair: pairing.hanja, characters: characters as NonNullable<NameCandidate['hanja']>['characters'] }

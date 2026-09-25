@@ -8,13 +8,18 @@ export function buildReport(result: NameResult, selectedHangul: string) {
   if (!selected) throw new Error('Choose a name from this result.');
   const pair = verified.names.find(name => name.hangul === selectedHangul);
   if (!pair || pair.characterAndReadingCheck !== 'passed') throw new Error('Hanja is not ready for this name.');
-  const characters = pair.characterReferences.map(reference => {
+  const syllables = [...selectedHangul];
+  const glyphs = [...pair.hanja];
+  const characters = pair.characterReferences.map((reference, index) => {
     const character = verified.characters.find(item => item.unicode === reference);
-    if (!character || character.officialFields.isinmyung !== 1 || !character.officialFields.use)
+    const reading = syllables[index];
+    if (!character || !reading || character.character !== glyphs[index] ||
+        !character.designatedReadings.includes(reading) ||
+        character.officialFields.isinmyung !== 1 || !character.officialFields.use)
       throw new Error('A Hanja character is not verified.');
     return {
       character: character.character,
-      reading: character.designatedReadings,
+      reading: [reading],
       englishGloss: character.englishGloss,
       koreanDefinition: character.officialKoreanHun,
       officialRecordUrl: character.sourceUrl,

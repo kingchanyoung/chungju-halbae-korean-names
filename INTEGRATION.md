@@ -49,6 +49,7 @@ Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니�
 
 ## 주요 자료
 
+- [16개 이름 품질 검수 기준](NAME_QUALITY_REVIEW.md)
 - [대법원 인명용 한자 조회](https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010)
 - [국어의 로마자 표기법](https://korean.go.kr/kornorms/regltn/regltnView.do?regltn_code=0004)
 - [만세력 라이브러리](https://github.com/bunhine0452/k-saju)

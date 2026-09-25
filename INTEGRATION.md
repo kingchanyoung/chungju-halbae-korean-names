@@ -1,0 +1,46 @@
+# 충주할배 한국 이름 서비스 — 개발팀 인계
+
+## 현재 상태
+
+독립 영어 웹앱입니다. 원래 이름, 발음 힌트, 이름에 담고 싶은 느낌, 선호 분위기를 입력하면 **무료 한국식 이름 5개**를 보여줍니다. 한글·로마자 표기, 분위기, 추천 이유, 브라우저 한국어 음성, 복사와 선택이 포함됩니다. 로그인과 카드 입력은 필요하지 않습니다.
+
+무료 결과는 D1에 저장하며 무작위 결과 ID와 접근 토큰으로만 다시 엽니다. 링크는 7일 동안 유효합니다. lib/names.ts가 후보를 고르고, app/api/names/generate와 app/api/names/read가 무료 API입니다. drizzle/에는 D1 스키마 마이그레이션이 있습니다.
+
+lib/hanja_verified.json의 11개 이름만 후보로 사용합니다. 2026-09-25 대법원 인명용 한자 조회에서 개별 글자와 지정 독음을 확인했습니다. 이름 조합 전체의 법적 등록 가능성은 확인하지 않았습니다. 무료 카드의 영어 “impression”은 뜻풀이가 아닙니다. lib/report.ts의 buildReport(result, selectedHangul)은 선택한 이름의 확인된 글자·독음·뜻 원문/영어 번역·공식 조회 URL과 다섯 이름 비교를 묶어 유료 보고서 데이터로 만듭니다. /sample-report는 고정 예시로 보고서 형태를 보여줍니다.
+
+**결제는 아직 열지 않았습니다.** 화면의 ₩9,900은 출시 예정 일회성 가격입니다. 운영자의 토스 키, 해외 발행 카드 원화 결제 추가 계약, 영문 약관·개인정보·환불 문구, 메일 재열람, 결제/환불 실거래 검증이 완료되기 전에는 청구하지 않습니다.
+
+## 기존 gwimunsaju.com 연결
+
+가장 빠른 연결은 독립 서비스의 별도 주소를 유지하고 기존 사이트 영문 메뉴에 “Find your Korean name” 링크를 추가하는 것입니다. 같은 도메인 경험이 필요하면 개발팀이 /en/korean-name으로 프록시하거나 현재 Next.js 앱에 app/page.tsx, app/sample-report, app/api/names, lib/names.ts, lib/result-store.ts, lib/report.ts, 데이터 자산을 이식하면 됩니다. 기존 /admin이나 사주 엔진을 크롤링해 연결하지 않습니다.
+
+기존 DB에 이식할 때는 name_results에 별도 제품 스키마를 두고 korean_name_report_v1을 기존 30일 이용권과 별도 SKU로 생성하세요. 결과 ID에 저장된 다섯 이름을 결제·보고서까지 그대로 사용해야 합니다. 원래 이름과 발음 힌트는 관리자 목록이나 분석 이벤트에 노출하지 마세요.
+
+## ₩9,900 보고서 결제 연결 계약
+
+1. 고객이 무료 이름 다섯 개 중 하나를 선택하면, 서버가 resultId + accessToken + selectedHangul을 검증하고 buildReport가 오류 없이 완료되는지 먼저 확인합니다.
+2. 서버가 금액 **9900 KRW**, 상품 korean_name_report_v1, 결과 ID, 선택 이름, 구매자 이메일을 묶어 주문 ID를 만듭니다. 브라우저가 보낸 가격은 사용하지 않습니다.
+3. 토스페이먼츠 V2 결제위젯의 고객키·결제위젯으로 카드 결제를 시작합니다. 해외 발행 카드 원화 결제는 [추가 계약](https://docs.tosspayments.com/guides/v2/learn/foreign-payment)이 필요합니다.
+4. 성공 URL만으로 보고서를 열지 않습니다. 서버가 paymentKey/orderId/amount와 주문을 대조하고 [결제 승인 API](https://docs.tosspayments.com/guides/v2/payment-widget/integration)를 비밀키로 호출합니다. 최종 상태 DONE, 주문 ID, 금액, 통화를 확인한 뒤에만 보고서 권한을 발급합니다. 중복 승인과 웹훅에 멱등 처리를 적용합니다.
+5. 보고서는 구매자 이메일의 인증 링크로 재열람하고 인쇄/PDF 저장을 제공합니다. 환불 시 서버에서 권한을 정지하고 [토스 취소 API](https://docs.tosspayments.com/guides/v2/cancel-payment)를 통해 취소합니다. 해외카드 승인·실패·환불을 실거래에 가까운 환경에서 검증하세요.
+
+## 공개 전 필수 작업
+
+- 한국어 검수자가 후보 11개, 한자 조합, 영어 풀이, 성별 인상, 성씨와의 조합, 부적절한 뉘앙스를 검토하고 후보 풀을 확장합니다. 현재 11개는 작은 파일럿 목록입니다.
+- 기존 [약관](https://gwimunsaju.com/terms)의 30일 이용권과 구분되는 영문 ₩9,900 상품·환불 규정, [개인정보처리방침](https://gwimunsaju.com/privacy)에 원래 이름·발음·선호와 해외 사용자 데이터 흐름을 추가합니다.
+- D1의 7일 지난 원본 이름/결과를 정기 삭제하고 서버 측 생성 속도 제한을 둡니다. 현재 UI의 7일은 **링크 유효기간**이며 자동 삭제 보증이 아닙니다.
+- 출생일·시간·사주는 현재 기능에 포함되지 않습니다. 기존 사주 계산기의 해외 출생지 시간대·서머타임·양/음력 처리 검증 후 별도 단계로 출시하세요.
+- 라이브 결제 전 관리자 주문/환불 상태, 문의 대응, 메일 복구, 사기/중복결제 점검을 구현합니다.
+- 브라우저가 지원하면 generate_korean_names WebMCP 도구를 등록합니다. 현재 작업 환경에는 WebMCP 검증 컨텍스트가 없어 브라우저 도구 호출 검증은 못 했습니다. 지원 브라우저에서 정상 입력·오류 입력을 확인하세요.
+
+## 로컬 실행
+
+npm install, npm run dev, npm run build. D1 마이그레이션은 drizzle/에 있습니다. 이 독립 Sites 프로젝트의 로컬 DB에 적용하려면 아래 명령을 실행합니다. 기존 앱에 이식할 때는 기존 마이그레이션 체계에 맞춰 적용하세요.
+
+    npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0000_dapper_redwing.sql --yes
+
+## 근거 자료
+
+- [대법원 인명용 한자 조회](https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010)
+- [국어의 로마자 표기법](https://korean.go.kr/kornorms/regltn/regltnView.do?regltn_code=0004)
+- [토스페이먼츠 V2 결제 연동](https://docs.tosspayments.com/guides/v2/payment-widget/integration)

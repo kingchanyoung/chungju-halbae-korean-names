@@ -1,0 +1,719 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_type": "curated_starter_given_names",
+  "locale": "ko-KR",
+  "target_audience": "English-speaking adults exploring a Korean given name",
+  "romanization_standard": "Korean Revised Romanization for personal given names",
+  "meaning_note": "vibe_en is editorial impression, not a literal meaning. No Hanja meaning is claimed.",
+  "style_note": "Style is a subjective presentation tag; names are not restricted to any gender.",
+  "source_note": "Candidate forms were selected from published 2024 observed-name lists. The lists are third-party summaries, so this dataset makes no frequency or rank claim. Romanization follows the official tables. Hanja requires a separate per-character and reading check against the Supreme Court list.",
+  "sources": {
+    "observed_boys": "https://name-stats.com/ranking/2024/boy",
+    "observed_girls": "https://name-stats.com/ranking/2024/girl",
+    "romanization_rules": "https://korean.go.kr/kornorms/regltn/regltnView.do?regltn_code=0004",
+    "romanization_readable_mirror": "https://news.seoul.go.kr/culture/archives/527247",
+    "official_hanja_lookup": "https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010",
+    "official_name_statistics": "https://stfamily.scourt.go.kr/st/StFrrStatcsInq.do"
+  },
+  "count": 77,
+  "style_counts": {
+    "neutral": 20,
+    "masculine": 27,
+    "feminine": 30
+  },
+  "names": [
+    {
+      "hangul": "지우",
+      "romanization": "Jiu",
+      "romanization_hyphenated": "Ji-u",
+      "style": "neutral",
+      "vibe_en": "gentle, modern",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "연우",
+      "romanization": "Yeonu",
+      "romanization_hyphenated": "Yeon-u",
+      "style": "neutral",
+      "vibe_en": "soft, thoughtful",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서우",
+      "romanization": "Seou",
+      "romanization_hyphenated": "Seo-u",
+      "style": "neutral",
+      "vibe_en": "calm, contemporary",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "이현",
+      "romanization": "Ihyeon",
+      "romanization_hyphenated": "I-hyeon",
+      "style": "neutral",
+      "vibe_en": "composed, clear",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "지안",
+      "romanization": "Jian",
+      "romanization_hyphenated": "Ji-an",
+      "style": "neutral",
+      "vibe_en": "warm, balanced",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "재이",
+      "romanization": "Jaei",
+      "romanization_hyphenated": "Jae-i",
+      "style": "neutral",
+      "vibe_en": "bright, lively",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "다온",
+      "romanization": "Daon",
+      "romanization_hyphenated": "Da-on",
+      "style": "neutral",
+      "vibe_en": "cheerful, open",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "태이",
+      "romanization": "Taei",
+      "romanization_hyphenated": "Tae-i",
+      "style": "neutral",
+      "vibe_en": "clean, stylish",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "하늘",
+      "romanization": "Haneul",
+      "romanization_hyphenated": "Ha-neul",
+      "style": "neutral",
+      "vibe_en": "airy, free spirited",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "하루",
+      "romanization": "Haru",
+      "romanization_hyphenated": "Ha-ru",
+      "style": "neutral",
+      "vibe_en": "simple, playful",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "지민",
+      "romanization": "Jimin",
+      "romanization_hyphenated": "Ji-min",
+      "style": "neutral",
+      "vibe_en": "friendly, familiar",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "지율",
+      "romanization": "Jiyul",
+      "romanization_hyphenated": "Ji-yul",
+      "style": "neutral",
+      "vibe_en": "light, refined",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "시현",
+      "romanization": "Sihyeon",
+      "romanization_hyphenated": "Si-hyeon",
+      "style": "neutral",
+      "vibe_en": "quiet, polished",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서진",
+      "romanization": "Seojin",
+      "romanization_hyphenated": "Seo-jin",
+      "style": "neutral",
+      "vibe_en": "steady, elegant",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "유진",
+      "romanization": "Yujin",
+      "romanization_hyphenated": "Yu-jin",
+      "style": "neutral",
+      "vibe_en": "classic, approachable",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "수현",
+      "romanization": "Suhyeon",
+      "romanization_hyphenated": "Su-hyeon",
+      "style": "neutral",
+      "vibe_en": "calm, capable",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "한결",
+      "romanization": "Hangyeol",
+      "romanization_hyphenated": "Han-gyeol",
+      "style": "neutral",
+      "vibe_en": "grounded, sincere",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "시원",
+      "romanization": "Siwon",
+      "romanization_hyphenated": "Si-won",
+      "style": "neutral",
+      "vibe_en": "fresh, relaxed",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "이안",
+      "romanization": "Ian",
+      "romanization_hyphenated": "I-an",
+      "style": "neutral",
+      "vibe_en": "gentle, international",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "하율",
+      "romanization": "Hayul",
+      "romanization_hyphenated": "Ha-yul",
+      "style": "neutral",
+      "vibe_en": "light, graceful",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "도윤",
+      "romanization": "Doyun",
+      "romanization_hyphenated": "Do-yun",
+      "style": "masculine",
+      "vibe_en": "steady, warm",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "이준",
+      "romanization": "Ijun",
+      "romanization_hyphenated": "I-jun",
+      "style": "masculine",
+      "vibe_en": "clean, confident",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "하준",
+      "romanization": "Hajun",
+      "romanization_hyphenated": "Ha-jun",
+      "style": "masculine",
+      "vibe_en": "bright, dependable",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "시우",
+      "romanization": "Siu",
+      "romanization_hyphenated": "Si-u",
+      "style": "masculine",
+      "vibe_en": "gentle, energetic",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서준",
+      "romanization": "Seojun",
+      "romanization_hyphenated": "Seo-jun",
+      "style": "masculine",
+      "vibe_en": "polished, familiar",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "선우",
+      "romanization": "Seonu",
+      "romanization_hyphenated": "Seon-u",
+      "style": "masculine",
+      "vibe_en": "open, friendly",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "유준",
+      "romanization": "Yujun",
+      "romanization_hyphenated": "Yu-jun",
+      "style": "masculine",
+      "vibe_en": "calm, assured",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "태오",
+      "romanization": "Taeo",
+      "romanization_hyphenated": "Tae-o",
+      "style": "masculine",
+      "vibe_en": "modern, bold",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "수호",
+      "romanization": "Suho",
+      "romanization_hyphenated": "Su-ho",
+      "style": "masculine",
+      "vibe_en": "strong, reassuring",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "도현",
+      "romanization": "Dohyeon",
+      "romanization_hyphenated": "Do-hyeon",
+      "style": "masculine",
+      "vibe_en": "thoughtful, composed",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "지호",
+      "romanization": "Jiho",
+      "romanization_hyphenated": "Ji-ho",
+      "style": "masculine",
+      "vibe_en": "friendly, upbeat",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "도하",
+      "romanization": "Doha",
+      "romanization_hyphenated": "Do-ha",
+      "style": "masculine",
+      "vibe_en": "soft, contemporary",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "우주",
+      "romanization": "Uju",
+      "romanization_hyphenated": "U-ju",
+      "style": "masculine",
+      "vibe_en": "expansive, playful",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "예준",
+      "romanization": "Yejun",
+      "romanization_hyphenated": "Ye-jun",
+      "style": "masculine",
+      "vibe_en": "bright, polished",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "주원",
+      "romanization": "Juwon",
+      "romanization_hyphenated": "Ju-won",
+      "style": "masculine",
+      "vibe_en": "warm, steady",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "지한",
+      "romanization": "Jihan",
+      "romanization_hyphenated": "Ji-han",
+      "style": "masculine",
+      "vibe_en": "focused, refined",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "우진",
+      "romanization": "Ujin",
+      "romanization_hyphenated": "U-jin",
+      "style": "masculine",
+      "vibe_en": "grounded, familiar",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "은호",
+      "romanization": "Eunho",
+      "romanization_hyphenated": "Eun-ho",
+      "style": "masculine",
+      "vibe_en": "gentle, sturdy",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "민준",
+      "romanization": "Minjun",
+      "romanization_hyphenated": "Min-jun",
+      "style": "masculine",
+      "vibe_en": "classic, composed",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "준우",
+      "romanization": "Junu",
+      "romanization_hyphenated": "Jun-u",
+      "style": "masculine",
+      "vibe_en": "direct, friendly",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "도준",
+      "romanization": "Dojun",
+      "romanization_hyphenated": "Do-jun",
+      "style": "masculine",
+      "vibe_en": "confident, modern",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "건우",
+      "romanization": "Geonu",
+      "romanization_hyphenated": "Geon-u",
+      "style": "masculine",
+      "vibe_en": "solid, easygoing",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "현우",
+      "romanization": "Hyeonu",
+      "romanization_hyphenated": "Hyeon-u",
+      "style": "masculine",
+      "vibe_en": "classic, warm",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "정우",
+      "romanization": "Jeongu",
+      "romanization_hyphenated": "Jeong-u",
+      "style": "masculine",
+      "vibe_en": "steady, kind",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "윤호",
+      "romanization": "Yunho",
+      "romanization_hyphenated": "Yun-ho",
+      "style": "masculine",
+      "vibe_en": "calm, confident",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "태윤",
+      "romanization": "Taeyun",
+      "romanization_hyphenated": "Tae-yun",
+      "style": "masculine",
+      "vibe_en": "strong, polished",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "도겸",
+      "romanization": "Dogyeom",
+      "romanization_hyphenated": "Do-gyeom",
+      "style": "masculine",
+      "vibe_en": "distinctive, dignified",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "이서",
+      "romanization": "Iseo",
+      "romanization_hyphenated": "I-seo",
+      "style": "feminine",
+      "vibe_en": "soft, contemporary",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서아",
+      "romanization": "Seoa",
+      "romanization_hyphenated": "Seo-a",
+      "style": "feminine",
+      "vibe_en": "gentle, graceful",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "하린",
+      "romanization": "Harin",
+      "romanization_hyphenated": "Ha-rin",
+      "style": "feminine",
+      "vibe_en": "bright, elegant",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "지유",
+      "romanization": "Jiyu",
+      "romanization_hyphenated": "Ji-yu",
+      "style": "feminine",
+      "vibe_en": "light, relaxed",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "하윤",
+      "romanization": "Hayun",
+      "romanization_hyphenated": "Ha-yun",
+      "style": "feminine",
+      "vibe_en": "warm, polished",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "아윤",
+      "romanization": "Ayun",
+      "romanization_hyphenated": "A-yun",
+      "style": "feminine",
+      "vibe_en": "delicate, modern",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "지아",
+      "romanization": "Jia",
+      "romanization_hyphenated": "Ji-a",
+      "style": "feminine",
+      "vibe_en": "short, lively",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "아린",
+      "romanization": "Arin",
+      "romanization_hyphenated": "A-rin",
+      "style": "feminine",
+      "vibe_en": "soft, refined",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서윤",
+      "romanization": "Seoyun",
+      "romanization_hyphenated": "Seo-yun",
+      "style": "feminine",
+      "vibe_en": "calm, elegant",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "시아",
+      "romanization": "Sia",
+      "romanization_hyphenated": "Si-a",
+      "style": "feminine",
+      "vibe_en": "bright, simple",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "유주",
+      "romanization": "Yuju",
+      "romanization_hyphenated": "Yu-ju",
+      "style": "feminine",
+      "vibe_en": "cheerful, graceful",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "유나",
+      "romanization": "Yuna",
+      "romanization_hyphenated": "Yu-na",
+      "style": "feminine",
+      "vibe_en": "clear, friendly",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "채아",
+      "romanization": "Chaea",
+      "romanization_hyphenated": "Chae-a",
+      "style": "feminine",
+      "vibe_en": "light, stylish",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "윤서",
+      "romanization": "Yunseo",
+      "romanization_hyphenated": "Yun-seo",
+      "style": "feminine",
+      "vibe_en": "gentle, composed",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "수아",
+      "romanization": "Sua",
+      "romanization_hyphenated": "Su-a",
+      "style": "feminine",
+      "vibe_en": "classic, sweet",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "윤슬",
+      "romanization": "Yunseul",
+      "romanization_hyphenated": "Yun-seul",
+      "style": "feminine",
+      "vibe_en": "poetic, luminous",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서하",
+      "romanization": "Seoha",
+      "romanization_hyphenated": "Seo-ha",
+      "style": "feminine",
+      "vibe_en": "calm, airy",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "리아",
+      "romanization": "Ria",
+      "romanization_hyphenated": "Ri-a",
+      "style": "feminine",
+      "vibe_en": "modern, international",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "나은",
+      "romanization": "Naeun",
+      "romanization_hyphenated": "Na-eun",
+      "style": "feminine",
+      "vibe_en": "quiet, kind",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "예나",
+      "romanization": "Yena",
+      "romanization_hyphenated": "Ye-na",
+      "style": "feminine",
+      "vibe_en": "bright, familiar",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "도아",
+      "romanization": "Doa",
+      "romanization_hyphenated": "Do-a",
+      "style": "feminine",
+      "vibe_en": "simple, fresh",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "소이",
+      "romanization": "Soi",
+      "romanization_hyphenated": "So-i",
+      "style": "feminine",
+      "vibe_en": "delicate, contemporary",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "하은",
+      "romanization": "Haeun",
+      "romanization_hyphenated": "Ha-eun",
+      "style": "feminine",
+      "vibe_en": "gentle, familiar",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "이솔",
+      "romanization": "Isol",
+      "romanization_hyphenated": "I-sol",
+      "style": "feminine",
+      "vibe_en": "fresh, understated",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서연",
+      "romanization": "Seoyeon",
+      "romanization_hyphenated": "Seo-yeon",
+      "style": "feminine",
+      "vibe_en": "classic, elegant",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "예서",
+      "romanization": "Yeseo",
+      "romanization_hyphenated": "Ye-seo",
+      "style": "feminine",
+      "vibe_en": "polished, soft",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "채원",
+      "romanization": "Chaewon",
+      "romanization_hyphenated": "Chae-won",
+      "style": "feminine",
+      "vibe_en": "warm, composed",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "예린",
+      "romanization": "Yerin",
+      "romanization_hyphenated": "Ye-rin",
+      "style": "feminine",
+      "vibe_en": "bright, graceful",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "서현",
+      "romanization": "Seohyeon",
+      "romanization_hyphenated": "Seo-hyeon",
+      "style": "feminine",
+      "vibe_en": "classic, refined",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    },
+    {
+      "hangul": "소율",
+      "romanization": "Soyul",
+      "romanization_hyphenated": "So-yul",
+      "style": "feminine",
+      "vibe_en": "light, lyrical",
+      "hanja": null,
+      "hanja_status": "not_assigned_or_verified"
+    }
+  ]
+}

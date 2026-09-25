@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "retrievedAtUtc": "2026-09-25T08:33:38.035805+00:00",
+  "authority": "Supreme Court of Korea, electronic family registration system",
+  "officialLookupPage": "https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010",
+  "verificationScope": "Each Hanja character was returned as usable for personal names with the listed designated reading. The pair as a whole, legal registration eligibility, and English glosses were not verified by the court. English glosses translate the official Korean hun.",
+  "characters": [
+    {
+      "character": "俊",
+      "unicode": "U+4FCA",
+      "designatedReadings": [
+        "준"
+      ],
+      "officialKoreanHun": "준 : 뛰어날(준)",
+      "englishGloss": "outstanding",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=04fca",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "준"
+      }
+    },
+    {
+      "character": "安",
+      "unicode": "U+5B89",
+      "designatedReadings": [
+        "안"
+      ],
+      "officialKoreanHun": "안 : 편안할(안)",
+      "englishGloss": "peaceful; at ease",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05b89",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "안"
+      }
+    },
+    {
+      "character": "彬",
+      "unicode": "U+5F6C",
+      "designatedReadings": [
+        "빈"
+      ],
+      "officialKoreanHun": "빈 : 빛날(빈)",
+      "englishGloss": "shining",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=05f6c",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "빈"
+      }
+    },
+    {
+      "character": "恩",
+      "unicode": "U+6069",
+      "designatedReadings": [
+        "은"
+      ],
+      "officialKoreanHun": "은 : 은혜(은) 사랑할(은)",
+      "englishGloss": "grace; kindness",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06069",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "은"
+      }
+    },
+    {
+      "character": "敏",
+      "unicode": "U+654F",
+      "designatedReadings": [
+        "민"
+      ],
+      "officialKoreanHun": "민 : 민첩할(민)",
+      "englishGloss": "quick; agile",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=0654f",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "민"
+      }
+    },
+    {
+      "character": "旻",
+      "unicode": "U+65FB",
+      "designatedReadings": [
+        "민"
+      ],
+      "officialKoreanHun": "민 : 하늘(민)",
+      "englishGloss": "sky",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=065fb",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "민"
+      }
+    },
+    {
+      "character": "智",
+      "unicode": "U+667A",
+      "designatedReadings": [
+        "지"
+      ],
+      "officialKoreanHun": "지 : 슬기(지) 슬기로울(지)",
+      "englishGloss": "wisdom; wise",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=0667a",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "지"
+      }
+    },
+    {
+      "character": "柔",
+      "unicode": "U+67D4",
+      "designatedReadings": [
+        "유"
+      ],
+      "officialKoreanHun": "유 : 부드러울(유)",
+      "englishGloss": "gentle; soft",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=067d4",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "유"
+      }
+    },
+    {
+      "character": "河",
+      "unicode": "U+6CB3",
+      "designatedReadings": [
+        "하"
+      ],
+      "officialKoreanHun": "하 : 물(하) 은하수(하)",
+      "englishGloss": "river; Milky Way",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06cb3",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "하"
+      }
+    },
+    {
+      "character": "潤",
+      "unicode": "U+6F64",
+      "designatedReadings": [
+        "윤"
+      ],
+      "officialKoreanHun": "윤 : 젖을(윤) 윤택할(윤)",
+      "englishGloss": "enriched; flourishing",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=06f64",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "윤"
+      }
+    },
+    {
+      "character": "珍",
+      "unicode": "U+73CD",
+      "designatedReadings": [
+        "진"
+      ],
+      "officialKoreanHun": "진 : 보배(진)",
+      "englishGloss": "treasure; precious",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=073cd",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "진"
+      }
+    },
+    {
+      "character": "瑞",
+      "unicode": "U+745E",
+      "designatedReadings": [
+        "서"
+      ],
+      "officialKoreanHun": "서 : 상서(서) 홀(서)",
+      "englishGloss": "auspicious sign",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=0745e",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "서"
+      }
+    },
+    {
+      "character": "秀",
+      "unicode": "U+79C0",
+      "designatedReadings": [
+        "수"
+      ],
+      "officialKoreanHun": "수 : 팰(수) 빼어날(수)",
+      "englishGloss": "excellent; outstanding",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=079c0",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "수"
+      }
+    },
+    {
+      "character": "藝",
+      "unicode": "U+85DD",
+      "designatedReadings": [
+        "예"
+      ],
+      "officialKoreanHun": "예 : 재주(예) 심을(예)",
+      "englishGloss": "skill; art",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=085dd",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "예"
+      }
+    },
+    {
+      "character": "道",
+      "unicode": "U+9053",
+      "designatedReadings": [
+        "도"
+      ],
+      "officialKoreanHun": "도 : 길(도) 말할(도)",
+      "englishGloss": "path; way",
+      "englishGlossStatus": "editorial translation of official Korean hun",
+      "sourceUrl": "https://efamily.scourt.go.kr/webhanja/whjsearch?mode=unicodeInfo&code=09053",
+      "officialFields": {
+        "isinmyung": 1,
+        "use": true,
+        "inmyungeumga": "도"
+      }
+    }
+  ],
+  "names": [
+    {
+      "hangul": "지안",
+      "hanja": "智安",
+      "characterReferences": [
+        "U+667A",
+        "U+5B89"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "서윤",
+      "hanja": "瑞潤",
+      "characterReferences": [
+        "U+745E",
+        "U+6F64"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "민서",
+      "hanja": "旻瑞",
+      "characterReferences": [
+        "U+65FB",
+        "U+745E"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "하준",
+      "hanja": "河俊",
+      "characterReferences": [
+        "U+6CB3",
+        "U+4FCA"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "수빈",
+      "hanja": "秀彬",
+      "characterReferences": [
+        "U+79C0",
+        "U+5F6C"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "지유",
+      "hanja": "智柔",
+      "characterReferences": [
+        "U+667A",
+        "U+67D4"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "서진",
+      "hanja": "瑞珍",
+      "characterReferences": [
+        "U+745E",
+        "U+73CD"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "도윤",
+      "hanja": "道潤",
+      "characterReferences": [
+        "U+9053",
+        "U+6F64"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "지민",
+      "hanja": "智敏",
+      "characterReferences": [
+        "U+667A",
+        "U+654F"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "예준",
+      "hanja": "藝俊",
+      "characterReferences": [
+        "U+85DD",
+        "U+4FCA"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    },
+    {
+      "hangul": "은서",
+      "hanja": "恩瑞",
+      "characterReferences": [
+        "U+6069",
+        "U+745E"
+      ],
+      "characterAndReadingCheck": "passed",
+      "wholeNameCourtValidation": "not checked"
+    }
+  ]
+}

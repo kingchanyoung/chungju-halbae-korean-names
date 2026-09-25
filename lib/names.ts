@@ -151,7 +151,7 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
   const sound = normalized(input.pronunciationHint || input.name);
   const words = descriptors[input.style];
   const eligible = input.nameFeel === 'any' ? catalog : catalog.filter(item => item.style === input.nameFeel);
-  const variationKey = [sound, saju.day.hanja, input.style, input.nameFeel].join('|');
+  const variationKey = [sound, input.style, input.nameFeel].join('|');
   const ranked = eligible.map(item => {
     const roman = normalized(item.romanization);
     const vibe = item.vibe_en.toLowerCase();
@@ -169,7 +169,7 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
       return image?.element === saju.dayElement ? { character, ...image } : null;
     }).find(Boolean) || null;
     // Synthetic frequency is a conservative naturalness signal, not a claim
-    // about actual registrations. The date only resolves close ranks.
+    // about actual registrations. Variety must not masquerade as saju fit.
     const familiarity = Math.min(5, Math.log2(1 + item.youngUses / 10) * 1.2);
     const courtSignal = Math.min(2, Math.log2(1 + item.courtBirths) * .4);
     const variation = stableVariation(variationKey + '|' + item.hangul) * 6;

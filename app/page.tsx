@@ -99,7 +99,7 @@ export default function Home() {
     void Promise.resolve(context.registerTool({
       name: 'generate_korean_names',
       title: 'Find five Korean names',
-      description: 'Generate five free Korean given names informed by a Gregorian birth date, name and preferred style.',
+      description: 'Generate five free Korean given names from name and style preferences, with a separate Gregorian birth-date chart.',
       inputSchema: {
         type: 'object', properties: {
           name: { type: 'string', minLength: 1 },
@@ -152,7 +152,7 @@ export default function Home() {
       </div>
       <div className="form-frame" id="find-your-name">
         <div className="form-top"><span>01 · YOUR STORY</span><span>FREE</span></div>
-        <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>Your birthday gives this reading its starting point.</p></div></div>
+        <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>Your birthday lets me show the pillars I can calculate.</p></div></div>
         <form onSubmit={event => { event.preventDefault(); if (!nameFeel) { setError('Choose how you would like your Korean name to come across.'); return; } void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel }).catch(() => {}); }}>
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
@@ -185,7 +185,7 @@ export default function Home() {
         <p className="privacy-line">All five names are free. Your result link expires in seven days. It stores the calculated chart summary, but not your raw birth date or time.</p>
       </div>
     </section>
-    <p className="preview-truth"><strong>How this reading works</strong> Halbae chooses from more than 2,000 Korean given-name forms, then compares your name sound, chosen impression and birth-date chart. A checked Hanja image can gently affect the order. This is an early naming method, not a claim that an element is missing or that a name guarantees good fortune.</p>
+    <p className="preview-truth"><strong>How this reading works</strong> Halbae compares your name sound and chosen impression across more than 2,000 Korean given-name forms. Your birth-date chart is shown separately. Only a few checked Hanja pairings have a symbolic day-element link that can slightly affect the order. This is not a full saju naming judgment.</p>
     <section className="preview-section" id="how-it-works">
       <div className="section-heading"><div><p className="eyebrow">{result ? '02 · YOUR FREE NAMES' : '02 · A FIRST LOOK'}</p><h2>{result ? 'Names for ' + result.originalName : 'A glimpse of your names'}</h2><p>{result ? `${nameFeelSummary[result.nameFeel || 'any']}. Choose the one that feels most like you. Your result link stays valid for seven days.` : 'These are examples. Tell Halbae your name to see your own five.'}</p></div><span className="step-badge">FIVE FREE</span></div>
       {result?.saju && <div className="saju-reading">
@@ -199,7 +199,7 @@ export default function Home() {
           {result.saju.hour && <span>HOUR <strong lang="ko">{result.saju.hour.hanja}</strong></span>}
         </div>
         {result.saju.boundaryUncertain && <p className="boundary-note">A seasonal boundary may occur on this date. Add your local birth time and birthplace time zone to resolve the year or month pillar.</p>}
-        <p className="method-note">We use the local midnight day convention. The chart is a traditional reference. It helps order similarly fitting names, while a checked Hanja image may add a small editorial signal. This is not a diagnosis of a missing element.</p>
+        <p className="method-note">We use the local midnight day convention. The chart is a traditional reference. Its year, month and hour pillars do not currently rank the names. A checked Hanja image in a few names may receive a small editorial day-element boost; this is not a diagnosis of a missing element.</p>
       </div>}
       <div className="name-grid">{result
         ? result.candidates.map((candidate, i) => <article className={'name-card' + (selected === candidate.hangul ? ' selected-card' : '')} key={candidate.hangul}>
@@ -233,7 +233,7 @@ export default function Home() {
       <h2>What goes into a name?</h2>
       <div className="method-row"><span>一</span><p><strong>Your name and its spelling.</strong> Your Roman-letter name or pronunciation hint helps order options by matching opening letters and letter pairs. This is a rough spelling match, not a phonetic analysis.</p></div>
       <div className="method-row"><span>二</span><p><strong>A much wider Korean name pool.</strong> We screen more than 2,000 two-syllable names from a licensed synthetic Korean name dataset and published 2025 court birth-name tables. Your chosen masculine, feminine or neutral impression filters the pool; these are guides, not rules about who may use a name.</p></div>
-      <div className="method-row"><span>三</span><p><strong>Your birth-date pillars.</strong> The traditional calendar gives the day pillar; solar-term instants determine the year and month when unambiguous. Local birth time and birthplace time zone let us calculate the hour pillar too.</p></div>
+      <div className="method-row"><span>三</span><p><strong>Your birth-date pillars.</strong> The traditional calendar gives the day pillar; solar-term instants determine the year and month when unambiguous. Local birth time and birthplace time zone let us calculate the hour pillar too. We show this chart for context; it is not yet a full naming score.</p></div>
       <div className="method-row"><span>四</span><p><strong>Checked Hanja and visible imagery.</strong> Only 51 names have a checked character pairing so far. Where available, a forest, radiance, fortress, silver or river image matching the day-stem element gets a small ranking boost. The five results have different opening syllables and limit repeated endings.</p></div>
       <div className="saju-future"><strong>THE LIMIT OF THIS FIRST METHOD</strong><p>The large name pool is screened from synthetic personas and a limited set of actual court birth registrations; it is not a dictionary certified by the court. Hanja meanings require separate character review. A Korean naming expert still needs to review the style tags and birth-chart interpretation before this can be called full saju naming.</p><p><a href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea" target="_blank" rel="noopener noreferrer">NVIDIA Nemotron-Personas-Korea</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a> · <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank" rel="noopener noreferrer">Court birth-name table</a>. We extracted name forms, screened them by age and frequency, and added ranking rules.</p></div>
     </section>

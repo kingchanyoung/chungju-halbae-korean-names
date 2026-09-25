@@ -13,21 +13,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Find Your Korean Name | Chungju Halbae Names',
-  description: 'Discover five Korean names inspired by you. Free to explore, with no sign-up or card required.',
-  icons: { icon: '/favicon.svg' },
+  title: 'Find Your Korean Name | Chungju Halbae',
+  description: 'Chungju Halbae offers five Korean names inspired by your name, sound and style. Free to explore.',
+  icons: { icon: '/favicon.png' },
   metadataBase: new URL('https://chungju-halbae-korean-names.ysp106.chatgpt.site'),
   openGraph: {
     type: 'website',
     url: 'https://chungju-halbae-korean-names.ysp106.chatgpt.site',
-    title: 'Find a Korean name that feels like you.',
-    description: 'Five Korean given names. Free to explore.',
+    title: 'Chungju Halbae · Korean Names',
+    description: 'Five Korean names, free to explore.',
     images: [{ url: '/og.png', width: 1730, height: 909, alt: 'Chungju Halbae Names' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Find a Korean name that feels like you.',
-    description: 'Five Korean given names. Free to explore.',
+    title: 'Chungju Halbae · Korean Names',
+    description: 'Five Korean names, free to explore.',
     images: ['/og.png'],
   },
 };

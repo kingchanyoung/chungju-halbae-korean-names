@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowRight, Check, Copy, Heart, RotateCcw, Sparkles, Volume2 } from 'lucide-react';
+import { ArrowRight, Check, Copy, Heart, RotateCcw, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { NameResult, NameStyle } from '@/lib/names';
@@ -114,22 +114,23 @@ export default function Home() {
     catch { setNotice('Copy is unavailable in this browser.'); }
   }
 
-  return <main>
+  return <main className="names-site">
     <header className="site-header">
-      <a className="brand" href="/" aria-label="Chungju Halbae Names home"><span className="brand-seal">ㅊ</span><span><strong>CHUNGJU HALBAE</strong><small>KOREAN NAMES</small></span></a>
-      <nav className="header-nav" aria-label="Main navigation"><a href="#how-it-works">How it works</a><a href="#about">Our approach</a><span className="nav-free">● &nbsp; Free to explore</span></nav>
+      <a className="brand" href="/" aria-label="Chungju Halbae Names home"><span><strong lang="ko">충주 할배</strong><small>· GWIMUN SAJU ·</small></span></a>
+      <nav className="header-nav" aria-label="Main navigation"><a href="https://gwimunsaju.com/" target="_blank" rel="noopener noreferrer">Main site ↗</a></nav>
     </header>
     <section className="intro-layout">
       <div className="intro-copy">
-        <p className="eyebrow"><Sparkles size={14}/> A LITTLE PIECE OF KOREA, MADE PERSONAL</p>
-        <h1>Find a Korean name<br/>that <em>feels like you.</em></h1>
-        <p className="subtitle">Discover five Korean given names inspired by your own name and the feeling you want to carry. Every name is yours to explore for free.</p>
-        <div className="promises"><span><Check size={16}/> Five free names</span><span><Check size={16}/> No sign-up</span><span><Check size={16}/> No card needed</span></div>
-        <div className="intro-note">“A name can be a new way to introduce yourself, while still feeling entirely your own.”</div>
+        <p className="eyebrow">· KOREAN NAME READING ·</p>
+        <div className="portrait-wrap"><img src="/halbae.jpg" alt="Portrait of Chungju Halbae in traditional clothing"/></div>
+        <h1>Come closer.<br/><em>Let&apos;s find your Korean name.</em></h1>
+        <p className="subtitle">“Tell this old man what they call you. I&apos;ll find a Korean name with a sound and feeling you can carry.”</p>
+        <div className="promises"><span><Check size={15}/> Five names free</span><span><Check size={15}/> No sign-up</span><span><Check size={15}/> No card</span></div>
+        <a className="hero-cta" href="#find-your-name">Tell Halbae your name <ArrowRight size={17}/></a>
       </div>
       <div className="form-frame" id="find-your-name">
-        <div className="form-top"><span>YOUR NAME JOURNEY</span><span>01 / 02</span></div>
-        <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>Let’s start with you</h2><p>A few details help us find names that fit.</p></div></div>
+        <div className="form-top"><span>01 · YOUR STORY</span><span>FREE</span></div>
+        <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>A few words will guide this first reading.</p></div></div>
         <form onSubmit={event => { event.preventDefault(); void generate({ name, pronunciationHint, meaningHint, style }).catch(() => {}); }}>
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
@@ -142,23 +143,24 @@ export default function Home() {
           <label>What feeling would you like your Korean name to have?</label>
           <div className="style-chips" role="group" aria-label="Name feeling">{styles.map(choice => <Button key={choice} type="button" variant="outline" className={style === choice ? 'active' : ''} aria-pressed={style === choice} onClick={() => setStyle(choice)}>{choice[0].toUpperCase()+choice.slice(1)}</Button>)}</div>
           {error && <p className="form-error" role="alert">{error}</p>}
-          <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Finding your names…' : 'Find my names'} <ArrowRight size={18}/></Button>
+          <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Halbae is looking…' : 'Show me five names'} <ArrowRight size={18}/></Button>
         </form>
-        <p className="privacy-line">No sign-up or payment needed for your five names.</p>
+        <p className="privacy-line">All five names are free. No payment needed.</p>
       </div>
     </section>
+    <p className="preview-truth"><strong>About this preview</strong> These names use your name&apos;s sound, your chosen feeling and checked Hanja. Birth-chart calculation is not active yet.</p>
     <section className="preview-section" id="how-it-works">
-      <div className="section-heading"><div><p className="eyebrow">{result ? 'YOUR FREE NAMES' : 'A FIRST LOOK'}</p><h2>{result ? 'Five names for ' + result.originalName : 'Five names, all yours to explore.'}</h2><p>{result ? 'Choose the one that feels most like you. Your result link stays valid for seven days.' : 'See the sound, the feel, and the story behind every suggestion.'}</p></div><span className="step-badge">01 — FREE</span></div>
+      <div className="section-heading"><div><p className="eyebrow">{result ? '02 · YOUR FREE NAMES' : '02 · A FIRST LOOK'}</p><h2>{result ? 'Names for ' + result.originalName : 'A glimpse of your names'}</h2><p>{result ? 'Choose the one that feels most like you. Your result link stays valid for seven days.' : 'These are examples. Tell Halbae your name to see your own five.'}</p></div><span className="step-badge">FIVE FREE</span></div>
       <div className="name-grid">{result
         ? result.candidates.map((candidate, i) => <article className={'name-card' + (selected === candidate.hangul ? ' selected-card' : '')} key={candidate.hangul}>
-            <div className="card-meta"><span>{String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">✦ OUR PICK</span>}</div>
+            <div className="card-meta"><span>NAME {String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">START HERE</span>}</div>
             <div className="hangul" lang="ko">{candidate.hangul}</div><div className="roman">{candidate.romanization} <small>{candidate.syllables}</small></div>
             <div className="card-actions"><Button type="button" variant="ghost" size="icon-sm" aria-label={'Hear ' + candidate.hangul} onClick={() => pronounce(candidate.hangul)}><Volume2 size={16}/></Button><Button type="button" variant="ghost" size="icon-sm" aria-label={'Copy ' + candidate.hangul} onClick={() => void copyName(candidate.hangul, candidate.romanization)}><Copy size={15}/></Button></div>
             <div className="card-line"/><strong>{candidate.impression}</strong><p>{candidate.reason}</p>
             {candidate.hanja && <div className="basic-meaning"><span>ONE POSSIBLE HANJA · BASIC MEANING</span><b lang="ko">{candidate.hanja.pair}</b><small>{candidate.hanja.characters.map(character => character.character + ' ' + character.gloss).join(' · ')}</small></div>}
             <Button type="button" variant={selected === candidate.hangul ? 'default' : 'outline'} className="choose-button" onClick={() => setSelected(candidate.hangul)}>{selected === candidate.hangul ? 'Your choice ✓' : 'Choose this name'}</Button>
           </article>)
-        : examples.map(([hangul, roman, mood], i) => <article className="name-card" key={hangul}><div className="card-meta"><span>{String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">✦ OUR PICK</span>}</div><div className="hangul" lang="ko">{hangul}</div><div className="roman">{roman}</div><div className="card-line"/><strong>{mood}</strong><p>A natural Korean sound with its own distinct character.</p></article>)}</div>
+        : examples.map(([hangul, roman, mood], i) => <article className="name-card" key={hangul}><div className="card-meta"><span>EXAMPLE {String(i+1).padStart(2,'0')}</span>{i===0 && <span className="pick">START HERE</span>}</div><div className="hangul" lang="ko">{hangul}</div><div className="roman">{roman}</div><div className="card-line"/><strong>{mood}</strong><p>A natural Korean sound with its own distinct character.</p></article>)}</div>
       <p className="disclaimer">{result ? 'Each Hanja line shows one possible pairing, not the only meaning of its Hangul name. Individual characters and readings were checked; the full name’s legal registration was not checked. English meanings are editorial translations. Audio uses your browser’s Korean voice.' : 'Example names shown. Generate your names to see one possible checked Hanja pairing and its basic meaning for each.'}</p>
       {result && <div className="surname-panel">
         <div><p className="eyebrow">OPTIONAL FULL-NAME PREVIEW</p><h3>What about a family name?</h3><p>Korean names usually put the family name first. Your own surname remains yours; a Korean-style surname here is only a nickname example.</p></div>
@@ -173,8 +175,15 @@ export default function Home() {
       {notice && <p className="notice" role="status">{notice}</p>}
       {result && <div className="result-footer"><span>Saved for seven days in this browser link.</span><Button type="button" variant="outline" onClick={() => { setResult(null); setSelected(''); history.replaceState(null, '', location.pathname); document.getElementById('find-your-name')?.scrollIntoView({ behavior: 'smooth' }); }}><RotateCcw size={15}/> Try another name</Button></div>}
     </section>
-    <section className="premium-section" id="about"><div><p className="eyebrow">WHEN YOU FIND THE ONE</p><h2>Go deeper with your chosen name.</h2><p>All five names and their basic Hanja meanings stay free. The planned one-time report adds a focused story for your choice, a side-by-side comparison, character sources, full-name considerations, and a printable keepsake. We are preparing the paid launch.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>PLANNED ONE-TIME REPORT</small><strong>₩9,900</strong><span>Charged in KRW · no subscription<br/>Not on sale yet</span></div></section>
-    <div className="story-visual"><img src="/og.png" alt="Chungju Halbae Names card with the words: Find a Korean name that feels like you. Five names. Free to explore."/></div>
-    <footer><span>© 2026 Chungju Halbae Names</span><span>Name suggestions are for personal and cultural exploration, not legal name-change documents.</span></footer>
+    <section className="method-section" id="about">
+      <p className="eyebrow">03 · HOW HALBAE CHOOSES</p>
+      <h2>What goes into a name?</h2>
+      <div className="method-row"><span>一</span><p><strong>Your name and its sound.</strong> The first sound and shared vowels guide the match.</p></div>
+      <div className="method-row"><span>二</span><p><strong>The feeling you want.</strong> Your style and meaning words help order the options.</p></div>
+      <div className="method-row"><span>三</span><p><strong>Checked Hanja.</strong> We show one possible pairing from a small 11-name catalog. We avoid repeating the same opening Hangul syllable.</p></div>
+      <div className="saju-future"><strong>FOUR PILLARS · IN DEVELOPMENT</strong><p>A true birth-chart reading will need your birth date, local time and birthplace, accurate seasonal-term calculations and reviewed naming rules. It is not part of these results yet.</p></div>
+    </section>
+    <section className="premium-section"><div><p className="eyebrow">WHEN YOU FIND THE ONE</p><h2>A deeper name story.</h2><p>All five names and their basic Hanja meanings stay free. The planned one-time report adds a focused story for your choice, a side-by-side comparison, character sources, full-name considerations, and a printable keepsake.</p><a className="sample-link" href="/sample-report">Explore a sample report <ArrowRight size={16}/></a></div><div className="price-box"><small>PLANNED ONE-TIME REPORT</small><strong>US$7.99</strong><span>Not on sale yet · no subscription</span></div></section>
+    <footer><a href="https://gwimunsaju.com/" target="_blank" rel="noopener noreferrer" lang="ko">충주 할배 · 귀문사주</a><span>Names are for cultural exploration. This preview does not provide a birth-chart reading or a legal name change.</span><small>© 2026 Chungju Halbae Names</small></footer>
   </main>;
 }

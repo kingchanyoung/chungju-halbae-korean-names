@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @custom-variant dark (&:is(.dark *));
 @theme inline { --color-background:var(--background); --color-foreground:var(--foreground); --color-primary:var(--primary); --color-primary-foreground:var(--primary-foreground); --color-border:var(--border); --color-input:var(--input); --color-ring:var(--ring); --color-muted:var(--muted); --color-muted-foreground:var(--muted-foreground); --color-accent:var(--accent); --color-accent-foreground:var(--accent-foreground); --color-card:var(--card); --color-card-foreground:var(--card-foreground); --color-popover:var(--popover); --color-popover-foreground:var(--popover-foreground); --color-secondary:var(--secondary); --color-secondary-foreground:var(--secondary-foreground); --color-destructive:var(--destructive); --radius-sm:calc(var(--radius)*.6); --radius-md:calc(var(--radius)*.8); --radius-lg:var(--radius); }
-:root { --background:#f7f5ef; --foreground:#173e35; --primary:#173e35; --primary-foreground:#fffdfa; --secondary:#eae9dd; --secondary-foreground:#173e35; --muted:#efeee6; --muted-foreground:#65756d; --accent:#e8efe7; --accent-foreground:#173e35; --card:#fffefa; --card-foreground:#173e35; --popover:#fffefa; --popover-foreground:#173e35; --border:#d8ddd4; --input:#d8ddd4; --ring:#668775; --destructive:#a83c31; --radius:.75rem; }
-.dark { --background:#132721; --foreground:#f7f5ef; --primary:#d5e7da; --primary-foreground:#193e35; --secondary:#264239; --secondary-foreground:#f7f5ef; --muted:#274138; --muted-foreground:#a5b8aa; --accent:#315046; --accent-foreground:#fffefa; --card:#1c352d; --card-foreground:#f7f5ef; --popover:#1c352d; --popover-foreground:#f7f5ef; --border:#3c584c; --input:#3c584c; --ring:#9bb7a3; --destructive:#f19084; }
+:root { --background:#000; --foreground:#f1efec; --primary:#c2a566; --primary-foreground:#080808; --secondary:#171719; --secondary-foreground:#e2c98a; --muted:#111113; --muted-foreground:#a8a39d; --accent:#24201a; --accent-foreground:#e2c98a; --card:#0b0b0d; --card-foreground:#f1efec; --popover:#0b0b0d; --popover-foreground:#f1efec; --border:#2b2926; --input:#37332b; --ring:#c2a566; --destructive:#ad443b; --radius:.75rem; }
+.dark { --background:#000; --foreground:#f1efec; --primary:#e2c98a; --primary-foreground:#080808; --secondary:#171719; --secondary-foreground:#e2c98a; --muted:#111113; --muted-foreground:#a8a39d; --accent:#24201a; --accent-foreground:#e2c98a; --card:#0b0b0d; --card-foreground:#f1efec; --popover:#0b0b0d; --popover-foreground:#f1efec; --border:#2b2926; --input:#37332b; --ring:#c2a566; --destructive:#ad443b; }
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--background);color:var(--foreground);font-family:Arial,Helvetica,sans-serif}a{text-decoration:none;color:inherit}h1,h2,p{margin-top:0}h1,h2{font-family:Georgia,'Times New Roman',serif;font-weight:500}
 .site-header{max-width:1440px;min-height:82px;padding:0 5.5%;margin:auto;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}.brand{display:flex;align-items:center;gap:11px}.brand-seal{display:grid;place-items:center;width:39px;height:39px;border:2px solid #bc654e;border-radius:9px;color:#bc654e;font:700 23px serif;transform:rotate(-5deg)}.brand span:last-child{display:flex;flex-direction:column;gap:2px}.brand strong{font-size:13px;letter-spacing:.14em}.brand small{font-size:9px;letter-spacing:.25em;color:#759086;font-weight:700}.header-nav{display:flex;align-items:center;gap:34px;font-size:13px;font-weight:600;color:#4a655a}.nav-free{border:1px solid #d3e2d5;border-radius:20px;color:#31714f;padding:9px 13px;font-size:12px}
 .intro-layout{max-width:1440px;margin:auto;padding:72px 5.5% 92px;display:grid;grid-template-columns:1.04fr .96fr;gap:8%;align-items:center}.eyebrow{display:flex;align-items:center;gap:8px;color:#a35b44;letter-spacing:.15em;font-size:11px;font-weight:800}.intro-copy h1{font-size:clamp(45px,4.9vw,74px);line-height:1.095;letter-spacing:-.045em;margin:23px 0}.intro-copy h1 em{color:#af654d;font-weight:400}.subtitle{max-width:560px;font-size:17px;line-height:1.75;color:#596e63}.promises{display:flex;flex-wrap:wrap;gap:17px;margin:27px 0 39px;color:#36664c;font-size:13px;font-weight:600}.promises span{display:flex;align-items:center;gap:5px}.intro-note{max-width:390px;border-top:1px solid #d9ddd4;padding-top:20px;color:#687c70;font:italic 16px/1.65 Georgia,serif}
@@ -18,3 +19,128 @@
 @media(max-width:750px){.report-paper{padding:36px 23px}.report-title-row{margin:40px 0;align-items:start}.report-title-row h1{font-size:48px}.report-name strong{font-size:55px}.report-section{grid-template-columns:32px 1fr;gap:8px}.comparison-item{grid-template-columns:24px 48px 65px 1fr;gap:5px}.comparison-item small{grid-column:2/-1}.comparison-item strong{font-size:21px}.comparison-item em{font-size:11px}.hanja-block{display:block}.hanja-block p{margin-top:15px}.character-grid{grid-template-columns:1fr}.report-end{flex-direction:column}}@media(max-width:470px){.report-title-row{display:block}.report-name{align-items:start;margin-top:18px}.report-name strong{font-size:45px}.report-head span{font-size:8px}.report-section h2{font-size:23px}}@media print{.report-page{background:white;padding:0}.report-top{display:none}.report-paper{box-shadow:none;max-width:none;padding:0}.report-section{break-inside:avoid}.report-page a{color:inherit}}
 .name-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.name-card{min-height:365px}.basic-meaning{display:flex;flex-direction:column;gap:5px;border-top:1px solid #e5ebe1;padding:12px 0 16px;margin-top:auto}.basic-meaning span{color:#819584;font-size:9px;font-weight:800;letter-spacing:.09em}.basic-meaning b{font-family:Georgia,serif;font-size:23px;font-weight:600}.basic-meaning small{color:#54735b;font-size:11px;line-height:1.5}.name-card .choose-button{margin-top:0}.surname-panel{display:grid;grid-template-columns:1fr 1fr;gap:20px 44px;margin-top:30px;padding:28px 30px;border:1px solid #d3e0d1;border-radius:13px;background:#fffefa}.surname-panel h3{font:500 26px Georgia,serif;margin:10px 0}.surname-panel p{color:#6b8071;font-size:12px;line-height:1.65}.surname-options{display:flex;flex-wrap:wrap;align-content:start;gap:8px}.surname-options button{height:34px;font-size:11px}.surname-detail{grid-column:1/-1;border-top:1px solid #e7ece5;padding-top:18px}.surname-detail label{display:block;font-size:12px;font-weight:700;margin-bottom:8px}.surname-detail .form-input{max-width:320px}.surname-detail p{margin:8px 0}.surname-picks{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px}.surname-picks button{gap:5px;font-size:12px}.surname-picks small{font-weight:400}.full-name-preview{display:block;font:600 32px Georgia,serif;margin:14px 0 3px}.full-name-roman{color:#aa6750;font-size:13px;font-weight:700}
 @media(max-width:1000px){.name-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.surname-panel{display:block;padding:22px}.surname-options{margin-top:18px}.surname-detail{margin-top:18px}.name-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.name-grid{grid-template-columns:1fr}.name-card{min-height:310px}}
+
+/* Chungju Halbae customer-site format */
+body{background:#000;color:#f1efec}
+.names-site{max-width:480px;min-height:100vh;margin:auto;background:#000;color:#f1efec;font-family:'Noto Sans KR',Arial,sans-serif;border-left:1px solid #151412;border-right:1px solid #151412}
+.names-site h1,.names-site h2,.names-site h3{font-family:'Gowun Batang',Georgia,serif}
+.names-site .site-header{height:74px;min-height:74px;max-width:none;padding:0 24px;border-bottom:1px solid #26231e}
+.names-site .brand strong{font:normal 34px/.92 'Nanum Brush Script','Gowun Batang',serif;letter-spacing:.02em;color:#e2c98a}
+.names-site .brand small{font-size:8px;letter-spacing:.31em;color:#a98d59;text-align:center;margin-top:4px}
+.names-site .header-nav{font-size:11px;color:#c2a566}
+.names-site .header-nav a{display:block}
+.names-site .intro-layout{display:block;max-width:none;padding:0 24px 30px}
+.names-site .intro-copy{text-align:center;background:radial-gradient(ellipse at 50% 28%,#261e13 0%,#090807 45%,#000 76%);padding:30px 0 43px}
+.names-site .eyebrow{display:block;color:#c2a566;font-size:10px;font-weight:700;letter-spacing:.24em}
+.portrait-wrap{width:232px;height:278px;margin:15px auto 0;overflow:hidden;mask-image:radial-gradient(ellipse at 50% 45%,#000 48%,transparent 76%)}
+.portrait-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 31%;filter:sepia(.35) grayscale(.32) brightness(.78)}
+.names-site .intro-copy h1{font:400 clamp(37px,9vw,49px)/1.22 'Gowun Batang',Georgia,serif;letter-spacing:-.045em;margin:0 auto 16px;color:#f3eee1}
+.names-site .intro-copy h1 em{font-style:normal;font-weight:400;color:#e2c98a}
+.names-site .subtitle{font:400 15px/1.82 'Gowun Batang',Georgia,serif;color:#c5beb0;max-width:350px;margin:auto}
+.names-site .promises{justify-content:center;gap:9px 16px;margin:23px 0 26px;color:#cfb574;font-size:11px}
+.names-site .promises span{gap:4px}
+.hero-cta{min-height:49px;display:flex;align-items:center;justify-content:center;gap:9px;max-width:350px;margin:auto;border:1px solid #e2c98a;border-radius:10px;background:linear-gradient(135deg,#b89a59,#e2c98a 53%,#b28e4f);color:#150f08;font-size:14px;font-weight:700;box-shadow:0 8px 28px #c2a56624}
+.hero-cta:hover{filter:brightness(1.08)}
+.names-site .form-frame{max-width:none;background:#0b0b0d;border:1px solid #332b20;border-radius:14px;box-shadow:none;padding:25px 22px 22px;scroll-margin-top:16px}
+.names-site .form-top{padding-bottom:16px;border-bottom:1px solid #2a261f;color:#c2a566}
+.names-site .form-top span:last-child{color:#9d8c69}
+.names-site .form-heading{margin:23px 0 25px;align-items:start}
+.names-site .form-icon{width:40px;height:40px;border-radius:50%;background:#261c1b;color:#ad443b;flex:0 0 40px}
+.names-site .form-heading h2{font-size:25px;color:#f1efec;line-height:1.2}
+.names-site .form-heading p{color:#a8a39d;font-size:12px;line-height:1.6}
+.names-site .form-frame label{color:#e0d9cc;font-size:12px}
+.names-site .form-frame label b{color:#c95e52}
+.names-site .form-frame label small{color:#8e8982}
+.names-site .form-input{height:46px;border:1px solid #3b352a;background:#171719;color:#f1efec;border-radius:7px;box-shadow:none}
+.names-site .form-input::placeholder{color:#77736e}
+.names-site .form-input:focus-visible{border-color:#c2a566;outline:2px solid #c2a56655}
+.names-site .field-help{color:#938d82}
+.names-site .style-chips{margin-bottom:28px}
+.names-site .style-chips button{background:#151516;border-color:#39342a;color:#c7c0b3}
+.names-site .style-chips button.active,.names-site .style-chips button:hover{background:#3b2f1e;border-color:#b99d62;color:#edce8a}
+.names-site .submit-button{height:50px;border:1px solid #e2c98a;border-radius:8px;background:linear-gradient(135deg,#b89a59,#e2c98a 53%,#b28e4f);color:#171007;font-weight:700}
+.names-site .privacy-line{color:#a39b8e}
+.names-site .form-error{color:#e47a70}
+.preview-truth{max-width:432px;margin:0 auto 33px;padding:12px 16px;border-left:2px solid #8d7550;color:#a8a39d;font-size:11px;line-height:1.65}
+.preview-truth strong{display:block;color:#d1b372;margin-bottom:4px}
+.names-site .preview-section{background:#070707;padding:40px 24px 55px;border-top:1px solid #29241c;border-bottom:1px solid #29241c;scroll-margin-top:0}
+.names-site .section-heading{align-items:start;margin-bottom:22px}
+.names-site .section-heading h2{font-size:30px;line-height:1.28;color:#f1efec;margin:10px 0}
+.names-site .section-heading p:last-child{font-size:12px;color:#a8a39d;line-height:1.65}
+.names-site .step-badge{display:none}
+.names-site .name-grid{display:grid;grid-template-columns:1fr;gap:13px}
+.names-site .name-card{min-height:0;padding:19px 20px;background:#0b0b0d;border:1px solid #30291f;border-radius:10px;box-shadow:none}
+.names-site .name-card:first-child,.names-site .name-card.selected-card{border-color:#9f824c;box-shadow:inset 0 0 0 1px #4a3820}
+.names-site .card-meta{color:#a28a5b;font-size:10px;letter-spacing:.12em}
+.names-site .pick{color:#e2c98a;font-size:9px;letter-spacing:.1em}
+.names-site .hangul{font:400 46px/1.2 'Gowun Batang',Georgia,serif;color:#f3ede0;margin:15px 0 5px}
+.names-site .roman{font-size:13px;color:#d4b572}
+.names-site .roman small{color:#8e8982}
+.names-site .card-actions{margin-top:6px}
+.names-site .card-actions button{color:#c3aa75}
+.names-site .card-actions button:hover{background:#2a241c}
+.names-site .card-line{border-color:#312a22;margin:12px 0}
+.names-site .name-card strong:not(.full-name-preview){color:#e4d3aa}
+.names-site .name-card p{color:#aaa399;font-size:12px;line-height:1.65}
+.names-site .basic-meaning{border-color:#312a22;padding:14px 0}
+.names-site .basic-meaning span{color:#ab9366}
+.names-site .basic-meaning b{color:#e4d0a2;font:400 26px 'Gowun Batang',serif}
+.names-site .basic-meaning small{color:#b8b1a5}
+.names-site .choose-button{height:auto;min-height:37px;background:#171513;border:1px solid #786646;color:#d9c08b}
+.names-site .selected-card .choose-button{background:#3a2d18;border-color:#c2a566;color:#f4d896}
+.names-site .disclaimer{font-size:10px;color:#a09a90;line-height:1.7}
+.names-site .surname-panel{display:block;margin-top:28px;padding:22px;background:#0d0d0e;border-color:#443823}
+.names-site .surname-panel h3{color:#eee5d3;font-size:25px}
+.names-site .surname-panel p,.names-site .surname-detail p{color:#aaa399}
+.names-site .surname-options{margin-top:18px}
+.names-site .surname-options button,.names-site .surname-picks button{height:auto;min-height:34px;white-space:normal;border-color:#776341;background:#191713;color:#d3bb83;font-size:10px}
+.names-site .surname-options button[data-variant="default"],.names-site .surname-picks button[data-variant="default"]{background:#c2a566;color:#17120a}
+.names-site .surname-detail{margin-top:17px;border-color:#322b22}
+.names-site .surname-detail label{color:#e4d4b2}
+.names-site .full-name-preview{color:#f1e6ce}
+.names-site .full-name-roman{color:#d1b372}
+.names-site .notice{color:#d6ba7c}
+.names-site .result-footer{margin-top:23px;color:#a8a39d;font-size:11px}
+.names-site .result-footer button{background:#171513;border-color:#786646;color:#d4b875}
+.method-section{padding:48px 24px 51px;border-bottom:1px solid #29241c}
+.method-section h2{font:400 31px/1.3 'Gowun Batang',Georgia,serif;color:#f1efec;margin:12px 0 27px}
+.method-row{display:grid;grid-template-columns:30px 1fr;gap:13px;padding:16px 0;border-top:1px solid #312a22}
+.method-row>span{font:23px 'Gowun Batang',serif;color:#c2a566}
+.method-row p{font-size:12px;line-height:1.65;color:#aaa399;margin:0}
+.method-row strong{display:block;color:#ead7ac;font-size:13px;font-weight:600;margin-bottom:3px}
+.saju-future{margin-top:24px;padding:18px;background:#17120d;border:1px solid #514028;border-radius:8px}
+.saju-future strong{display:block;color:#d8b979;font-size:10px;letter-spacing:.1em;margin-bottom:8px}
+.saju-future p{font-size:11px;line-height:1.7;color:#b2a796;margin:0}
+.names-site .premium-section{display:block;max-width:none;padding:50px 24px;border-bottom:1px solid #29241c}
+.names-site .premium-section h2{font-size:32px;line-height:1.25;color:#f1efec}
+.names-site .premium-section p{font-size:12px;color:#aaa399;line-height:1.8}
+.names-site .sample-link{color:#dfc282}
+.names-site .price-box{max-width:none;min-width:0;flex:none;margin:27px 0 0;padding:18px 20px;background:#16120c;border:1px solid #705834;border-radius:8px}
+.names-site .price-box small{color:#c0a36b}
+.names-site .price-box strong{font:400 32px 'Gowun Batang',Georgia,serif;color:#e2c98a}
+.names-site .price-box span{color:#aaa399}
+.names-site footer{display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;padding:31px 24px 42px;border:0;color:#938a7b}
+.names-site footer a{font:25px 'Nanum Brush Script','Gowun Batang',serif;color:#c2a566}
+.names-site footer span{font-size:10px;line-height:1.7}
+.names-site footer small{font-size:9px;color:#706b63}
+@media(max-width:520px){.names-site{border:0}.names-site .intro-layout{padding-left:20px;padding-right:20px}.names-site .preview-section{padding-left:20px;padding-right:20px}.preview-truth{margin-left:20px;margin-right:20px}.method-section,.names-site .premium-section{padding-left:20px;padding-right:20px}}
+
+/* Sample report carries the same brand, while remaining printable. */
+.report-page{background:#000;color:#f1efec;font-family:'Noto Sans KR',Arial,sans-serif}
+.report-top{max-width:780px}
+.report-back{color:#d6b879}
+.report-paper{max-width:780px;background:#0b0b0d;border:1px solid #3a3023;color:#eee8da;box-shadow:none}
+.report-paper h1,.report-paper h2,.report-paper .report-name strong{font-family:'Gowun Batang',Georgia,serif;color:#f1eadc}
+.report-head span{border-color:#786341;color:#d0b277}
+.report-overline,.report-name span,.report-number,.comparison-item b{color:#d6b879}
+.report-divider{background:#8a7045}
+.report-section{border-color:#342c21}
+.report-section p,.report-title-row p:last-child,.comparison-item small{color:#aca59a}
+.comparison-item{border-color:#342c21}
+.comparison-item em,.character-card b{color:#d8bd82}
+.hanja-block{background:#1a1610}
+.hanja-block span,.hanja-block small{color:#c5a66a}
+.character-card{border-color:#493a26}
+.character-card a{color:#d4b675}
+.report-caveat{color:#aaa399!important}
+@media print{.report-page{background:white;color:#1d1d1d}.report-paper{background:white;color:#1d1d1d;border:0}.report-paper h1,.report-paper h2,.report-paper .report-name strong{color:#1d1d1d}.report-section p,.report-title-row p:last-child,.comparison-item small{color:#555}.hanja-block{background:#f5f0e6}.character-card{border-color:#bbb}}

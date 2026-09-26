@@ -10,6 +10,8 @@
 | --- | --- |
 | GitHub | https://github.com/kingchanyoung/chungju-halbae-korean-names |
 | 인수인계서 | https://github.com/kingchanyoung/chungju-halbae-korean-names/blob/main/DEVELOPER_HANDOFF.md |
+| 전체 소스 ZIP | https://github.com/kingchanyoung/chungju-halbae-korean-names/archive/refs/heads/main.zip |
+| MD 원본 | https://raw.githubusercontent.com/kingchanyoung/chungju-halbae-korean-names/main/DEVELOPER_HANDOFF.md |
 | 공개 베타 | https://chungju-halbae-korean-names.ysp106.chatgpt.site/ |
 | 팀원 테스트 안내 | https://chungju-halbae-korean-names.ysp106.chatgpt.site/beta-guide |
 | 무료·유료 준비 상태 | https://chungju-halbae-korean-names.ysp106.chatgpt.site/plans |
@@ -17,7 +19,7 @@
 | 배포된 코드 | `84e956adf39823c2b59594f1b5046015c1deab44` / Sites 배포 version 17 |
 | 추천 알고리즘 | `original-name-usage-beta-13` |
 
-GitHub는 **비공개**이며 `main`이 인수인계 기준 브랜치입니다. 배포 코드 이후의 인수인계 문서 커밋은 실행 로직을 바꾸지 않습니다. 최신 소스 커밋은 `git log -1`로 확인합니다.
+GitHub는 **공개**이며 `main`이 인수인계 기준 브랜치입니다. 로그인이나 초대 없이 링크를 열거나 ZIP을 내려받을 수 있습니다. ZIP에는 소스와 MD 문서가 포함되며 Git 변경 이력이 필요하면 `git clone`을 사용하세요. 배포 코드 이후의 인수인계 문서 커밋은 실행 로직을 바꾸지 않습니다. 최신 소스 커밋은 `git log -1`로 확인합니다.
 
 이 앱은 독립적으로 만든 서비스입니다. 기존 `gwimunsaju.com/admin`의 서버 코드·DB·결제 계정을 확보하거나 이식한 상태는 아닙니다. 지음당은 공개 페이지를 비교했으며 비공개 작명 엔진을 재사용하지 않았습니다.
 
@@ -277,7 +279,7 @@ API 검증 스크립트는 테스트용 결과를 만들고 삭제합니다. `sm
 
 ### 무료 베타 운영
 
-1. 개발팀 GitHub 접근 권한, 운영 담당자, 이슈 등록 채널 결정.
+1. 코드 수정 담당자와 PR/브랜치 운영 방식, 운영 담당자, 이슈 등록 채널 결정.
 2. 팀이 실제 입력으로 남성향/여성향/중성, 발음, 뜻, 중복, 제외·재추천 품질을 확인하고 피드백 수집.
 3. 한국 이름 상위 후보와 한자·영어 풀이 검수. 원래 이름 자료의 문화권 한계도 점검.
 4. 개인정보 안내와 문의 담당자를 실제 운영 정책에 맞게 확정하고 정기 삭제 작업 추가.

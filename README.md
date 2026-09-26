@@ -5,6 +5,8 @@
 - [서비스 체험](https://chungju-halbae-korean-names.ysp106.chatgpt.site/)
 - [팀원 테스트 안내](https://chungju-halbae-korean-names.ysp106.chatgpt.site/beta-guide)
 - **[개발팀 인수인계서](DEVELOPER_HANDOFF.md)** — 실행, 구조, API, 데이터, 과금, 출시 과제
+- [전체 소스 ZIP 다운로드](https://github.com/kingchanyoung/chungju-halbae-korean-names/archive/refs/heads/main.zip)
+- [인수인계 MD 원본](https://raw.githubusercontent.com/kingchanyoung/chungju-halbae-korean-names/main/DEVELOPER_HANDOFF.md)
 - [팀 전달 문구](DEVELOPMENT_TEAM_MESSAGE.md)
 
 ## 빠른 시작
@@ -22,7 +24,7 @@ Get-ChildItem drizzle -Filter '*.sql' | Sort-Object Name | ForEach-Object {
 npm run dev
 ```
 
-위 마이그레이션 명령은 **새 로컬 DB**용입니다. 기존 DB에는 아직 적용하지 않은 파일만 순서대로 적용하세요. 개발 서버가 출력하는 localhost 주소를 사용합니다. GitHub 저장소는 비공개이므로 계정 접근 권한이 필요합니다.
+위 마이그레이션 명령은 **새 로컬 DB**용입니다. 기존 DB에는 아직 적용하지 않은 파일만 순서대로 적용하세요. 개발 서버가 출력하는 localhost 주소를 사용합니다. GitHub 저장소는 공개이며 로그인 없이 열람·복제·ZIP 다운로드할 수 있습니다.
 
 ## 현재 출시 범위
 

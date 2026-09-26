@@ -8,6 +8,7 @@
 
 - **GitHub:** https://github.com/kingchanyoung/chungju-halbae-korean-names
 - **개발 인수인계서:** https://github.com/kingchanyoung/chungju-halbae-korean-names/blob/main/DEVELOPER_HANDOFF.md
+- **전체 소스 ZIP:** https://github.com/kingchanyoung/chungju-halbae-korean-names/archive/refs/heads/main.zip
 - **베타 체험:** https://chungju-halbae-korean-names.ysp106.chatgpt.site/
 - **팀 테스트 안내:** https://chungju-halbae-korean-names.ysp106.chatgpt.site/beta-guide
 
@@ -17,4 +18,4 @@
 
 인수인계서에 로컬 실행, DB 마이그레이션, API, 개인정보·공유 권한, 작명 자료의 한계, 기존 사이트 연결, 검수·과금 후속 작업을 정리했습니다. 개별 한자 글자·독음 확인과 전체 이름/명리/영문 전문가 검수는 구분해 주세요.
 
-먼저 베타를 테스트하고 기존 충주할배 영문 메뉴 연결부터 진행하면 됩니다. GitHub는 비공개이므로 개발팀 GitHub 계정을 알려주시면 저장소 접근 권한을 연결할 수 있습니다.
+먼저 베타를 테스트하고 기존 충주할배 영문 메뉴 연결부터 진행하면 됩니다. GitHub는 공개이며 로그인이나 초대 없이 소스와 인수인계서를 내려받을 수 있습니다. 저장소의 **Code → Download ZIP**으로 받거나 위 ZIP 링크를 사용하세요.

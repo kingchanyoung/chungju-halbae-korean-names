@@ -1,6 +1,6 @@
 # 충주할배 한국 이름 서비스 — 개발팀 인계
 
-전체 실행·API·검증·후속 작업의 시작점은 [DEVELOPER_HANDOFF.md](DEVELOPER_HANDOFF.md)입니다. 소스 저장소는 [GitHub](https://github.com/kingchanyoung/chungju-halbae-korean-names)이며 비공개 접근 권한이 필요합니다.
+전체 실행·API·검증·후속 작업의 시작점은 [DEVELOPER_HANDOFF.md](DEVELOPER_HANDOFF.md)입니다. 소스 저장소는 [공개 GitHub](https://github.com/kingchanyoung/chungju-halbae-korean-names)이며 로그인 없이 열람·다운로드할 수 있습니다.
 
 ## 현재 상태
 

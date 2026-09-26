@@ -8,6 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import type { NameFeel, NamePriority, NameResult, NameStyle } from '@/lib/names';
 import { BirthZonePicker } from '@/components/birth-zone-picker';
 import { downloadNameCard, NO_FAMILY, type FamilyPreview } from '@/lib/name-card';
+import { directionLabels, nameDirections, type NameDirection } from '@/lib/name-direction';
+import { NamePollBuilder } from '@/components/name-poll-builder';
+import { NameReviewStatus } from '@/components/name-review-status';
 
 const styles: NameStyle[] = ['any', 'gentle', 'bright', 'distinctive', 'classic', 'modern'];
 const priorityOptions: { value: NamePriority; label: string }[] = [
@@ -48,6 +51,7 @@ export default function Home() {
   const [style, setStyle] = useState<NameStyle>('any');
   const [nameFeel, setNameFeel] = useState<NameFeel | null>(null);
   const [priority, setPriority] = useState<NamePriority>('balanced');
+  const [direction, setDirection] = useState<NameDirection>('any');
   const [avoidText, setAvoidText] = useState('');
   const [readKey, setReadKey] = useState('');
   const [excludedNames, setExcludedNames] = useState<string[]>([]);
@@ -73,7 +77,7 @@ export default function Home() {
     setBirthYear(year); setBirthMonth(month); setBirthDay(day);
   }
 
-  const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; excludeNames?: string[]; avoidTerms?: string[] }) => {
+  const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; direction?: NameDirection; excludeNames?: string[]; avoidTerms?: string[] }) => {
     const sequence = ++generationSequence.current;
     setBusy(true); setError(''); setNotice('');
     try {
@@ -126,7 +130,8 @@ export default function Home() {
       try { setDeleteToken(localStorage.getItem(`chungju-halbae-delete:${restored.id}`) || ''); } catch { setDeleteToken(''); }
       setPronunciationHint(restored.pronunciationHint || '');
       setMeaningHint(restored.meaningHint || '');
-      setStyle(restored.style); setNameFeel(restored.nameFeel || 'any');
+      setStyle(restored.style === 'classic' || restored.style === 'modern' ? 'any' : restored.style); setNameFeel(restored.nameFeel || 'any');
+      setDirection(restored.direction || (restored.style === 'classic' ? 'timeless' : restored.style === 'modern' ? 'contemporary' : 'any'));
       setPriority(restored.priority || 'balanced'); setReadKey(restored.id + '.' + match[2]);
       setAvoidText((restored.avoidTerms || []).join(', '));
       try {
@@ -150,7 +155,7 @@ export default function Home() {
   }, [result, surnameMode, ownSurname, koreanSurname]);
 
   useEffect(() => {
-    type ToolInput = { name?: string; birthDate?: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; avoidTerms?: string[] };
+    type ToolInput = { name?: string; birthDate?: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; direction?: NameDirection; avoidTerms?: string[] };
     type Tool = { registerTool?: (tool: unknown, options?: { signal?: AbortSignal }) => void | Promise<void> };
     const context = (document as Document & { modelContext?: Tool }).modelContext;
     if (!context?.registerTool) return;
@@ -170,6 +175,7 @@ export default function Home() {
           style: { type: 'string', enum: styles },
           nameFeel: { type: 'string', enum: nameFeelOptions.map(option => option.value), description: 'Optional desired name impression; not the user’s gender' },
           priority: { type: 'string', enum: priorityOptions.map(option => option.value) },
+          direction: { type: 'string', enum: nameDirections },
           avoidTerms: { type: 'array', maxItems: 10, items: { type: 'string', maxLength: 20 }, description: 'Given names or syllables to avoid, in Hangul or the service’s Roman spelling' },
         }, required: ['name', 'birthDate'], additionalProperties: false,
       },
@@ -177,10 +183,10 @@ export default function Home() {
       async execute(value: ToolInput) {
         if (!value || typeof value.name !== 'string' || typeof value.birthDate !== 'string') throw new Error('A given name and birth date are required.');
         setName(value.name); setPronunciationHint(value.pronunciationHint || '');
-        setMeaningHint(value.meaningHint || ''); setStyle(value.style || 'any'); setNameFeel(value.nameFeel || 'any');
-        setPriority(value.priority || 'balanced'); setAvoidText((value.avoidTerms || []).join(', '));
+        setMeaningHint(value.meaningHint || ''); setStyle(value.style === 'classic' || value.style === 'modern' ? 'any' : value.style || 'any'); setNameFeel(value.nameFeel || 'any');
+        setPriority(value.priority || 'balanced'); setDirection(value.direction || (value.style === 'classic' ? 'timeless' : value.style === 'modern' ? 'contemporary' : 'any')); setAvoidText((value.avoidTerms || []).join(', '));
         setBirthDateParts(value.birthDate); setBirthTime(value.birthTime || ''); setBirthZone(value.birthZone || '');
-        const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style, nameFeel: value.nameFeel, priority: value.priority, avoidTerms: value.avoidTerms });
+        const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style, nameFeel: value.nameFeel, priority: value.priority, direction: value.direction, avoidTerms: value.avoidTerms });
         return { resultId: next.id, names: next.candidates.map(candidate => ({ hangul: candidate.hangul, romanization: candidate.romanization })) };
       },
     }, { signal: lifecycle.signal })).catch(() => {});
@@ -257,7 +263,7 @@ export default function Home() {
     if (!nameFeel || !birthDate) { setNotice('Enter your birth date again to find different options. We do not save the original date.'); document.getElementById('birth-year')?.focus(); return; }
     const excludeNames = [...new Set([...excludedNames, ...(result?.candidates.map(item => item.hangul) || [])])];
     if (excludeNames.length > 30) { setNotice('You have explored several directions. Change your preferences and start a fresh reading.'); return; }
-    await generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, excludeNames, avoidTerms: avoidTerms() }).catch(() => {});
+    await generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, direction, excludeNames, avoidTerms: avoidTerms() }).catch(() => {});
   }
 
   return <main className="names-site">
@@ -277,7 +283,7 @@ export default function Home() {
       <div className="form-frame" id="find-your-name">
         <div className="form-top"><span>01 · YOUR STORY</span><span>FREE BETA</span></div>
         <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>I&apos;ll look for links to your name, preferences, and birth chart. If a checked Hanja meaning fits your story, I&apos;ll show that too.</p></div></div>
-        <form onSubmit={event => { event.preventDefault(); if (!nameFeel) { setError('Choose how you would like your Korean name to come across.'); return; } void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, avoidTerms: avoidTerms() }).catch(() => {}); }}>
+        <form onSubmit={event => { event.preventDefault(); if (!nameFeel) { setError('Choose how you would like your Korean name to come across.'); return; } void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, direction, avoidTerms: avoidTerms() }).catch(() => {}); }}>
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
           <p className="field-help">Your original name, in any language or script.</p>
@@ -305,7 +311,10 @@ export default function Home() {
           <p className="field-help">Share a meaning or story. Some themes can be linked to checked Hanja; other notes won&apos;t change the ranking.</p>
           <div className="meaning-chips" role="group" aria-label="Meaning themes">{meaningSuggestions.map(theme => <Button key={theme} type="button" variant="outline" onClick={() => addMeaningTheme(theme)}>{theme}</Button>)}</div>
           <p className="choice-label">What style do you like?</p>
-          <div className="style-chips" role="group" aria-label="Name feeling">{styles.map(choice => <Button key={choice} type="button" variant="outline" className={style === choice ? 'active' : ''} aria-pressed={style === choice} onClick={() => setStyle(choice)}>{choice === 'any' ? 'Surprise me' : choice[0].toUpperCase()+choice.slice(1)}</Button>)}</div>
+          <div className="style-chips" role="group" aria-label="Name feeling">{styles.filter(choice => choice !== 'classic' && choice !== 'modern').map(choice => <Button key={choice} type="button" variant="outline" className={style === choice ? 'active' : ''} aria-pressed={style === choice} onClick={() => setStyle(choice)}>{choice === 'any' ? 'Surprise me' : choice[0].toUpperCase()+choice.slice(1)}</Button>)}</div>
+          <p className="choice-label">Which name direction feels like you?</p>
+          <div className="style-chips direction-chips" role="group" aria-label="Name direction">{nameDirections.map(choice => <Button key={choice} type="button" variant="outline" className={direction === choice ? 'active' : ''} aria-pressed={direction === choice} onClick={() => setDirection(choice)}>{directionLabels[choice]}</Button>)}</div>
+          <p className="field-help">Choose a familiar feel, a classic feel, or something contemporary. These are preferences, not a match to your age. Our sources are limited.</p>
           <p className="choice-label">How would you like your name to be perceived? <b>*</b></p>
           <div className="style-chips feel-chips" role="group" aria-label="Name impression">{nameFeelOptions.map(option => <Button key={option.value} type="button" variant="outline" className={nameFeel === option.value ? 'active' : ''} aria-pressed={nameFeel === option.value} onClick={() => setNameFeel(option.value)}>{option.label}</Button>)}</div>
           <p className="field-help">This describes a name&apos;s common impression, not your gender. Anyone may use a name they like.</p>
@@ -347,9 +356,12 @@ export default function Home() {
             {!candidate.evidence && candidate.birthConnection && result.saju && <p className="birth-link"><span lang="ko">{candidate.birthConnection.character}</span> evokes {candidate.birthConnection.image}, an image we connect with your {result.saju.dayElementEnglish} day stem.</p>}
             {candidate.hanja && <div className="basic-meaning"><span>ONE POSSIBLE HANJA SPELLING</span><b lang="ko">{candidate.hanja.pair}</b><small>{candidate.hanja.characters.map(character => character.character + ' ' + character.gloss).join(' · ')}</small></div>}
             {!candidate.hanja && <div className="basic-meaning"><span>HANJA SPELLING</span><small>No characters have been checked for this name yet. Its Hangul spelling does not have one fixed character meaning.</small></div>}
+            {candidate.evidence?.direction && result.direction !== 'any' && <div className="direction-evidence"><b>NAME DIRECTION</b><p>{candidate.evidence.direction.detail}</p></div>}
+            <NameReviewStatus hasHanja={!!candidate.hanja}/>
             <Button type="button" variant={selected === candidate.hangul ? 'default' : 'outline'} className="choose-button" onClick={() => chooseName(candidate.hangul)}>{selected === candidate.hangul ? 'Your choice ✓' : 'Choose this name'}</Button>
           </article>)}</div>
       <p className="disclaimer">Hanja are characters sometimes used to write Korean given names. We checked individual character readings against the Korean Supreme Court lookup, but not the full name’s registration eligibility or its element interpretation. English meanings are editorial translations. Audio uses your browser’s Korean voice.</p>
+      <NamePollBuilder key={result.id} result={result} deleteToken={deleteToken}/>
       <div className="keep-name-panel"><p className="eyebrow">MAKE IT YOURS</p><h3 lang="ko">{selected}</h3><p>Open your selected name&apos;s story, copy a Korean introduction, or keep a name card. All free during the beta.</p><a className="hero-cta" href={'/my-report#result=' + readKey + '&selected=' + encodeURIComponent(selected)}>Read my name story <ArrowRight size={16}/></a><div className="keep-name-actions"><Button type="button" variant="outline" onClick={() => void saveSelectedCard()}><Copy size={15}/> Save name card</Button><Button type="button" variant="outline" disabled={busy} onClick={() => void findDifferentNames()}><RotateCcw size={15}/>{busy ? 'Looking…' : 'Find different options'}</Button></div><p className="field-help">Your card shows your chosen name, optional surname preview, and available Hanja spelling. It excludes birth details, your personal note, and the private link. Different options exclude names already shown in this session.</p>{error && <p className="form-error" role="alert">{error}</p>}</div>
       {result && <div className="surname-panel">
         <div><p className="eyebrow">OPTIONAL FULL-NAME PREVIEW</p><h3>What about a family name?</h3><p>Korean names usually put the family name first. Your own surname remains yours; a Korean-style surname here is only a nickname example.</p></div>

@@ -43,6 +43,13 @@
       "when": 1790390063594,
       "tag": "0005_skinny_whistler",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1790401425333,
+      "tag": "0006_open_black_queen",
+      "breakpoints": true
     }
   ]
 }

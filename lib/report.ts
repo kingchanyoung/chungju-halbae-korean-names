@@ -34,6 +34,7 @@ export function buildReport(result: NameResult, selectedHangul: string) {
     meaningHint: result.meaningHint,
     requestedStyle: result.style,
     requestedNameFeel: result.nameFeel,
+    requestedDirection: result.direction || (result.style === 'classic' ? 'timeless' : result.style === 'modern' ? 'contemporary' : 'any'),
     saju: result.saju,
     selectedName: { ...selected, hanja: checkedPair?.hanja || null, characters },
     introduction: {

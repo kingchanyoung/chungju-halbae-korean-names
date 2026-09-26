@@ -29,7 +29,7 @@ export async function readJsonBody(request: Request, maxBytes = 4096): Promise<u
   return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
 }
 
-export async function withinBetaLimit(request: Request, purpose: 'names' | 'feedback', limit: number, windowMs: number) {
+export async function withinBetaLimit(request: Request, purpose: 'names' | 'feedback' | 'poll-create' | 'poll-vote' | 'poll-read', limit: number, windowMs: number) {
   const hostname = new URL(request.url).hostname;
   const secret = env.BETA_RATE_SECRET;
   if (!secret) {
@@ -50,4 +50,13 @@ export async function withinBetaLimit(request: Request, purpose: 'names' | 'feed
     'INSERT INTO beta_rate_limits (visitor_key, count, reset_at) VALUES (?, 1, ?) ON CONFLICT(visitor_key) DO UPDATE SET count = count + 1 WHERE count < ?'
   ).bind(visitorKey, resetAt, limit).run();
   return (attempt.meta.changes || 0) > 0;
+}
+
+export async function browserVoteHash(request: Request, pollId: string, browserId: string) {
+  const hostname = new URL(request.url).hostname;
+  const secret = env.BETA_RATE_SECRET || ((hostname === 'localhost' || hostname === '127.0.0.1') ? 'local-beta-only' : '');
+  if (!secret) throw new Error('Vote protection is unavailable.');
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const signed = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`poll-voter:${pollId}:${browserId}`));
+  return Array.from(new Uint8Array(signed), byte => byte.toString(16).padStart(2, '0')).join('');
 }

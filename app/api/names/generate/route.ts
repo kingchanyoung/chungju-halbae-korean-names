@@ -34,7 +34,8 @@ export async function POST(request: Request) {
     style: checked.input.style, nameFeel: checked.input.nameFeel, saju, candidates,
     priority: checked.input.priority,
     avoidTerms: checked.input.avoidTerms,
-    algorithmVersion: 'personal-focus-avoid-beta-11', createdAt: now, expiresAt: now + 7 * 86400_000,
+    direction: checked.input.direction,
+    algorithmVersion: 'name-direction-beta-12', createdAt: now, expiresAt: now + 7 * 86400_000,
   };
   try { await saveResult(result, await sha256(token), await sha256(deleteToken)); }
   catch { return NextResponse.json({ error: 'We could not save your names. Please try again.' }, { status: 503 }); }

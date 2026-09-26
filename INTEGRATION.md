@@ -14,7 +14,18 @@ lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자
 
 기본 추천은 전체 2,119개 중 법원 표본 3건 이상 또는 합성 청년 표본 100회 이상인 796개를 사용합니다. 합성 빈도는 실제 인기·전문가 검수로 표기하지 않습니다. 혼합 인상 세 종류 포함, 발음·뜻·스타일 강조 우선순위, 이미 본 후보를 제외한 재추천을 구현했습니다. `preferences_json`에 priority와 이용자가 직접 입력한 avoidTerms를 저장합니다. 세션 중 자동으로 모은 재추천 excludeNames와 원본 출생일은 저장하지 않습니다. IANA 국가·지역 목록 검색은 모든 도시 검색이 아니며 현지 구역을 직접 고릅니다. [시장 검토와 출시 과제](MARKET_REVIEW.md)를 참고하세요.
 
-## 가격과 결제
+## 팀 배포용 베타와 친구 투표
+
+- 영어 서비스: https://chungju-halbae-korean-names.ysp106.chatgpt.site/
+- 팀원 안내: https://chungju-halbae-korean-names.ysp106.chatgpt.site/beta-guide
+- `NameDirection`은 any/familiar/timeless/contemporary입니다. 실제 세대별 적합성이나 연령 추정이 아닌 약한 선호 가산점입니다. `preferences_json`에 direction을 저장합니다. classic/modern 레거시 입력은 timeless/contemporary 방향으로 연결하고 API 값은 유지합니다.
+- 새 후보에는 direction 근거를 추가합니다. 카드와 보고서에 글자·독음 확인과 전체 이름 전문가 검수 미완료를 구분해 표시합니다. 한자 확인 이름 수는 51개로 유지합니다.
+- `POST /api/name-polls`는 sourceId, **원본 생성 브라우저의 deleteToken**, 원본 후보 중 names 2~3개로 별도 poll을 만듭니다. `POST /api/name-polls/read`, `/vote`는 poll id/token만으로 접근하고 원본 id/읽기 토큰/본명/사주/메모를 반환하지 않습니다. 공개 후보 필드는 hangul/romanization/syllables만입니다.
+- 투표는 poll별 browserId를 HMAC 처리하고 `(poll_id, voter_key_hash)` 유일 키로 첫 선택만 유지합니다. 신원을 인증한 1인 1표가 아닙니다. 생성 10회/시간, 읽기 180회/시간, 투표 30회/일의 IP 제한을 둡니다.
+- `POST /api/name-polls/delete`는 sourceId/deleteToken으로 종료합니다. 결과 하나에 활성 poll은 하나이며 닫은 뒤 재생성이 가능합니다. poll은 원본 만료 시각을 공유하고, 원본 존재와 만료를 read/vote마다 재검사합니다. migration 0006의 FK cascade로 원본 삭제→poll 삭제→votes 삭제를 적용합니다.
+- 팀 테스트는 `node scripts/check-polls.mjs URL`로 소유자 권한, 후보 allowlist, 개인정보 부재, 첫 표 재시도, 종료·재생성·원본 삭제를 확인할 수 있습니다. 일반 베타 피드백은 별도의 기존 흐름입니다.
+
+## 가격과 결제 상세
 
 | 구간 | 가격 | 제공 |
 | --- | --- | --- |
@@ -46,7 +57,7 @@ lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자
 
 ## 로컬 실행
 
-Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니다. 새 D1 로컬 DB에는 0000부터 0005까지 마이그레이션을 순서대로 적용합니다. 기존 DB에는 아직 적용하지 않은 후속 마이그레이션만 순서대로 적용합니다. 공개 베타 환경에는 `BETA_RATE_SECRET`을 비밀 환경 변수로 설정해야 요청 제한이 작동합니다.
+Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니다. 새 D1 로컬 DB에는 0000부터 0006까지 마이그레이션을 순서대로 적용합니다. 기존 DB에는 아직 적용하지 않은 후속 마이그레이션만 순서대로 적용합니다. 공개 베타 환경에는 `BETA_RATE_SECRET`을 비밀 환경 변수로 설정해야 요청 제한이 작동합니다.
 
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0000_dapper_redwing.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0001_clammy_redwing.sql --yes
@@ -54,6 +65,7 @@ Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니�
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0003_rare_colleen_wing.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0004_fancy_wallop.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0005_skinny_whistler.sql --yes
+    npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0006_open_black_queen.sql --yes
 
 ## 주요 자료
 

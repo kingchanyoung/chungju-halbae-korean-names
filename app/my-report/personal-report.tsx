@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { buildReport, type Report } from '@/lib/report';
 import type { NameResult } from '@/lib/names';
 import { displayName, downloadNameCard, NO_FAMILY, type FamilyPreview } from '@/lib/name-card';
+import { directionLabels } from '@/lib/name-direction';
+import { NameReviewStatus } from '@/components/name-review-status';
 
 const priorityLabel = { balanced: 'A balanced recommendation', sound: 'Connection to your original name’s sound', meaning: 'Your meaning theme', style: 'Your chosen style' };
 export function PersonalReport() {
@@ -60,7 +62,9 @@ export function PersonalReport() {
       <div className="report-title-row"><div><p className="report-overline">A NAME CHOSEN BY YOU</p><h1>{full.romanization}</h1><p>A Korean name to explore, understand, and use. This story brings together the evidence behind your chosen name.</p></div><div className="report-name"><strong lang="ko">{full.hangul}</strong><span>{example.syllables}</span></div></div>
       <div className="report-divider"/>
       <section className="report-section"><span className="report-number">01</span><div><h2>Why this name appeared</h2><p>Your naming focus: {priorityLabel[report.priority]}. Its approximate impression is {example.presentation}; we describe its style as {example.impression.toLowerCase()}. These descriptions are impressions, not literal meanings.</p>
-        <div className="report-evidence">{example.evidence && Object.entries(example.evidence).map(([key, value]) => <div key={key}><b>{({ sound: 'Your name’s sound', meaning: 'Your meaning note', feeling: 'Your chosen style', birth: 'Your birth-date reading' } as Record<string, string>)[key]}</b><p>{value.detail}</p></div>)}</div>
+        <p>Your name direction: {directionLabels[report.requestedDirection]}. This is a source-informed preference, not a match to your age.</p>
+        <div className="report-evidence">{example.evidence && Object.entries(example.evidence).filter(([, value]) => !!value).map(([key, value]) => <div key={key}><b>{({ sound: 'Your name’s sound', meaning: 'Your meaning note', feeling: 'Your chosen style', birth: 'Your birth-date reading', direction: 'Your name direction' } as Record<string, string>)[key]}</b><p>{value!.detail}</p></div>)}</div>
+        <NameReviewStatus hasHanja={!!example.hanja}/>
         {report.meaningHint && <details className="report-input-note"><summary>Your meaning note</summary><p>{report.meaningHint}</p></details>}
         {report.avoidTerms.length > 0 && <p>Names or syllables you asked us to avoid: {report.avoidTerms.join(', ')}.</p>}
         <p>Names with no close sound or meaning match are shown as alternative directions. We do not infer the origin or meaning of your original name.</p></div></section>

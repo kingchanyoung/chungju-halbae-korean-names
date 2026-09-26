@@ -4,6 +4,8 @@ import { calculateSaju } from '../lib/saju';
 import type { NameFeel, NameStyle } from '../lib/names';
 import { buildReport } from '../lib/report';
 import { shareCardText } from '../lib/name-card';
+import { nameDirections } from '../lib/name-direction';
+import { publicPollCandidate } from '../lib/poll-types';
 
 function names(name: string, birthDate: string, meaningHint: string, style: NameStyle, nameFeel: NameFeel, pronunciationHint: string | null = null) {
   const chart = calculateSaju({ birthDate, birthTime: null, birthZone: null });
@@ -85,3 +87,22 @@ assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', avoidT
 assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', avoidTerms: ['지안', 'Jun'] }).ok, true);
 assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', avoidTerms: Array(11).fill('Jun') }).ok, false);
 console.log('Mixed impressions, distinct refinements, focus, all-name reports, and card data minimization passed.');
+assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', direction: 'my-age' }).ok, false);
+const legacy = validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', style: 'classic' });
+assert(legacy.ok && legacy.input.direction === 'timeless', 'Legacy classic inputs need a compatible direction.');
+const directionSets = new Set<string>();
+for (const direction of nameDirections) {
+  const input = { name: 'Emma', pronunciationHint: 'EH-ma', style: 'any' as const, nameFeel: 'any' as const, direction };
+  const candidates = generateCandidates(input, chart);
+  assert.equal(candidates.length, 5);
+  assert.equal(new Set(candidates.map(item => item.presentation)).size, 3);
+  assert.deepEqual(candidates, generateCandidates(input, chart), 'Directions must be reproducible.');
+  directionSets.add(candidates.map(item => item.hangul).join(','));
+  for (const candidate of candidates) {
+    const share = publicPollCandidate(candidate);
+    assert.deepEqual(Object.keys(share).sort(), ['hangul', 'romanization', 'syllables']);
+    assert(!JSON.stringify(share).includes('birth'));
+  }
+}
+assert(directionSets.size > 1, 'Direction should affect supported recommendation cases.');
+console.log('Name direction, legacy inputs, determinism, mixed impressions, and poll field allowlist passed.');

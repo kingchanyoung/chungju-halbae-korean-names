@@ -4,6 +4,7 @@ import verifiedHanja from './hanja_verified.json';
 import { romanizeGivenName } from './romanize';
 import { STEM_ELEMENT } from 'k-saju';
 import { validateBirthInput, type BirthInput, type SajuSummary } from './saju';
+import { nameDirections, type NameDirection } from './name-direction';
 
 export type NameStyle = 'any' | 'gentle' | 'bright' | 'distinctive' | 'classic' | 'modern';
 export type NamePresentation = 'masculine' | 'feminine' | 'neutral';
@@ -14,6 +15,7 @@ export type CandidateEvidence = {
   meaning: { matched: boolean; detail: string };
   feeling: { matched: boolean; detail: string };
   birth: { matched: boolean; detail: string };
+  direction?: { matched: boolean; detail: string };
 };
 export type NameCandidate = {
   hangul: string; romanization: string; syllables: string; impression: string;
@@ -32,6 +34,7 @@ export type NameResult = {
   saju: SajuSummary | null;
   priority?: NamePriority;
   avoidTerms?: string[];
+  direction?: NameDirection;
   createdAt: number; expiresAt: number; algorithmVersion: string;
 };
 type SeedName = {
@@ -107,6 +110,22 @@ export const styles: NameStyle[] = ['any', 'gentle', 'bright', 'distinctive', 'c
 export const nameFeels: NameFeel[] = ['any', 'masculine', 'feminine', 'neutral'];
 export const namePriorities: NamePriority[] = ['balanced', 'sound', 'meaning', 'style'];
 export const PRICE_KRW = 9900;
+function directionFit(item: CatalogName, direction: NameDirection) {
+  const editorial = editorialNames.get(item.hangul)?.vibe_en.toLowerCase() || '';
+  if (direction === 'any') return { score: 0, matched: false, detail: 'You left the name direction open.' };
+  if (direction === 'familiar') {
+    const matched = item.allUses >= 300;
+    return { score: Math.min(3, Math.log2(1 + item.allUses / 100)), matched,
+      detail: matched ? 'This name has a stronger frequency signal in our synthetic name sample. That is not a real-world popularity ranking.' : 'This name has a weaker familiarity signal in our synthetic sample; other connections helped it appear.' };
+  }
+  const matched = direction === 'timeless'
+    ? /\b(classic|timeless|refined|composed|elegant)\b/.test(editorial)
+    : item.courtBirths >= 3 || /\b(modern|contemporary|fresh)\b/.test(editorial);
+  return { score: matched ? 3 : 0, matched,
+    detail: direction === 'timeless'
+      ? matched ? 'Our editorial name notes describe this as a classic or refined direction. This is not a measured generational match.' : 'We do not have a timeless editorial tag for this name; other connections helped it appear.'
+      : matched ? 'This name appears in our limited recent Seoul birth-name sample or has a contemporary editorial tag. Neither establishes a nationwide trend.' : 'We do not have a recent sample signal or contemporary editorial tag for this name; other connections helped it appear.' };
+}
 // Literal imagery from checked character glosses. This is an editorial
 // association, not an official Hanja element classification or yongshin.
 const elementImages: Record<string, { element: SajuSummary['dayElement']; image: string }> = {
@@ -220,7 +239,7 @@ function birthFit(pair: ReturnType<typeof checkedPairFor>, saju: SajuSummary) {
   };
 }
 export function validateNameRequest(value: unknown):
-  | { ok: true; input: { name: string; pronunciationHint: string | null; meaningHint: string | null; style: NameStyle; nameFeel: NameFeel; priority: NamePriority; excludeNames: string[]; avoidTerms: string[] } & BirthInput }
+  | { ok: true; input: { name: string; pronunciationHint: string | null; meaningHint: string | null; style: NameStyle; nameFeel: NameFeel; priority: NamePriority; direction: NameDirection; excludeNames: string[]; avoidTerms: string[] } & BirthInput }
   | { ok: false; error: string } {
   if (!value || typeof value !== 'object') return { ok: false, error: 'Please enter your name.' };
   const record = value as Record<string, unknown>;
@@ -228,6 +247,8 @@ export function validateNameRequest(value: unknown):
   const pronunciationHint = typeof record.pronunciationHint === 'string' ? record.pronunciationHint.trim() : '';
   const meaningHint = typeof record.meaningHint === 'string' ? record.meaningHint.trim() : '';
   const style = styles.includes(record.style as NameStyle) ? record.style as NameStyle : 'any';
+  const direction = record.direction === undefined ? (style === 'classic' ? 'timeless' : style === 'modern' ? 'contemporary' : 'any') : record.direction as NameDirection;
+  if (!nameDirections.includes(direction)) return { ok: false, error: 'Choose a valid name direction.' };
   const nameFeel = record.nameFeel === undefined ? 'any' : record.nameFeel as NameFeel;
   if (!nameFeels.includes(nameFeel)) return { ok: false, error: 'Choose a valid name impression.' };
   const priority = record.priority === undefined ? 'balanced' : record.priority as NamePriority;
@@ -246,9 +267,9 @@ export function validateNameRequest(value: unknown):
     return { ok: false, error: 'Please add a Roman-letter pronunciation hint for this script.' };
   const birth = validateBirthInput(record);
   if (!birth.ok) return birth;
-  return { ok: true, input: { name, pronunciationHint: pronunciationHint || null, meaningHint: meaningHint || null, style, nameFeel, priority, excludeNames, avoidTerms: avoidTerms.map(term => term.trim().normalize('NFC')), ...birth.input } };
+  return { ok: true, input: { name, pronunciationHint: pronunciationHint || null, meaningHint: meaningHint || null, style, nameFeel, priority, direction, excludeNames, avoidTerms: avoidTerms.map(term => term.trim().normalize('NFC')), ...birth.input } };
 }
-export function generateCandidates(input: { name: string; pronunciationHint: string | null; meaningHint?: string | null; style: NameStyle; nameFeel: NameFeel; priority?: NamePriority; excludeNames?: string[]; avoidTerms?: string[] }, saju: SajuSummary): NameCandidate[] {
+export function generateCandidates(input: { name: string; pronunciationHint: string | null; meaningHint?: string | null; style: NameStyle; nameFeel: NameFeel; priority?: NamePriority; direction?: NameDirection; excludeNames?: string[]; avoidTerms?: string[] }, saju: SajuSummary): NameCandidate[] {
   const words = descriptors[input.style];
   // Use a stronger source signal for the default shortlist. Synthetic counts
   // are a screening heuristic, never a population ranking or native review.
@@ -272,13 +293,14 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
     const pair = checkedPairFor(item.hangul);
     const meaning = meaningFit(input.meaningHint, pair);
     const birth = birthFit(pair, saju);
+    const direction = directionFit(item, input.direction || 'any');
     // Synthetic frequency is a conservative naturalness signal, not a claim
     // about actual registrations. No random factor is used in ranking.
     const familiarity = Math.min(5, Math.log2(1 + item.youngUses / 10) * 1.2);
     const courtSignal = Math.min(2, Math.log2(1 + item.courtBirths) * .4);
     const rarePenalty = item.youngUses < 20 && item.courtBirths < 5 ? 5 : item.youngUses < 40 && item.courtBirths < 5 ? 2 : 0;
-    const score = (feelingMatched ? (input.priority === 'style' ? 8 : 3) : 0) + sound.score * (input.priority === 'sound' ? 1.8 : 1) + meaning.score * (input.priority === 'meaning' ? 1.8 : 1) + birth.score + familiarity + courtSignal - rarePenalty;
-    return { item, score, sound, meaning, feeling, birth };
+    const score = (feelingMatched ? (input.priority === 'style' ? 8 : 3) : 0) + sound.score * (input.priority === 'sound' ? 1.8 : 1) + meaning.score * (input.priority === 'meaning' ? 1.8 : 1) + birth.score + familiarity + courtSignal - rarePenalty + direction.score;
+    return { item, score, sound, meaning, feeling, birth, direction };
   }).sort((a, b) => b.score - a.score || a.item.hangul.localeCompare(b.item.hangul));
   const chosen: typeof ranked = [];
   const canAdd = (entry: (typeof ranked)[number]) => !chosen.some(pick => pick.item.hangul[0] === entry.item.hangul[0]) && chosen.filter(pick => pick.item.hangul[1] === entry.item.hangul[1]).length < 2;
@@ -302,7 +324,7 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
     if (chosen.length === 5) break;
   }
   chosen.sort((a, b) => b.score - a.score || a.item.hangul.localeCompare(b.item.hangul));
-  return chosen.map(({ item, sound, meaning, feeling, birth }) => {
+  return chosen.map(({ item, sound, meaning, feeling, birth, direction }) => {
     const pairing = checkedPairFor(item.hangul);
     const characters = pairing?.characterReferences.map((reference, index) => {
       const character = verifiedHanja.characters.find(entry => entry.unicode === reference);
@@ -323,7 +345,7 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
       soundConnection: sound.matched,
       meaningConnection: meaning.matched,
       birthConnection: birth.connection,
-      evidence: { sound: { matched: sound.matched, detail: sound.detail }, meaning: { matched: meaning.matched, detail: meaning.detail }, feeling, birth: { matched: birth.matched, detail: birth.detail } },
+      evidence: { sound: { matched: sound.matched, detail: sound.detail }, meaning: { matched: meaning.matched, detail: meaning.detail }, feeling, birth: { matched: birth.matched, detail: birth.detail }, direction: { matched: direction.matched, detail: direction.detail } },
       hanja,
     };
   });

@@ -25,7 +25,13 @@ lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자
 - `POST /api/name-polls/delete`는 sourceId/deleteToken으로 종료합니다. 결과 하나에 활성 poll은 하나이며 닫은 뒤 재생성이 가능합니다. poll은 원본 만료 시각을 공유하고, 원본 존재와 만료를 read/vote마다 재검사합니다. migration 0006의 FK cascade로 원본 삭제→poll 삭제→votes 삭제를 적용합니다.
 - 팀 테스트는 `node scripts/check-polls.mjs URL`로 소유자 권한, 후보 allowlist, 개인정보 부재, 첫 표 재시도, 종료·재생성·원본 삭제를 확인할 수 있습니다. 일반 베타 피드백은 별도의 기존 흐름입니다.
 
-## 가격과 결제 상세
+## 원래 이름에 따른 기본 인상
+
+`NameFeel`에 `auto`를 추가해 폼·API·WebMCP 기본값으로 사용합니다. 기존 `any`는 남성·여성·중성 세 종류를 포함하는 명시적 혼합으로 유지합니다. `resolveNameImpression`은 원래 이름 전체 철자의 미국 출생 기록 사용 경향을 대조하며, Jason 같은 명확한 경우 남성향 후보만 사용합니다. 원래 이름의 사용 경향이며 이용자의 성별 판단이 아닙니다. 직접 고른 feminine/masculine/neutral/any는 항상 우선합니다. 집계 자료·기간·보수적 기준은 [DATA_SOURCES.md](DATA_SOURCES.md)와 [NAMING_METHOD.md](NAMING_METHOD.md)에 있습니다.
+
+`preferences_json.impressionBasis`에 자동/명시적 요청, 실제 적용 인상, 참조 기간·출처·집계 근거를 보관합니다. 스키마 변경 없이 read/report에서 복원하고 카드·투표의 공개 필드 목록에는 추가하지 않습니다. 이전 결과의 name_feel any는 혼합으로 남깁니다. API 422 혼합 검사는 요청값 대신 적용 결과가 any인지 확인합니다. `scripts/check-auto-impression.mjs URL`로 기본 Jason/Emma, 애매한 Alex, 수동 feminine/mix, DB 복원을 확인합니다.
+
+## 가격과 결제
 
 | 구간 | 가격 | 제공 |
 | --- | --- | --- |

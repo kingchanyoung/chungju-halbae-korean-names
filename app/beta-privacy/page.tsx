@@ -13,7 +13,7 @@ export default function BetaPrivacy() {
       <h1>Your answers and privacy</h1>
       <p>This beta is free. You do not need an account or a credit card.</p>
       <h2>What we save</h2>
-      <p>To make a result link, we save your given name, pronunciation hint, meaning note, style and focus choices, any names or syllables you asked us to avoid, the calculated birth-chart summary, and the suggested names. We do not save your exact birth date, birth time, or birthplace time zone. We use those details to calculate the summary when you submit the form.</p>
+      <p>To make a result link, we save your given name, pronunciation hint, meaning note, style and focus choices, your selected name impression and the aggregate usage basis for an automatic recommendation, any names or syllables you asked us to avoid, the calculated birth-chart summary, and the suggested names. We do not save your exact birth date, birth time, or birthplace time zone. We use those details to calculate the summary when you submit the form.</p>
       <h2>Name cards and your surname</h2>
       <p>Your optional surname preview is stored only in this browser, not in our result database or shared result link. A downloaded name card includes the chosen Korean name, available Hanja spelling, and the surname preview you selected, but excludes your original given name, birth chart, personal note, exclusions, and result link. Your printable personal story may include your note, chart summary, and names or syllables you asked us to avoid. People with your full private link can read those saved preferences; check them before sharing. Files you save on your device remain until you delete them.</p>
       <h2>Friend-vote links</h2>

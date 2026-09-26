@@ -11,6 +11,7 @@ import { downloadNameCard, NO_FAMILY, type FamilyPreview } from '@/lib/name-card
 import { directionLabels, nameDirections, type NameDirection } from '@/lib/name-direction';
 import { NamePollBuilder } from '@/components/name-poll-builder';
 import { NameReviewStatus } from '@/components/name-review-status';
+import { resolveNameImpression } from '@/lib/original-name-impression';
 
 const styles: NameStyle[] = ['any', 'gentle', 'bright', 'distinctive', 'classic', 'modern'];
 const priorityOptions: { value: NamePriority; label: string }[] = [
@@ -19,12 +20,14 @@ const priorityOptions: { value: NamePriority; label: string }[] = [
 ];
 const meaningSuggestions = ['Peace', 'Wisdom', 'Kindness', 'Hope', 'Nature', 'Light', 'Strength', 'Creativity'];
 const nameFeelOptions: { value: NameFeel; label: string }[] = [
+  { value: 'auto', label: 'Follow my original name' },
   { value: 'any', label: 'Show me a mix' },
   { value: 'feminine', label: 'More feminine' },
   { value: 'masculine', label: 'More masculine' },
   { value: 'neutral', label: 'Gender-neutral' },
 ];
 const nameFeelSummary: Record<NameFeel, string> = {
+  auto: 'Following your original name’s usage pattern',
   any: 'A mix of name impressions',
   feminine: 'A more feminine impression',
   masculine: 'A more masculine impression',
@@ -49,7 +52,7 @@ export default function Home() {
   const [birthTime, setBirthTime] = useState('');
   const [birthZone, setBirthZone] = useState('');
   const [style, setStyle] = useState<NameStyle>('any');
-  const [nameFeel, setNameFeel] = useState<NameFeel | null>(null);
+  const [nameFeel, setNameFeel] = useState<NameFeel>('auto');
   const [priority, setPriority] = useState<NamePriority>('balanced');
   const [direction, setDirection] = useState<NameDirection>('any');
   const [avoidText, setAvoidText] = useState('');
@@ -173,7 +176,7 @@ export default function Home() {
           pronunciationHint: { type: 'string' },
           meaningHint: { type: 'string' },
           style: { type: 'string', enum: styles },
-          nameFeel: { type: 'string', enum: nameFeelOptions.map(option => option.value), description: 'Optional desired name impression; not the user’s gender' },
+          nameFeel: { type: 'string', enum: nameFeelOptions.map(option => option.value), description: 'Default auto follows a clear aggregate name-use pattern. Explicit masculine/feminine/neutral or any (mix) takes priority; not the user’s gender' },
           priority: { type: 'string', enum: priorityOptions.map(option => option.value) },
           direction: { type: 'string', enum: nameDirections },
           avoidTerms: { type: 'array', maxItems: 10, items: { type: 'string', maxLength: 20 }, description: 'Given names or syllables to avoid, in Hangul or the service’s Roman spelling' },
@@ -183,7 +186,7 @@ export default function Home() {
       async execute(value: ToolInput) {
         if (!value || typeof value.name !== 'string' || typeof value.birthDate !== 'string') throw new Error('A given name and birth date are required.');
         setName(value.name); setPronunciationHint(value.pronunciationHint || '');
-        setMeaningHint(value.meaningHint || ''); setStyle(value.style === 'classic' || value.style === 'modern' ? 'any' : value.style || 'any'); setNameFeel(value.nameFeel || 'any');
+        setMeaningHint(value.meaningHint || ''); setStyle(value.style === 'classic' || value.style === 'modern' ? 'any' : value.style || 'any'); setNameFeel(value.nameFeel || 'auto');
         setPriority(value.priority || 'balanced'); setDirection(value.direction || (value.style === 'classic' ? 'timeless' : value.style === 'modern' ? 'contemporary' : 'any')); setAvoidText((value.avoidTerms || []).join(', '));
         setBirthDateParts(value.birthDate); setBirthTime(value.birthTime || ''); setBirthZone(value.birthZone || '');
         const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style, nameFeel: value.nameFeel, priority: value.priority, direction: value.direction, avoidTerms: value.avoidTerms });
@@ -260,7 +263,7 @@ export default function Home() {
     catch (caught) { setNotice(caught instanceof Error ? caught.message : 'The image could not be saved.'); }
   }
   async function findDifferentNames() {
-    if (!nameFeel || !birthDate) { setNotice('Enter your birth date again to find different options. We do not save the original date.'); document.getElementById('birth-year')?.focus(); return; }
+    if (!birthDate) { setNotice('Enter your birth date again to find different options. We do not save the original date.'); document.getElementById('birth-year')?.focus(); return; }
     const excludeNames = [...new Set([...excludedNames, ...(result?.candidates.map(item => item.hangul) || [])])];
     if (excludeNames.length > 30) { setNotice('You have explored several directions. Change your preferences and start a fresh reading.'); return; }
     await generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, direction, excludeNames, avoidTerms: avoidTerms() }).catch(() => {});
@@ -283,7 +286,7 @@ export default function Home() {
       <div className="form-frame" id="find-your-name">
         <div className="form-top"><span>01 · YOUR STORY</span><span>FREE BETA</span></div>
         <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>I&apos;ll look for links to your name, preferences, and birth chart. If a checked Hanja meaning fits your story, I&apos;ll show that too.</p></div></div>
-        <form onSubmit={event => { event.preventDefault(); if (!nameFeel) { setError('Choose how you would like your Korean name to come across.'); return; } void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, direction, avoidTerms: avoidTerms() }).catch(() => {}); }}>
+        <form onSubmit={event => { event.preventDefault(); void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, direction, avoidTerms: avoidTerms() }).catch(() => {}); }}>
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
           <p className="field-help">Your original name, in any language or script.</p>
@@ -315,9 +318,9 @@ export default function Home() {
           <p className="choice-label">Which name direction feels like you?</p>
           <div className="style-chips direction-chips" role="group" aria-label="Name direction">{nameDirections.map(choice => <Button key={choice} type="button" variant="outline" className={direction === choice ? 'active' : ''} aria-pressed={direction === choice} onClick={() => setDirection(choice)}>{directionLabels[choice]}</Button>)}</div>
           <p className="field-help">Choose a familiar feel, a classic feel, or something contemporary. These are preferences, not a match to your age. Our sources are limited.</p>
-          <p className="choice-label">How would you like your name to be perceived? <b>*</b></p>
+          <p className="choice-label">How would you like your name to be perceived?</p>
           <div className="style-chips feel-chips" role="group" aria-label="Name impression">{nameFeelOptions.map(option => <Button key={option.value} type="button" variant="outline" className={nameFeel === option.value ? 'active' : ''} aria-pressed={nameFeel === option.value} onClick={() => setNameFeel(option.value)}>{option.label}</Button>)}</div>
-          <p className="field-help">This describes a name&apos;s common impression, not your gender. Anyone may use a name they like.</p>
+          <p className="field-help">{nameFeel === 'auto' ? name.trim() ? resolveNameImpression(name).detail : 'We’ll use your given name’s common usage as a starting point. You can choose another impression.' : 'Your choice takes priority over your original name’s usage pattern. Anyone may use a name they like.'}</p>
           <details className="focus-details"><summary>Want Halbae to focus on something?</summary><div className="style-chips" role="group" aria-label="Naming focus">{priorityOptions.map(option => <Button key={option.value} type="button" variant="outline" className={priority === option.value ? 'active' : ''} aria-pressed={priority === option.value} onClick={() => setPriority(option.value)}>{option.label}</Button>)}</div><p className="field-help">Your birth-date reading remains part of the method where checked Hanja supports a connection. A meaning focus works only with themes we can recognize.</p><label htmlFor="avoid-names">Any Korean names or syllables to avoid? <small>Optional</small></label><Input id="avoid-names" className="form-input" value={avoidText} onChange={event => setAvoidText(event.target.value)} maxLength={200} placeholder="e.g. Jian, Jun, 민"/><p className="field-help">Separate up to ten entries with commas. We match a full given name or one syllable, using Hangul or our Roman spelling. This can help avoid a name already used by someone you know.</p></details>
           {error && <p className="form-error" role="alert">{error}</p>}
           <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Halbae is looking…' : 'Find my Korean name'} <ArrowRight size={18}/></Button>
@@ -328,6 +331,7 @@ export default function Home() {
     <p className="preview-truth"><strong>How this reading works</strong> We compare your name&apos;s sound and preferences with a screened shortlist of Korean given names. For names with checked Hanja, your meaning and birth chart may also affect the order. This is a limited traditional reading.</p>
     {result && <section className="preview-section" id="how-it-works">
       <div className="section-heading"><div><p className="eyebrow">02 · YOUR NAME READING</p><h2 id="results-heading" tabIndex={-1}>{'Names for ' + result.originalName}</h2><p>{`${nameFeelSummary[result.nameFeel || 'any']}. Choose the one that feels most like you. Your private result link works for seven days.`}</p></div></div>
+      {result.impressionBasis && <div className="impression-reading"><p>{result.impressionBasis.detail}</p><small>This guides the name&apos;s impression; it does not determine your gender.</small>{result.impressionBasis.sourceUrl && <a href={result.impressionBasis.sourceUrl} target="_blank" rel="noopener noreferrer">Name-use reference ↗</a>}</div>}
       {result?.saju && <div className="saju-reading">
         <p className="eyebrow">YOUR BIRTH-DATE READING</p>
         <h3>Day stem: <span lang="ko">{result.saju.day.stem}</span> · {result.saju.dayElementEnglish}</h3>
@@ -380,7 +384,7 @@ export default function Home() {
     <section className="method-section" id="about">
       <p className="eyebrow">HOW HALBAE CHOOSES</p>
       <h2>What goes into a name?</h2>
-      <div className="method-row"><span>一</span><p><strong>Your name and preferences.</strong> We compare your pronunciation hint, when provided, with Korean name spellings. Your chosen style and name impression guide the shortlist. Sound matching is approximate.</p></div>
+      <div className="method-row"><span>一</span><p><strong>Your name and preferences.</strong> We compare your pronunciation hint, when provided, with Korean name spellings. A clear usage pattern for your original name guides the default impression. Your chosen impression always takes priority. Your style also guides the shortlist. Sound matching is approximate.</p></div>
       <div className="method-row"><span>二</span><p><strong>Your meaning or story.</strong> We look for themes in your English note. If a name has a checked Hanja character with a related meaning, we show that link. Notes we cannot connect do not change the order.</p></div>
       <div className="method-row"><span>三</span><p><strong>Your birth chart.</strong> Your date gives a partial traditional reading. If you know your birth time and birthplace time zone, we can calculate one more part. For checked Hanja names, a character image may symbolically connect to the chart and affect the order. We do not calculate a definitive best element.</p></div>
       <div className="method-row"><span>四</span><p><strong>Korean name options.</strong> We screen more than 2,000 two-syllable forms. Our current default shortlist uses 796 forms with stronger source-count support, retaining adult and recent names. These counts are not a national popularity ranking or expert review. Suggestions have different opening syllables. Only 51 forms currently have a checked possible Hanja spelling.</p></div>

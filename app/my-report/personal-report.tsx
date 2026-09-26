@@ -63,6 +63,7 @@ export function PersonalReport() {
       <div className="report-divider"/>
       <section className="report-section"><span className="report-number">01</span><div><h2>Why this name appeared</h2><p>Your naming focus: {priorityLabel[report.priority]}. Its approximate impression is {example.presentation}; we describe its style as {example.impression.toLowerCase()}. These descriptions are impressions, not literal meanings.</p>
         <p>Your name direction: {directionLabels[report.requestedDirection]}. This is a source-informed preference, not a match to your age.</p>
+        <p>{report.impressionBasis.detail}</p>{report.impressionBasis.sourceUrl && <p><a href={report.impressionBasis.sourceUrl} target="_blank" rel="noopener noreferrer">Name-use reference</a>. This guides the name&apos;s impression, not your gender.</p>}
         <div className="report-evidence">{example.evidence && Object.entries(example.evidence).filter(([, value]) => !!value).map(([key, value]) => <div key={key}><b>{({ sound: 'Your name’s sound', meaning: 'Your meaning note', feeling: 'Your chosen style', birth: 'Your birth-date reading', direction: 'Your name direction' } as Record<string, string>)[key]}</b><p>{value!.detail}</p></div>)}</div>
         <NameReviewStatus hasHanja={!!example.hanja}/>
         {report.meaningHint && <details className="report-input-note"><summary>Your meaning note</summary><p>{report.meaningHint}</p></details>}

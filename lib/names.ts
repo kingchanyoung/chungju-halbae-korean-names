@@ -5,10 +5,11 @@ import { romanizeGivenName } from './romanize';
 import { STEM_ELEMENT } from 'k-saju';
 import { validateBirthInput, type BirthInput, type SajuSummary } from './saju';
 import { nameDirections, type NameDirection } from './name-direction';
+import { resolveNameImpression, type NameImpressionBasis } from './original-name-impression';
 
 export type NameStyle = 'any' | 'gentle' | 'bright' | 'distinctive' | 'classic' | 'modern';
 export type NamePresentation = 'masculine' | 'feminine' | 'neutral';
-export type NameFeel = NamePresentation | 'any';
+export type NameFeel = NamePresentation | 'any' | 'auto';
 export type NamePriority = 'balanced' | 'sound' | 'meaning' | 'style';
 export type CandidateEvidence = {
   sound: { matched: boolean; detail: string };
@@ -35,6 +36,7 @@ export type NameResult = {
   priority?: NamePriority;
   avoidTerms?: string[];
   direction?: NameDirection;
+  impressionBasis?: NameImpressionBasis;
   createdAt: number; expiresAt: number; algorithmVersion: string;
 };
 type SeedName = {
@@ -107,7 +109,7 @@ const descriptors: Record<NameStyle, string[]> = {
   modern: ['modern', 'contemporary', 'simple', 'fresh', 'understated'],
 };
 export const styles: NameStyle[] = ['any', 'gentle', 'bright', 'distinctive', 'classic', 'modern'];
-export const nameFeels: NameFeel[] = ['any', 'masculine', 'feminine', 'neutral'];
+export const nameFeels: NameFeel[] = ['auto', 'any', 'masculine', 'feminine', 'neutral'];
 export const namePriorities: NamePriority[] = ['balanced', 'sound', 'meaning', 'style'];
 export const PRICE_KRW = 9900;
 function directionFit(item: CatalogName, direction: NameDirection) {
@@ -249,7 +251,7 @@ export function validateNameRequest(value: unknown):
   const style = styles.includes(record.style as NameStyle) ? record.style as NameStyle : 'any';
   const direction = record.direction === undefined ? (style === 'classic' ? 'timeless' : style === 'modern' ? 'contemporary' : 'any') : record.direction as NameDirection;
   if (!nameDirections.includes(direction)) return { ok: false, error: 'Choose a valid name direction.' };
-  const nameFeel = record.nameFeel === undefined ? 'any' : record.nameFeel as NameFeel;
+  const nameFeel = record.nameFeel === undefined ? 'auto' : record.nameFeel as NameFeel;
   if (!nameFeels.includes(nameFeel)) return { ok: false, error: 'Choose a valid name impression.' };
   const priority = record.priority === undefined ? 'balanced' : record.priority as NamePriority;
   if (!namePriorities.includes(priority)) return { ok: false, error: 'Choose a valid naming focus.' };
@@ -269,11 +271,12 @@ export function validateNameRequest(value: unknown):
   if (!birth.ok) return birth;
   return { ok: true, input: { name, pronunciationHint: pronunciationHint || null, meaningHint: meaningHint || null, style, nameFeel, priority, direction, excludeNames, avoidTerms: avoidTerms.map(term => term.trim().normalize('NFC')), ...birth.input } };
 }
-export function generateCandidates(input: { name: string; pronunciationHint: string | null; meaningHint?: string | null; style: NameStyle; nameFeel: NameFeel; priority?: NamePriority; direction?: NameDirection; excludeNames?: string[]; avoidTerms?: string[] }, saju: SajuSummary): NameCandidate[] {
+export function generateCandidates(input: { name: string; pronunciationHint: string | null; meaningHint?: string | null; style: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; direction?: NameDirection; excludeNames?: string[]; avoidTerms?: string[] }, saju: SajuSummary): NameCandidate[] {
   const words = descriptors[input.style];
+  const impression = resolveNameImpression(input.name, input.nameFeel || 'auto');
   // Use a stronger source signal for the default shortlist. Synthetic counts
   // are a screening heuristic, never a population ranking or native review.
-  const eligible = catalog.filter(item => (item.courtBirths >= 3 || item.youngUses >= 100) && (input.nameFeel === 'any' || item.style === input.nameFeel) && !input.excludeNames?.includes(item.hangul) && !input.avoidTerms?.some(term => {
+  const eligible = catalog.filter(item => (item.courtBirths >= 3 || item.youngUses >= 100) && (impression.resolved === 'any' || item.style === impression.resolved) && !input.excludeNames?.includes(item.hangul) && !input.avoidTerms?.some(term => {
     if (/^[가-힣]+$/.test(term)) return term.length === 1 ? item.hangul.includes(term) : item.hangul === term;
     const key = normalized(term);
     return !!key && (normalized(item.romanization) === key || normalized(item.romanization_hyphenated) === key || item.romanization_hyphenated.split('-').some(syllable => normalized(syllable) === key));
@@ -310,7 +313,7 @@ export function generateCandidates(input: { name: string; pronunciationHint: str
   const grounded = ranked.find(entry => (entry.birth.matched || entry.meaning.matched) && entry.score >= (ranked[0]?.score ?? 0) - 8);
   if (grounded) chosen.push(grounded);
   // A requested mix actually includes all three presentation categories.
-  if (input.nameFeel === 'any') {
+  if (impression.resolved === 'any') {
     for (const presentation of ['feminine', 'masculine', 'neutral'] as const) {
       if (chosen.some(entry => entry.item.style === presentation)) continue;
       const next = ranked.find(entry => entry.item.style === presentation && canAdd(entry));

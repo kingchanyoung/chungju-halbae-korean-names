@@ -9,6 +9,14 @@
 
 `scripts/build-name-corpus.py`는 이름별로 축약된 원본 집계 파일을 입력받아 `lib/korean_name_corpus.json`을 재생성합니다. 연구용 축약 파일과 대법원 추출 CSV는 `../output/name_corpus_research`에 보관하며 서비스 빌드에는 포함하지 않습니다. 변경 이력은 Git 커밋으로 추적합니다.
 
-## 출생 지역 선택용 IANA 자료
+## 원래 영어 이름의 사용 경향
+
+미국 [SSA 출생 이름 자료 설명](https://www.ssa.gov/oact/babynames/background.html)·[국가별 다운로드 안내](https://www.ssa.gov/oact/babynames/limits.html)를 확인했습니다. 이 환경에서 공식 ZIP 다운로드가 HTTP 403을 반환해 [Hadley Wickham의 babynames](https://hadley.github.io/babynames/)가 제공하는 SSA 재배포본을 사용했습니다. 재배포 패키지 라이선스는 CC0입니다. 고정 Git 커밋 `4391c25ea10b8b0589cdbab63067de3bc8b3a628`의 `data/babynames.rda`에서 1950–2017 출생 기록만 집계했으며 최신 2025년 자료라고 표시하지 않습니다.
+
+SSA의 M/F는 신청서에 기록된 sex별 집계입니다. 잘못 기록된 sex가 있을 수 있고, 연간 이름·sex 조합 5회 미만은 공개 표에서 제외됩니다. 미국 출생·특정 기간만 포함하고 문화·나라·시대별 용법이 다를 수 있습니다. 서비스는 이 이름 사용 자료로 추천할 이름의 인상 기본값만 정하며 개인의 성별을 추정·저장하지 않습니다. 원래 이름을 SSA 또는 제3자에게 요청으로 보내지 않고 배포에 포함된 집계 파일에서 대조합니다.
+
+`scripts/build-name-usage.py`로 재생성합니다. 전체 기록·시기별 M/F 합계를 저장한 9,284개 이름을 포함하며 최소 집계 1,000회·전체 한쪽 비율 95%·시기 일관성 검사를 적용합니다. 애매하거나 문화권 차이가 있는 이름은 유보하고 사용자 선택을 우선합니다. 다운로드 경로·원문 해시·조회 시각·실제 기간을 JSON 메타데이터에 기록했습니다. 원문 R 자료·파서 설치는 `../output/name_usage_research`의 연구용 캐시이며 서비스 런타임 의존성이 아닙니다.
+
+## 출생 지역 선택용 IANA 자료 상세
 
 `lib/time-zone-options.json`은 [IANA zone.tab](https://data.iana.org/time-zones/tzdb/zone.tab)의 2026-09-26 조회본에서 국가·구역·설명만 저장합니다. [공개 도메인](https://data.iana.org/time-zones/tzdb/LICENSE) 자료입니다. 국가별 구역 표시를 위한 호환성 표이며 현지 오프셋 계산은 Temporal의 IANA 시간대 규칙을 사용합니다. 모든 도시의 지리 위치·좌표 검색은 구현하지 않았습니다. `scripts/build-zone-options.mjs`로 다시 만들 수 있으며 브라우저가 지원하지 않는 구역은 선택 목록에서 제외됩니다.

@@ -1,5 +1,6 @@
 import verified from './hanja_verified.json';
 import type { NameResult } from './names';
+import { resolveNameImpression } from './original-name-impression';
 
 export type Report = ReturnType<typeof buildReport>;
 
@@ -34,6 +35,7 @@ export function buildReport(result: NameResult, selectedHangul: string) {
     meaningHint: result.meaningHint,
     requestedStyle: result.style,
     requestedNameFeel: result.nameFeel,
+    impressionBasis: result.impressionBasis || resolveNameImpression(result.originalName, result.nameFeel),
     requestedDirection: result.direction || (result.style === 'classic' ? 'timeless' : result.style === 'modern' ? 'contemporary' : 'any'),
     saju: result.saju,
     selectedName: { ...selected, hanja: checkedPair?.hanja || null, characters },

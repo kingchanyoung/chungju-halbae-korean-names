@@ -6,6 +6,7 @@ import { buildReport } from '../lib/report';
 import { shareCardText } from '../lib/name-card';
 import { nameDirections } from '../lib/name-direction';
 import { publicPollCandidate } from '../lib/poll-types';
+import { resolveNameImpression } from '../lib/original-name-impression';
 
 function names(name: string, birthDate: string, meaningHint: string, style: NameStyle, nameFeel: NameFeel, pronunciationHint: string | null = null) {
   const chart = calculateSaju({ birthDate, birthTime: null, birthZone: null });
@@ -106,3 +107,37 @@ for (const direction of nameDirections) {
 }
 assert(directionSets.size > 1, 'Direction should affect supported recommendation cases.');
 console.log('Name direction, legacy inputs, determinism, mixed impressions, and poll field allowlist passed.');
+for (const name of ['Jason', ' JASON ', 'James', 'Michael', 'John', 'David']) {
+  const request = validateNameRequest({ name, birthDate: '1995-03-16' });
+  assert(request.ok && request.input.nameFeel === 'auto');
+  const basis = resolveNameImpression(name);
+  assert.equal(basis.resolved, 'masculine', `${name} should start with masculine names`);
+  const suggestions = generateCandidates({ name, pronunciationHint: null, style: 'any' }, chart);
+  assert.equal(suggestions.length, 5);
+  assert(suggestions.every(item => item.presentation === 'masculine'), `${name} must not default to feminine names`);
+  const different = generateCandidates({ name, pronunciationHint: null, style: 'any', nameFeel: 'auto', excludeNames: suggestions.map(item => item.hangul) }, chart);
+  assert.equal(different.length, 5);
+  assert(different.every(item => item.presentation === 'masculine'));
+  console.log(name.trim(), 'auto:', suggestions.map(item => item.hangul).join(' '));
+}
+for (const name of ['Emma', 'Olivia', 'Sophia', 'Emily', 'Isabella', 'Sarah']) {
+  assert.equal(resolveNameImpression(name).resolved, 'feminine');
+  assert(generateCandidates({ name, pronunciationHint: null, style: 'any' }, chart).every(item => item.presentation === 'feminine'));
+}
+for (const name of ['Alex', 'Taylor', 'Jordan', 'Andrea', 'Jean', 'zzqvunknown', 'Jason Smith', 'Jason-Alex']) {
+  assert.equal(resolveNameImpression(name).resolved, 'any', `${name} must retain an open direction`);
+  assert.equal(new Set(generateCandidates({ name, pronunciationHint: 'JAY-sun', style: 'any' }, chart).map(item => item.presentation)).size, 3);
+}
+for (const choice of ['feminine', 'masculine', 'neutral', 'any'] as const) {
+  assert.equal(resolveNameImpression('Jason', choice).resolved, choice);
+  const suggestions = generateCandidates({ name: 'Jason', pronunciationHint: null, style: 'any', nameFeel: choice }, chart);
+  assert(choice === 'any' ? new Set(suggestions.map(item => item.presentation)).size === 3 : suggestions.every(item => item.presentation === choice));
+}
+assert.equal(resolveNameImpression('Jason').mode, 'automatic');
+assert.equal(resolveNameImpression('Jason', 'feminine').mode, 'explicit');
+const jason = generateCandidates({ name: 'Jason', pronunciationHint: null, style: 'any' }, chart);
+const jasonBasis = resolveNameImpression('Jason');
+const jasonResult = { id: 'test-auto', originalName: 'Jason', pronunciationHint: null, meaningHint: null, style: 'any' as const, nameFeel: 'auto' as const, impressionBasis: jasonBasis, candidates: jason, saju: chart, createdAt: 1, expiresAt: 2, algorithmVersion: 'test' };
+assert.deepEqual(buildReport(jasonResult, jason[0].hangul).impressionBasis, jasonBasis);
+assert.deepEqual(Object.keys(publicPollCandidate({ ...jason[0], ...jasonResult } as typeof jason[0])).sort(), ['hangul', 'romanization', 'syllables']);
+console.log('Automatic name-use defaults, uncertainty, manual overrides, fresh options, and report provenance passed.');

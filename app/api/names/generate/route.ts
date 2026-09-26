@@ -3,6 +3,7 @@ import { generateCandidates, sha256, validateNameRequest, type NameResult } from
 import { saveResult } from '@/lib/result-store';
 import { calculateSaju } from '@/lib/saju';
 import { readJsonBody, RequestTooLarge, withinBetaLimit } from '@/lib/beta-guard';
+import { resolveNameImpression } from '@/lib/original-name-impression';
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -25,7 +26,8 @@ export async function POST(request: Request) {
   const token = crypto.randomUUID() + crypto.randomUUID();
   const deleteToken = crypto.randomUUID() + crypto.randomUUID();
   const candidates = generateCandidates(checked.input, saju);
-  if (candidates.length !== 5 || (checked.input.nameFeel === 'any' && new Set(candidates.map(item => item.presentation)).size !== 3)) {
+  const impressionBasis = resolveNameImpression(checked.input.name, checked.input.nameFeel);
+  if (candidates.length !== 5 || (impressionBasis.resolved === 'any' && new Set(candidates.map(item => item.presentation)).size !== 3)) {
     return NextResponse.json({ error: 'There are too few options for these preferences. Remove an exclusion or choose another direction.' }, { status: 422 });
   }
   const result: NameResult = {
@@ -35,7 +37,8 @@ export async function POST(request: Request) {
     priority: checked.input.priority,
     avoidTerms: checked.input.avoidTerms,
     direction: checked.input.direction,
-    algorithmVersion: 'name-direction-beta-12', createdAt: now, expiresAt: now + 7 * 86400_000,
+    impressionBasis,
+    algorithmVersion: 'original-name-usage-beta-13', createdAt: now, expiresAt: now + 7 * 86400_000,
   };
   try { await saveResult(result, await sha256(token), await sha256(deleteToken)); }
   catch { return NextResponse.json({ error: 'We could not save your names. Please try again.' }, { status: 503 }); }

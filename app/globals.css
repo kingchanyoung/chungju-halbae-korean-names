@@ -212,3 +212,30 @@ body{background:#000;color:#f1efec}
 .beta-info-page .beta-info-card p{font-size:13px;line-height:1.75}
 .beta-info-page .beta-back{display:inline-block;margin-top:26px;font-size:13px}
 .names-site #results-heading:focus{outline:2px solid #c2a566;outline-offset:5px}
+.zone-picker select{width:100%;min-width:0;padding:0 10px;font-size:12px;color-scheme:dark}
+.names-site .choice-label{margin:23px 0 10px;font-size:12px;font-weight:700;color:#e0d9cc}.choice-label b{color:#c95e52}
+.focus-details{margin:24px 0;border-top:1px solid #3b3225;border-bottom:1px solid #3b3225;padding:14px 0}
+.focus-details summary{cursor:pointer;color:#dec48c;font-size:12px;font-weight:700}
+.names-site .focus-details .style-chips{margin:14px 0}.names-site .focus-details .field-help{margin-bottom:4px}
+.keep-name-panel{margin:27px 0;padding:24px 20px;border:1px solid #826839;border-radius:10px;background:linear-gradient(145deg,#21180e,#0d0c0b)}
+.keep-name-panel h3{font:400 39px 'Gowun Batang',serif;color:#f0dfb9;margin:12px 0}
+.keep-name-panel>p{font-size:12px;line-height:1.75;color:#b9ad99}.keep-name-panel .hero-cta{font-size:13px;min-height:44px}
+.keep-name-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.keep-name-actions button{background:#1b1610;border-color:#81693e;color:#dfc588;min-height:40px;height:auto;font-size:11px}
+.names-site .keep-name-panel .field-help{margin:14px 0 0;font-size:10px}
+.plan-card{border:1px solid #846b41;border-radius:10px;padding:22px 18px;margin:25px 0;background:#17130d}.plan-card small{color:#c8a969;font-size:10px;letter-spacing:.1em}
+.beta-info-card .plan-card h2{margin:13px 0 17px;font-size:32px}.plan-card ul{padding-left:18px;font-size:12px;line-height:1.8;color:#c9c1b2}.plan-card li{margin-bottom:5px}.plan-card>strong{color:#e0c285;font-size:15px}.future-plan{border-color:#4c4232;background:#100f0d}
+.report-actions{display:flex;flex-wrap:wrap;gap:8px}.report-actions button{min-height:39px;white-space:normal}
+.report-notice,.report-print-help{max-width:780px;margin:15px auto;font-size:12px;line-height:1.7;color:#d6b879}
+.personal-report .report-head{gap:12px;flex-wrap:wrap}.personal-report .eyebrow{color:#c2a566}
+.personal-report h1{font-size:clamp(32px,6vw,53px);overflow-wrap:anywhere}.personal-report .report-name strong{overflow-wrap:anywhere;max-width:100%}
+.personal-report .report-name{max-width:100%}.personal-report .report-title-row{align-items:start}
+.personal-report .report-section>div{min-width:0}.personal-report .report-section h3{font:400 21px 'Gowun Batang',serif;color:#e1c994;margin:0 0 10px}
+.report-evidence{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:23px 0}.report-evidence>div{border-top:1px solid #685033;padding-top:12px}.report-evidence b{color:#d6b879;font-size:11px}.report-evidence p{margin:6px 0;font-size:12px}
+.report-input-note{color:#c5ad7c;font-size:12px;margin:15px 0}.report-input-note summary{cursor:pointer}.report-input-note p{margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.report-no-hanja,.introduction-card{padding:20px;border:1px solid #695436;border-radius:8px;background:#18130c;margin:20px 0}
+.introduction-card p:first-child{font:400 23px/1.65 'Gowun Batang',serif;color:#efdfbe}.introduction-card button{font-size:11px;border-color:#8c7245;color:#e3c890;background:#201a11}
+.report-pillars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:20px 0}.report-pillars>div{padding:12px;border:1px solid #56432a;border-radius:6px}
+.report-pillars small{display:block;font-size:10px;color:#b89d6b;margin-bottom:7px}.report-pillars strong{font:400 20px 'Gowun Batang',serif;color:#eddfbe;overflow-wrap:anywhere}
+.personal-report .report-section a{color:#d8bd82;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:750px){.report-top{gap:14px;align-items:start;flex-direction:column}.report-actions{width:100%}.report-actions button{flex:1;font-size:11px}.report-evidence{grid-template-columns:1fr}.report-pillars{grid-template-columns:repeat(2,minmax(0,1fr))}.personal-report .report-title-row{flex-direction:column}.personal-report .report-name{align-items:start}}
+@media print{.no-print,.report-notice{display:none!important}.personal-report .report-paper{padding:10mm}.personal-report .eyebrow,.personal-report .report-overline,.personal-report .report-name span,.personal-report .report-number,.report-evidence b,.report-pillars small{color:#5c4829}.personal-report .report-name strong{color:#111}.report-no-hanja,.introduction-card{background:#f7f2e8;border-color:#bbb}.introduction-card p:first-child,.personal-report .report-section h3,.report-pillars strong{color:#222}.report-section,.report-evidence>div{border-color:#bbb}.report-pillars>div{border-color:#bbb}.personal-report .report-section a{color:#514226}.personal-report .report-input-note p{display:block}.personal-report .report-caveat{color:#555!important}.report-end{color:#555}.personal-report .comparison-item{break-inside:avoid}.personal-report .report-section{break-inside:auto}.personal-report .character-card{break-inside:avoid}}

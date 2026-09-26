@@ -8,3 +8,7 @@
 - **국립국어원, [국어의 로마자 표기법](https://www.korean.go.kr/front_eng/roman/roman_01.do)** — 후보의 로마자 기본 표기용 표를 참고했습니다. 복합 받침, 음운 변화, 개인이 쓰는 관용 표기는 별도 검수가 필요합니다.
 
 `scripts/build-name-corpus.py`는 이름별로 축약된 원본 집계 파일을 입력받아 `lib/korean_name_corpus.json`을 재생성합니다. 연구용 축약 파일과 대법원 추출 CSV는 `../output/name_corpus_research`에 보관하며 서비스 빌드에는 포함하지 않습니다. 변경 이력은 Git 커밋으로 추적합니다.
+
+## 출생 지역 선택용 IANA 자료
+
+`lib/time-zone-options.json`은 [IANA zone.tab](https://data.iana.org/time-zones/tzdb/zone.tab)의 2026-09-26 조회본에서 국가·구역·설명만 저장합니다. [공개 도메인](https://data.iana.org/time-zones/tzdb/LICENSE) 자료입니다. 국가별 구역 표시를 위한 호환성 표이며 현지 오프셋 계산은 Temporal의 IANA 시간대 규칙을 사용합니다. 모든 도시의 지리 위치·좌표 검색은 구현하지 않았습니다. `scripts/build-zone-options.mjs`로 다시 만들 수 있으며 브라우저가 지원하지 않는 구역은 선택 목록에서 제외됩니다.

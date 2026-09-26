@@ -32,7 +32,8 @@ export async function POST(request: Request) {
     id: crypto.randomUUID(), originalName: checked.input.name,
     pronunciationHint: checked.input.pronunciationHint, meaningHint: checked.input.meaningHint,
     style: checked.input.style, nameFeel: checked.input.nameFeel, saju, candidates,
-    algorithmVersion: 'story-stem-imagery-beta-9', createdAt: now, expiresAt: now + 7 * 86400_000,
+    priority: checked.input.priority,
+    algorithmVersion: 'personal-focus-mix-beta-10', createdAt: now, expiresAt: now + 7 * 86400_000,
   };
   try { await saveResult(result, await sha256(token), await sha256(deleteToken)); }
   catch { return NextResponse.json({ error: 'We could not save your names. Please try again.' }, { status: 503 }); }

@@ -15,21 +15,24 @@ const homepage = await fetch(base + '/');
 assert.equal(homepage.status, 200, 'homepage should be reachable without sign-in');
 const privacy = await fetch(base + '/beta-privacy');
 assert.equal(privacy.status, 200, 'privacy page should be reachable');
+for (const path of ['/plans', '/my-report', '/sample-report']) assert.equal((await fetch(base + path)).status, 200, `${path} should be reachable`);
 
 const generated = await post('/api/names/generate', {
   name: 'Emma', pronunciationHint: 'EH-ma', meaningHint: 'peace and kindness',
-  birthDate: '1995-03-16', style: 'gentle', nameFeel: 'feminine',
+  birthDate: '1995-03-16', style: 'gentle', nameFeel: 'any', priority: 'meaning',
 });
 assert.equal(generated.status, 200, JSON.stringify(generated.body));
 const { result, token, deleteToken } = generated.body;
 assert.equal(result.candidates.length, 5);
 assert.equal(new Set(result.candidates.map(candidate => candidate.hangul)).size, 5);
+assert.equal(new Set(result.candidates.map(candidate => candidate.presentation)).size, 3);
 assert.ok(token && deleteToken && token !== deleteToken, 'read and delete keys must differ');
 assert.ok(!JSON.stringify(result).includes('1995-03-16'), 'exact birth date must not be saved in result');
 
 const sharedRead = await post('/api/names/read', { id: result.id, token });
 assert.equal(sharedRead.status, 200, JSON.stringify(sharedRead.body));
 assert.equal(sharedRead.body.result.id, result.id);
+assert.equal(sharedRead.body.result.priority, 'meaning', 'naming focus must survive database read');
 
 const sharedDelete = await post('/api/names/delete', { id: result.id, deleteToken: token });
 assert.equal(sharedDelete.status, 404, 'read-only shared link must not delete result');

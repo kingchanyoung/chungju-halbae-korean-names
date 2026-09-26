@@ -8,14 +8,18 @@ lib/saju.ts는 k-saju 0.1.4와 Temporal 0.5.1로 절기 기준 연·월·일·�
 
 lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자 조회에서 **개별 글자와 지정 독음**을 확인했습니다. 그 밖의 이름은 한자를 배정하지 않습니다. 전체 이름의 법적 등록 가능성과 한자 오행 분류는 검증된 것이 아닙니다. 영어 뜻은 편집 번역이며 한글 이름마다 가능한 한자 조합이 여러 개일 수 있습니다. 남성적·여성적·중립적 인상은 제한된 법원 자료와 합성 표본의 성별 필드를 활용한 분류로, 개인의 성별이나 이름 사용 자격을 뜻하지 않습니다.
 
-무료 결과는 D1에 저장하며 무작위 결과 ID와 읽기 전용 접근 토큰으로 다시 엽니다. 링크는 7일 유효합니다. **원본 출생일·시각·시간대는 저장하지 않고 사주 요약만 저장**합니다. 원래 이름과 힌트, 다섯 이름은 저장됩니다. 삭제 토큰은 읽기 토큰과 분리하고 생성한 브라우저에 보관합니다. 공유 링크를 받은 사람은 결과를 삭제할 수 없습니다. 베타 피드백은 결과와 분리하여 저장하고 다음 결과 생성 시 30일 초과 항목을 정리합니다. app/api/names/generate와 app/api/names/read가 무료 API입니다. lib/report.ts의 buildReport는 **51개 한자 조합 검증 이름을 선택했을 때만** 보고서를 만들 수 있습니다. 다른 이름은 작명가의 한자 조합 검토가 필요하며 결제 대상에 넣으면 안 됩니다. /sample-report는 가상 예시입니다.
+무료 결과는 D1에 저장하며 무작위 결과 ID와 읽기 전용 접근 토큰으로 다시 엽니다. 링크는 7일 유효합니다. **원본 출생일·시각·시간대는 저장하지 않고 사주 요약만 저장**합니다. 원래 이름과 힌트, 다섯 이름은 저장됩니다. 삭제 토큰은 읽기 토큰과 분리하고 생성한 브라우저에 보관합니다. 공유 링크를 받은 사람은 결과를 삭제할 수 없습니다. 베타 피드백은 결과와 분리하여 저장하고 다음 결과 생성 시 30일 초과 항목을 정리합니다. app/api/names/generate와 app/api/names/read가 무료 API입니다. lib/report.ts의 buildReport는 **모든 선택 이름의 무료 개인 보고서**를 만듭니다. 한자 미배정 이름에는 한자 뜻을 만들지 않습니다. /my-report는 읽기 토큰을 URL fragment에서만 읽어 개인 보고서·한국어 소개문·PDF 인쇄를 열고, /sample-report는 가상 예시입니다. 성씨 선택은 기기 로컬 저장이며 공유 링크와 DB에는 저장하지 않습니다. PNG 카드에 본명·생일·사주·힌트·접근 토큰을 넣지 않습니다.
+
+## 이번 고도화
+
+기본 추천은 전체 2,119개 중 법원 표본 3건 이상 또는 합성 청년 표본 100회 이상인 796개를 사용합니다. 합성 빈도는 실제 인기·전문가 검수로 표기하지 않습니다. 혼합 인상 세 종류 포함, 발음·뜻·스타일 강조 우선순위, 이미 본 후보를 제외한 재추천을 구현했습니다. `preferences_json`에 priority만 추가 저장하고 제외 목록과 원본 출생일은 저장하지 않습니다. IANA 국가·지역 목록 검색은 모든 도시 검색이 아니며 현지 구역을 직접 고릅니다. [시장 검토와 출시 과제](MARKET_REVIEW.md)를 참고하세요.
 
 ## 가격과 결제
 
 | 구간 | 가격 | 제공 |
 | --- | --- | --- |
-| 무료 | 0원 | 이름 5개 모두, 사주 요약, 한글·로마자·음성, 추천 이유, 검증된 후보에 한한 한자 조합과 기본 뜻, 성씨 미리보기 |
-| 선택 이름 상세 보고서 | 해외 예정 US$7.99 / 국내 예정 ₩9,900, 1회 | 다섯 이름 비교, 한자·발음·원래 이름 연결, 출처, 성씨 사용 안내, 인쇄·PDF, 구매 후 재열람 |
+| 무료 공개 베타 | 0원 | 추천 모두, 사주 요약, 로마자·가능한 한국어 음성, 후보별 근거, 확인된 기본 한자, 성씨 미리보기, 실제 개인 보고서·소개문·PDF 인쇄·PNG 카드 |
+| 향후 검토 완료 한자 스토리 | 해외 가격안 US$7.99 / 국내 가격안 ₩9,900, 1회 | 무료 내용에 추가할 전문가 사전 검토 완료 한자 결합 해석·개인별 연결과 추가 근거. 아직 판매 승인·결제 없음 |
 
 **결제는 아직 열지 않았습니다.** 구독과 “5개 중 2개 잠금”은 첫 출시에서 사용하지 않습니다. 해외 달러와 국내 원화 가격은 별도 가격안이지 자동 환산이 아닙니다. 영문 약관·개인정보·환불 문구, 해외 결제 계약, 메일 재열람, 결제·환불 검증이 끝나기 전에는 청구하지 않습니다.
 
@@ -25,7 +29,7 @@ lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자
 
 ## 보고서 결제 연결 계약
 
-1. 서버가 resultId + accessToken + selectedHangul을 검증하고 buildReport 완료 여부를 확인합니다.
+1. 서버가 resultId + accessToken + selectedHangul을 검증합니다. buildReport 성공은 무료 보고서 생성이며 구매 적격성이 아닙니다. 별도 SKU 판매 승인과 이름 조합·영문 풀이·명리 해석의 검수자·날짜·버전 기록을 대조하고 해당 유료 추가 내용이 있는 경우만 주문을 만듭니다. 현재 승인된 유료 SKU는 없습니다.
 2. 서버가 판매 지역의 실제 PG 계약에 맞는 통화와 가격, SKU, 결과 ID, 선택 이름, 구매자 이메일로 주문 ID를 만듭니다. 브라우저가 보낸 가격은 사용하지 않습니다.
 3. 카드 결제는 [토스페이먼츠 해외 결제](https://docs.tosspayments.com/guides/v2/learn/foreign-payment)의 해외 발행 카드·달러 청구 계약 조건을 확인한 뒤 시작합니다.
 4. 성공 URL만으로 보고서를 열지 않습니다. 서버가 paymentKey/orderId/amount를 대조해 [결제 승인 API](https://docs.tosspayments.com/guides/v2/payment-widget/integration)를 호출하고 DONE 상태·금액·통화를 확인한 뒤 권한을 발급합니다. 중복 승인과 웹훅은 멱등 처리합니다.
@@ -42,13 +46,14 @@ lib/hanja_verified.json의 51개 이름은 2026-09-25 대법원 인명용 한자
 
 ## 로컬 실행
 
-Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니다. 새 D1 로컬 DB에는 0000부터 0004까지 마이그레이션을 순서대로 적용합니다. 기존 DB에는 아직 적용하지 않은 후속 마이그레이션만 순서대로 적용합니다. 공개 베타 환경에는 `BETA_RATE_SECRET`을 비밀 환경 변수로 설정해야 요청 제한이 작동합니다.
+Node 22.13 이상에서 npm install, npm run dev, npm run build를 실행합니다. 새 D1 로컬 DB에는 0000부터 0005까지 마이그레이션을 순서대로 적용합니다. 기존 DB에는 아직 적용하지 않은 후속 마이그레이션만 순서대로 적용합니다. 공개 베타 환경에는 `BETA_RATE_SECRET`을 비밀 환경 변수로 설정해야 요청 제한이 작동합니다.
 
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0000_dapper_redwing.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0001_clammy_redwing.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0002_uneven_blindfold.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0003_rare_colleen_wing.sql --yes
     npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0004_fancy_wallop.sql --yes
+    npx wrangler d1 execute site-creator-d1 --local --config wrangler.local.json --persist-to .wrangler/state --file drizzle/0005_skinny_whistler.sql --yes
 
 ## 주요 자료
 

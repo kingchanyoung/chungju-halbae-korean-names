@@ -1,0 +1,1 @@
+ALTER TABLE `name_results` ADD `preferences_json` text;

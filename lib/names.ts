@@ -31,6 +31,7 @@ export type NameResult = {
   meaningHint: string | null; style: NameStyle; nameFeel: NameFeel; candidates: NameCandidate[];
   saju: SajuSummary | null;
   priority?: NamePriority;
+  avoidTerms?: string[];
   createdAt: number; expiresAt: number; algorithmVersion: string;
 };
 type SeedName = {
@@ -219,7 +220,7 @@ function birthFit(pair: ReturnType<typeof checkedPairFor>, saju: SajuSummary) {
   };
 }
 export function validateNameRequest(value: unknown):
-  | { ok: true; input: { name: string; pronunciationHint: string | null; meaningHint: string | null; style: NameStyle; nameFeel: NameFeel; priority: NamePriority; excludeNames: string[] } & BirthInput }
+  | { ok: true; input: { name: string; pronunciationHint: string | null; meaningHint: string | null; style: NameStyle; nameFeel: NameFeel; priority: NamePriority; excludeNames: string[]; avoidTerms: string[] } & BirthInput }
   | { ok: false; error: string } {
   if (!value || typeof value !== 'object') return { ok: false, error: 'Please enter your name.' };
   const record = value as Record<string, unknown>;
@@ -234,6 +235,9 @@ export function validateNameRequest(value: unknown):
   const excludeNames = record.excludeNames === undefined ? [] : record.excludeNames;
   if (!Array.isArray(excludeNames) || excludeNames.length > 30 || excludeNames.some(value => typeof value !== 'string' || !/^[가-힣]{2}$/.test(value)))
     return { ok: false, error: 'Please refine a smaller set of name options.' };
+  const avoidTerms = record.avoidTerms === undefined ? [] : record.avoidTerms;
+  if (!Array.isArray(avoidTerms) || avoidTerms.length > 10 || avoidTerms.some(term => typeof term !== 'string' || !term.trim() || term.length > 20 || !(/^[가-힣]{1,2}$/.test(term.trim()) || (/^[\p{Script=Latin}\p{M}\s'-]+$/u.test(term) && normalized(term)))))
+    return { ok: false, error: 'Use up to ten names or syllables to avoid, in Hangul or Roman letters.' };
   if (name.length < 1 || name.length > 80 || /[\p{C}]/u.test(name)) return { ok: false, error: 'Enter a name of 1–80 characters.' };
   if (pronunciationHint.length > 100 || meaningHint.length > 500) return { ok: false, error: 'One of the optional details is too long.' };
   if (pronunciationHint && !normalized(pronunciationHint))
@@ -242,13 +246,17 @@ export function validateNameRequest(value: unknown):
     return { ok: false, error: 'Please add a Roman-letter pronunciation hint for this script.' };
   const birth = validateBirthInput(record);
   if (!birth.ok) return birth;
-  return { ok: true, input: { name, pronunciationHint: pronunciationHint || null, meaningHint: meaningHint || null, style, nameFeel, priority, excludeNames, ...birth.input } };
+  return { ok: true, input: { name, pronunciationHint: pronunciationHint || null, meaningHint: meaningHint || null, style, nameFeel, priority, excludeNames, avoidTerms: avoidTerms.map(term => term.trim().normalize('NFC')), ...birth.input } };
 }
-export function generateCandidates(input: { name: string; pronunciationHint: string | null; meaningHint?: string | null; style: NameStyle; nameFeel: NameFeel; priority?: NamePriority; excludeNames?: string[] }, saju: SajuSummary): NameCandidate[] {
+export function generateCandidates(input: { name: string; pronunciationHint: string | null; meaningHint?: string | null; style: NameStyle; nameFeel: NameFeel; priority?: NamePriority; excludeNames?: string[]; avoidTerms?: string[] }, saju: SajuSummary): NameCandidate[] {
   const words = descriptors[input.style];
   // Use a stronger source signal for the default shortlist. Synthetic counts
   // are a screening heuristic, never a population ranking or native review.
-  const eligible = catalog.filter(item => (item.courtBirths >= 3 || item.youngUses >= 100) && (input.nameFeel === 'any' || item.style === input.nameFeel) && !input.excludeNames?.includes(item.hangul));
+  const eligible = catalog.filter(item => (item.courtBirths >= 3 || item.youngUses >= 100) && (input.nameFeel === 'any' || item.style === input.nameFeel) && !input.excludeNames?.includes(item.hangul) && !input.avoidTerms?.some(term => {
+    if (/^[가-힣]+$/.test(term)) return term.length === 1 ? item.hangul.includes(term) : item.hangul === term;
+    const key = normalized(term);
+    return !!key && (normalized(item.romanization) === key || normalized(item.romanization_hyphenated) === key || item.romanization_hyphenated.split('-').some(syllable => normalized(syllable) === key));
+  }));
   const ranked = eligible.map(item => {
     const vibe = item.vibe_en.toLowerCase();
     const feelingMatched = words.some(word => vibe.split(/[, ]+/).includes(word));

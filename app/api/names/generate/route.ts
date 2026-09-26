@@ -25,15 +25,16 @@ export async function POST(request: Request) {
   const token = crypto.randomUUID() + crypto.randomUUID();
   const deleteToken = crypto.randomUUID() + crypto.randomUUID();
   const candidates = generateCandidates(checked.input, saju);
-  if (candidates.length !== 5) {
-    return NextResponse.json({ error: 'This name direction needs more reviewed names. Choose another direction for now.' }, { status: 503 });
+  if (candidates.length !== 5 || (checked.input.nameFeel === 'any' && new Set(candidates.map(item => item.presentation)).size !== 3)) {
+    return NextResponse.json({ error: 'There are too few options for these preferences. Remove an exclusion or choose another direction.' }, { status: 422 });
   }
   const result: NameResult = {
     id: crypto.randomUUID(), originalName: checked.input.name,
     pronunciationHint: checked.input.pronunciationHint, meaningHint: checked.input.meaningHint,
     style: checked.input.style, nameFeel: checked.input.nameFeel, saju, candidates,
     priority: checked.input.priority,
-    algorithmVersion: 'personal-focus-mix-beta-10', createdAt: now, expiresAt: now + 7 * 86400_000,
+    avoidTerms: checked.input.avoidTerms,
+    algorithmVersion: 'personal-focus-avoid-beta-11', createdAt: now, expiresAt: now + 7 * 86400_000,
   };
   try { await saveResult(result, await sha256(token), await sha256(deleteToken)); }
   catch { return NextResponse.json({ error: 'We could not save your names. Please try again.' }, { status: 503 }); }

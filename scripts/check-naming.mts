@@ -77,4 +77,11 @@ assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', priori
 assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', excludeNames: ['bad'] }).ok, false);
 const negated = generateCandidates({ name: 'Emma', pronunciationHint: null, meaningHint: 'I do not want peace. I prefer something bold.', style: 'any', nameFeel: 'any', priority: 'meaning' }, chart);
 assert(negated.every(item => !item.meaningConnection), 'Explicitly negated themes must not be claimed as requested meanings.');
+const avoided = generateCandidates({ name: 'James', pronunciationHint: 'JAYMZ', style: 'any', nameFeel: 'any', avoidTerms: ['Jun', '민', 'Ji-an'] }, chart);
+assert.equal(avoided.length, 5);
+assert.equal(new Set(avoided.map(item => item.presentation)).size, 3);
+assert(avoided.every(item => !item.hangul.includes('민') && item.hangul !== '지안' && !item.syllables.split('-').some(syllable => syllable.toLowerCase() === 'jun')));
+assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', avoidTerms: ['--'] }).ok, false);
+assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', avoidTerms: ['지안', 'Jun'] }).ok, true);
+assert.equal(validateNameRequest({ name: 'Emma', birthDate: '1995-03-16', avoidTerms: Array(11).fill('Jun') }).ok, false);
 console.log('Mixed impressions, distinct refinements, focus, all-name reports, and card data minimization passed.');

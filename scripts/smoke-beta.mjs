@@ -19,7 +19,7 @@ for (const path of ['/plans', '/my-report', '/sample-report']) assert.equal((awa
 
 const generated = await post('/api/names/generate', {
   name: 'Emma', pronunciationHint: 'EH-ma', meaningHint: 'peace and kindness',
-  birthDate: '1995-03-16', style: 'gentle', nameFeel: 'any', priority: 'meaning',
+  birthDate: '1995-03-16', style: 'gentle', nameFeel: 'any', priority: 'meaning', avoidTerms: ['Jun'],
 });
 assert.equal(generated.status, 200, JSON.stringify(generated.body));
 const { result, token, deleteToken } = generated.body;
@@ -33,6 +33,7 @@ const sharedRead = await post('/api/names/read', { id: result.id, token });
 assert.equal(sharedRead.status, 200, JSON.stringify(sharedRead.body));
 assert.equal(sharedRead.body.result.id, result.id);
 assert.equal(sharedRead.body.result.priority, 'meaning', 'naming focus must survive database read');
+assert.deepEqual(sharedRead.body.result.avoidTerms, ['Jun'], 'name exclusions must survive database read');
 
 const sharedDelete = await post('/api/names/delete', { id: result.id, deleteToken: token });
 assert.equal(sharedDelete.status, 404, 'read-only shared link must not delete result');

@@ -48,6 +48,7 @@ export default function Home() {
   const [style, setStyle] = useState<NameStyle>('any');
   const [nameFeel, setNameFeel] = useState<NameFeel | null>(null);
   const [priority, setPriority] = useState<NamePriority>('balanced');
+  const [avoidText, setAvoidText] = useState('');
   const [readKey, setReadKey] = useState('');
   const [excludedNames, setExcludedNames] = useState<string[]>([]);
   const [result, setResult] = useState<NameResult | null>(null);
@@ -72,7 +73,7 @@ export default function Home() {
     setBirthYear(year); setBirthMonth(month); setBirthDay(day);
   }
 
-  const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; excludeNames?: string[] }) => {
+  const generate = useCallback(async (input: { name: string; birthDate: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; excludeNames?: string[]; avoidTerms?: string[] }) => {
     const sequence = ++generationSequence.current;
     setBusy(true); setError(''); setNotice('');
     try {
@@ -127,6 +128,7 @@ export default function Home() {
       setMeaningHint(restored.meaningHint || '');
       setStyle(restored.style); setNameFeel(restored.nameFeel || 'any');
       setPriority(restored.priority || 'balanced'); setReadKey(restored.id + '.' + match[2]);
+      setAvoidText((restored.avoidTerms || []).join(', '));
       try {
         const family = JSON.parse(localStorage.getItem(`chungju-halbae-family:${restored.id}`) || 'null') as FamilyPreview | null;
         if (family?.mode === 'own' && typeof family.hangul === 'string' && family.hangul.length <= 80) { setSurnameMode('own'); setOwnSurname(family.hangul); }
@@ -148,7 +150,7 @@ export default function Home() {
   }, [result, surnameMode, ownSurname, koreanSurname]);
 
   useEffect(() => {
-    type ToolInput = { name?: string; birthDate?: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel };
+    type ToolInput = { name?: string; birthDate?: string; birthTime?: string; birthZone?: string; pronunciationHint?: string; meaningHint?: string; style?: NameStyle; nameFeel?: NameFeel; priority?: NamePriority; avoidTerms?: string[] };
     type Tool = { registerTool?: (tool: unknown, options?: { signal?: AbortSignal }) => void | Promise<void> };
     const context = (document as Document & { modelContext?: Tool }).modelContext;
     if (!context?.registerTool) return;
@@ -167,6 +169,8 @@ export default function Home() {
           meaningHint: { type: 'string' },
           style: { type: 'string', enum: styles },
           nameFeel: { type: 'string', enum: nameFeelOptions.map(option => option.value), description: 'Optional desired name impression; not the user’s gender' },
+          priority: { type: 'string', enum: priorityOptions.map(option => option.value) },
+          avoidTerms: { type: 'array', maxItems: 10, items: { type: 'string', maxLength: 20 }, description: 'Given names or syllables to avoid, in Hangul or the service’s Roman spelling' },
         }, required: ['name', 'birthDate'], additionalProperties: false,
       },
       annotations: { readOnlyHint: false, untrustedContentHint: false },
@@ -174,8 +178,9 @@ export default function Home() {
         if (!value || typeof value.name !== 'string' || typeof value.birthDate !== 'string') throw new Error('A given name and birth date are required.');
         setName(value.name); setPronunciationHint(value.pronunciationHint || '');
         setMeaningHint(value.meaningHint || ''); setStyle(value.style || 'any'); setNameFeel(value.nameFeel || 'any');
+        setPriority(value.priority || 'balanced'); setAvoidText((value.avoidTerms || []).join(', '));
         setBirthDateParts(value.birthDate); setBirthTime(value.birthTime || ''); setBirthZone(value.birthZone || '');
-        const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style, nameFeel: value.nameFeel });
+        const next = await generate({ name: value.name, birthDate: value.birthDate, birthTime: value.birthTime, birthZone: value.birthZone, pronunciationHint: value.pronunciationHint, meaningHint: value.meaningHint, style: value.style, nameFeel: value.nameFeel, priority: value.priority, avoidTerms: value.avoidTerms });
         return { resultId: next.id, names: next.candidates.map(candidate => ({ hangul: candidate.hangul, romanization: candidate.romanization })) };
       },
     }, { signal: lifecycle.signal })).catch(() => {});
@@ -238,6 +243,7 @@ export default function Home() {
   function addMeaningTheme(theme: string) {
     setMeaningHint(current => current.toLowerCase().includes(theme.toLowerCase()) ? current : [current.trim(), theme.toLowerCase()].filter(Boolean).join(' · '));
   }
+  function avoidTerms() { return avoidText.split(/[,\n]/).map(term => term.trim()).filter(Boolean); }
 
   async function saveSelectedCard() {
     const candidate = result?.candidates.find(item => item.hangul === selected);
@@ -251,7 +257,7 @@ export default function Home() {
     if (!nameFeel || !birthDate) { setNotice('Enter your birth date again to find different options. We do not save the original date.'); document.getElementById('birth-year')?.focus(); return; }
     const excludeNames = [...new Set([...excludedNames, ...(result?.candidates.map(item => item.hangul) || [])])];
     if (excludeNames.length > 30) { setNotice('You have explored several directions. Change your preferences and start a fresh reading.'); return; }
-    await generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, excludeNames }).catch(() => {});
+    await generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, excludeNames, avoidTerms: avoidTerms() }).catch(() => {});
   }
 
   return <main className="names-site">
@@ -271,7 +277,7 @@ export default function Home() {
       <div className="form-frame" id="find-your-name">
         <div className="form-top"><span>01 · YOUR STORY</span><span>FREE BETA</span></div>
         <div className="form-heading"><span className="form-icon"><Heart size={20}/></span><div><h2>What should I call you?</h2><p>I&apos;ll look for links to your name, preferences, and birth chart. If a checked Hanja meaning fits your story, I&apos;ll show that too.</p></div></div>
-        <form onSubmit={event => { event.preventDefault(); if (!nameFeel) { setError('Choose how you would like your Korean name to come across.'); return; } void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority }).catch(() => {}); }}>
+        <form onSubmit={event => { event.preventDefault(); if (!nameFeel) { setError('Choose how you would like your Korean name to come across.'); return; } void generate({ name, birthDate, birthTime, birthZone, pronunciationHint, meaningHint, style, nameFeel, priority, avoidTerms: avoidTerms() }).catch(() => {}); }}>
           <label htmlFor="given-name">Your given name <b>*</b></label>
           <Input id="given-name" className="form-input" autoComplete="given-name" required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="The name people call you"/>
           <p className="field-help">Your original name, in any language or script.</p>
@@ -303,7 +309,7 @@ export default function Home() {
           <p className="choice-label">How would you like your name to be perceived? <b>*</b></p>
           <div className="style-chips feel-chips" role="group" aria-label="Name impression">{nameFeelOptions.map(option => <Button key={option.value} type="button" variant="outline" className={nameFeel === option.value ? 'active' : ''} aria-pressed={nameFeel === option.value} onClick={() => setNameFeel(option.value)}>{option.label}</Button>)}</div>
           <p className="field-help">This describes a name&apos;s common impression, not your gender. Anyone may use a name they like.</p>
-          <details className="focus-details"><summary>Want Halbae to focus on something?</summary><div className="style-chips" role="group" aria-label="Naming focus">{priorityOptions.map(option => <Button key={option.value} type="button" variant="outline" className={priority === option.value ? 'active' : ''} aria-pressed={priority === option.value} onClick={() => setPriority(option.value)}>{option.label}</Button>)}</div><p className="field-help">Your birth-date reading remains part of the method where checked Hanja supports a connection. A meaning focus works only with themes we can recognize.</p></details>
+          <details className="focus-details"><summary>Want Halbae to focus on something?</summary><div className="style-chips" role="group" aria-label="Naming focus">{priorityOptions.map(option => <Button key={option.value} type="button" variant="outline" className={priority === option.value ? 'active' : ''} aria-pressed={priority === option.value} onClick={() => setPriority(option.value)}>{option.label}</Button>)}</div><p className="field-help">Your birth-date reading remains part of the method where checked Hanja supports a connection. A meaning focus works only with themes we can recognize.</p><label htmlFor="avoid-names">Any Korean names or syllables to avoid? <small>Optional</small></label><Input id="avoid-names" className="form-input" value={avoidText} onChange={event => setAvoidText(event.target.value)} maxLength={200} placeholder="e.g. Jian, Jun, 민"/><p className="field-help">Separate up to ten entries with commas. We match a full given name or one syllable, using Hangul or our Roman spelling. This can help avoid a name already used by someone you know.</p></details>
           {error && <p className="form-error" role="alert">{error}</p>}
           <Button type="submit" className="submit-button" disabled={busy}>{busy ? 'Halbae is looking…' : 'Find my Korean name'} <ArrowRight size={18}/></Button>
         </form>

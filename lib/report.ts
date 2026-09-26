@@ -41,6 +41,7 @@ export function buildReport(result: NameResult, selectedHangul: string) {
       english: `Hello, my Korean name is ${selected.romanization}.`,
     },
     priority: result.priority || 'balanced',
+    avoidTerms: result.avoidTerms || [],
     comparison: result.candidates.map((candidate, index) => ({
       rank: index + 1, hangul: candidate.hangul,
       romanization: candidate.romanization, impression: candidate.impression,
